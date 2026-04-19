@@ -7,6 +7,7 @@ import {
   listCompaniesSchema,
   updateCompanySchema,
 } from "./company.schemas";
+import { env } from "../../config/env";
 
 export type CreateCompanyData = z.infer<typeof createCompanySchema>["body"];
 export type UpdateCompanyData = z.infer<typeof updateCompanySchema>["body"];
@@ -17,7 +18,6 @@ function buildCompanyAddress(data: {
   addressLine2?: string;
   postalCode?: string;
   city?: string;
-  region?: string;
   country?: string;
 }) {
   const parts = [
@@ -25,7 +25,6 @@ function buildCompanyAddress(data: {
     data.addressLine2,
     data.postalCode,
     data.city,
-    data.region,
     data.country,
   ];
 
@@ -67,9 +66,9 @@ async function ensureNoHoldingCycle(companyId: string, holdingCompanyId: string)
 
     const parentCompany: { holdingCompanyId: string | null } | null =
       await prisma.company.findUnique({
-      where: { id: currentCompanyId },
-      select: { holdingCompanyId: true },
-    });
+        where: { id: currentCompanyId },
+        select: { holdingCompanyId: true },
+      });
 
     currentCompanyId = parentCompany?.holdingCompanyId ?? null;
   }
@@ -95,17 +94,17 @@ export class CompanyService {
         address: buildCompanyAddress(data) || null,
         ...(holdingCompanyId
           ? {
-              holdingCompany: {
-                connect: { id: holdingCompanyId },
-              },
-            }
+            holdingCompany: {
+              connect: { id: holdingCompanyId },
+            },
+          }
           : {}),
         ...(codeNaf
           ? {
-              nafCode: {
-                connect: { code: codeNaf },
-              },
-            }
+            nafCode: {
+              connect: { code: codeNaf },
+            },
+          }
           : {}),
       },
     });
@@ -120,14 +119,13 @@ export class CompanyService {
       AND: [
         filters.search
           ? {
-              OR: [
-                { name: { contains: filters.search, mode: insensitive } },
-                { address: { contains: filters.search, mode: insensitive } },
-                { siret: { contains: filters.search, mode: insensitive } },
-                { siren: { contains: filters.search, mode: insensitive } },
-                { vatNumber: { contains: filters.search, mode: insensitive } },
-              ],
-            }
+            OR: [
+              { name: { contains: filters.search, mode: insensitive } },
+              { address: { contains: filters.search, mode: insensitive } },
+              { siret: { contains: filters.search, mode: insensitive } },
+              { siren: { contains: filters.search, mode: insensitive } },
+            ],
+          }
           : {},
         filters.address ? { address: { contains: filters.address, mode: insensitive } } : {},
         filters.holdingCompanyId ? { holdingCompanyId: filters.holdingCompanyId } : {},
@@ -137,7 +135,6 @@ export class CompanyService {
         filters.codeNaf ? { codeNaf: { equals: filters.codeNaf, mode: insensitive } } : {},
         filters.city ? { city: { equals: filters.city, mode: insensitive } } : {},
         filters.postalCode ? { postalCode: filters.postalCode } : {},
-        filters.industry ? { industry: { equals: filters.industry, mode: insensitive } } : {},
         filters.isActive ? { isActive: filters.isActive === "true" } : {},
       ],
     } satisfies Prisma.CompanyWhereInput;
@@ -227,7 +224,6 @@ export class CompanyService {
       addressLine2: data.addressLine2 ?? existingCompany.addressLine2 ?? undefined,
       postalCode: data.postalCode ?? existingCompany.postalCode ?? undefined,
       city: data.city ?? existingCompany.city ?? undefined,
-      region: data.region ?? existingCompany.region ?? undefined,
       country: data.country ?? existingCompany.country ?? undefined,
     });
 
@@ -238,29 +234,29 @@ export class CompanyService {
         address: nextAddress || null,
         ...(holdingCompanyId === null
           ? {
-              holdingCompany: {
-                disconnect: true,
-              },
-            }
+            holdingCompany: {
+              disconnect: true,
+            },
+          }
           : holdingCompanyId
             ? {
-                holdingCompany: {
-                  connect: { id: holdingCompanyId },
-                },
-              }
+              holdingCompany: {
+                connect: { id: holdingCompanyId },
+              },
+            }
             : {}),
         ...(codeNaf === null
           ? {
-              nafCode: {
-                disconnect: true,
-              },
-            }
+            nafCode: {
+              disconnect: true,
+            },
+          }
           : codeNaf
             ? {
-                nafCode: {
-                  connect: { code: codeNaf },
-                },
-              }
+              nafCode: {
+                connect: { code: codeNaf },
+              },
+            }
             : {}),
       },
     });
@@ -274,5 +270,95 @@ export class CompanyService {
     });
 
     return { success: true };
+  }
+  async getInfoSiret(siret: string) {
+    if (!env.API_SIREN_KEY) return null;
+    try {
+      const res = await fetch(`https://api.insee.fr/api-sirene/3.11/siret/${siret}?masquerValeursNulles=true`, {
+        headers: {
+          'X-INSEE-Api-Key-Integration': env.API_SIREN_KEY,
+          Accept: 'application/json',
+        }
+      });
+      if (!res.ok) {
+        return null;
+      }
+      const data = await res.json();
+      if (!data) return null;
+      // determinere 
+      const adresseEtablissement = data.adresseEtablissement;
+      let postalCode: string | null = null;
+      let city: string | null = null;
+      let addressLine2: string | null = null;
+      let addressLine1: string | null = null;
+      let name: string | null = null;
+      let siren: string | null = null;
+      let codeNaf: string | null = null;
+      let legalForm: string | null = null;
+      let legalUnitWorkforceRange = 'NN';
+      let establishmentWorkforceRange = 'NN';
+      let establishmentType = 'PRIMARY';
+
+      const adresse: string[] = [];
+
+      const info = data.etablissement;
+      if (info) {
+        siren = info.siren;
+        establishmentWorkforceRange = info.trancheEffectifsEtablissement || establishmentWorkforceRange;
+        if (!info.etablissementSiege) {
+          establishmentType = 'SECONDARY';
+        }
+        const uniteLegale = info.uniteLegale;
+        if (uniteLegale) {
+          if (uniteLegale.denominationUniteLegale && uniteLegale.denominationUniteLegale !== '[ND]')
+            name = uniteLegale.denominationUniteLegale;
+          if (uniteLegale.activitePrincipaleUniteLegale && uniteLegale.activitePrincipaleUniteLegale !== '[ND]')
+            codeNaf = uniteLegale.activitePrincipaleUniteLegale;
+          if (uniteLegale.categorieJuridiqueUniteLegale && uniteLegale.categorieJuridiqueUniteLegale !== '[ND]')
+            legalForm = uniteLegale.categorieJuridiqueUniteLegale;
+          if (uniteLegale.trancheEffectifsUniteLegale && uniteLegale.trancheEffectifsUniteLegale !== '[ND]')
+            legalUnitWorkforceRange = uniteLegale.trancheEffectifsUniteLegale;
+
+        }
+      }
+      if (info.activitePrincipaleNAF25Etablissement && info.activitePrincipaleNAF25Etablissement !== '[ND]') {
+        codeNaf = info.activitePrincipaleNAF25Etablissement;
+      }
+      if (adresseEtablissement) {
+        if (adresseEtablissement.numeroVoieEtablissement && adresseEtablissement.numeroVoieEtablissement !== '[ND]')
+          adresse.push(adresseEtablissement.numeroVoieEtablissement);
+        if (adresseEtablissement.typeVoieEtablissement && adresseEtablissement.typeVoieEtablissement !== '[ND]')
+          adresse.push(adresseEtablissement.typeVoieEtablissement);
+        if (adresseEtablissement.libelleVoieEtablissement && adresseEtablissement.libelleVoieEtablissement !== '[ND]')
+          adresse.push(adresseEtablissement.libelleVoieEtablissement);
+        if (adresse.length) {
+          addressLine1 = adresse.join(' ');
+        }
+
+        if (adresseEtablissement.complementAdresseEtablissement && adresseEtablissement.complementAdresseEtablissement !== '[ND]')
+          addressLine2 = adresseEtablissement.complementAdresseEtablissement;
+        if (adresseEtablissement.codePostalEtablissement && adresseEtablissement.codePostalEtablissement !== '[ND]')
+          postalCode = adresseEtablissement.codePostalEtablissement;
+        if (adresseEtablissement.codePostalEtablissement && adresseEtablissement.codePostalEtablissement !== '[ND]')
+          city = adresseEtablissement.codePostalEtablissement;
+      }
+
+      return {
+        siret,
+        siren,
+        legalUnitWorkforceRange,
+        establishmentWorkforceRange,
+        postalCode,
+        city,
+        addressLine1,
+        addressLine2,
+        name,
+        codeNaf,
+        legalForm,
+        establishmentType,
+      };
+    } catch {
+      return null;
+    }
   }
 }

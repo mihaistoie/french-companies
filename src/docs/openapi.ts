@@ -17,8 +17,6 @@ const companyProperties: NonNullable<OpenAPIV3.SchemaObject["properties"]> = {
   codeNaf: { type: "string", pattern: "^\\d{2}\\.\\d{2}[A-Z]$", nullable: true },
   legalUnitWorkforceRange: { $ref: "#/components/schemas/WorkforceRangeCode" },
   establishmentWorkforceRange: { $ref: "#/components/schemas/WorkforceRangeCode" },
-  vatNumber: { type: "string", maxLength: 32, nullable: true },
-  industry: { type: "string", maxLength: 150, nullable: true },
   website: { type: "string", format: "uri", maxLength: 2048, nullable: true },
   email: { type: "string", format: "email", maxLength: 255, nullable: true },
   phone: { type: "string", maxLength: 32, nullable: true },
@@ -28,7 +26,6 @@ const companyProperties: NonNullable<OpenAPIV3.SchemaObject["properties"]> = {
   address: { type: "string", maxLength: 600, nullable: true },
   postalCode: { type: "string", maxLength: 20, nullable: true },
   city: { type: "string", maxLength: 120, nullable: true },
-  region: { type: "string", maxLength: 120, nullable: true },
   country: { type: "string", maxLength: 120 },
   isActive: { type: "boolean" },
   createdAt: { type: "string", format: "date-time" },
@@ -117,8 +114,6 @@ export const openApiDocument: OpenAPIV3.Document = {
           codeNaf: companyProperties.codeNaf,
           legalUnitWorkforceRange: companyProperties.legalUnitWorkforceRange,
           establishmentWorkforceRange: companyProperties.establishmentWorkforceRange,
-          vatNumber: companyProperties.vatNumber,
-          industry: companyProperties.industry,
           website: companyProperties.website,
           email: companyProperties.email,
           phone: companyProperties.phone,
@@ -127,7 +122,6 @@ export const openApiDocument: OpenAPIV3.Document = {
           addressLine2: companyProperties.addressLine2,
           postalCode: companyProperties.postalCode,
           city: companyProperties.city,
-          region: companyProperties.region,
           country: companyProperties.country,
           isActive: companyProperties.isActive,
         },
@@ -205,24 +199,6 @@ export const openApiDocument: OpenAPIV3.Document = {
           altCode: { type: "string", pattern: "^\\d{4}[A-Z]$" },
         },
         required: ["code", "title", "altCode"],
-      },
-      CodeNafListResponse: {
-        type: "object",
-        properties: {
-          items: {
-            type: "array",
-            items: { $ref: "#/components/schemas/CodeNaf" },
-          },
-          meta: {
-            type: "object",
-            properties: {
-              total: { type: "integer" },
-              limit: { type: "integer" },
-            },
-            required: ["total", "limit"],
-          },
-        },
-        required: ["items", "meta"],
       },
     },
   },
@@ -338,41 +314,10 @@ export const openApiDocument: OpenAPIV3.Document = {
         },
       },
     },
-    "/api/v1/code-naf": {
-      get: {
-        tags: ["Code NAF"],
-        summary: "List NAF codes",
-        security: [{ bearerAuth: [] }],
-        parameters: [
-          { name: "search", in: "query", schema: { type: "string", maxLength: 255 } },
-          { name: "code", in: "query", schema: { type: "string", pattern: "^\\d{2}\\.\\d{2}[A-Z]$" } },
-          { name: "altCode", in: "query", schema: { type: "string", pattern: "^\\d{4}[A-Z]$" } },
-          { name: "limit", in: "query", schema: { type: "integer", minimum: 1, maximum: 100 } },
-        ],
-        responses: {
-          "200": {
-            description: "NAF codes list",
-            content: {
-              "application/json": {
-                schema: { $ref: "#/components/schemas/CodeNafListResponse" },
-              },
-            },
-          },
-          "401": {
-            description: "Unauthorized",
-            content: {
-              "application/json": {
-                schema: { $ref: "#/components/schemas/ErrorResponse" },
-              },
-            },
-          },
-        },
-      },
-    },
     "/api/v1/code-naf/autocomplete": {
       get: {
         tags: ["Code NAF"],
-        summary: "Autocomplete NAF codes",
+        summary: "Autocomplete NAF codes by libelle or altCode",
         security: [{ bearerAuth: [] }],
         parameters: [
           { name: "q", in: "query", required: true, schema: { type: "string", minLength: 1, maxLength: 255 } },
@@ -380,7 +325,7 @@ export const openApiDocument: OpenAPIV3.Document = {
         ],
         responses: {
           "200": {
-            description: "Autocomplete results",
+            description: "Autocomplete results based on libelle or altCode",
             content: {
               "application/json": {
                 schema: {
@@ -416,7 +361,6 @@ export const openApiDocument: OpenAPIV3.Document = {
           { name: "codeNaf", in: "query", schema: { type: "string", pattern: "^\\d{2}\\.\\d{2}[A-Z]$" } },
           { name: "city", in: "query", schema: { type: "string", maxLength: 120 } },
           { name: "postalCode", in: "query", schema: { type: "string", maxLength: 20 } },
-          { name: "industry", in: "query", schema: { type: "string", maxLength: 150 } },
           { name: "isActive", in: "query", schema: { type: "string", enum: ["true", "false"] } },
           { name: "page", in: "query", schema: { type: "integer", minimum: 1 } },
           { name: "limit", in: "query", schema: { type: "integer", minimum: 1, maximum: 100 } },

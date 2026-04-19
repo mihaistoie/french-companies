@@ -14,8 +14,6 @@ const codeNafSchema = z
 
 const nameSchema = z.string().min(1).max(255);
 const legalFormSchema = z.string().max(100);
-const vatNumberSchema = z.string().max(32);
-const industrySchema = z.string().max(150);
 const websiteSchema = z.string().url().max(2048);
 const emailSchema = z.string().email().max(255);
 const phoneSchema = z.string().max(32);
@@ -24,7 +22,6 @@ const addressLineSchema = z.string().max(255);
 const addressSchema = z.string().max(600);
 const postalCodeSchema = z.string().max(20);
 const citySchema = z.string().max(120);
-const regionSchema = z.string().max(120);
 const countrySchema = z.string().max(120);
 
 const workforceRangeCodeSchema = z.enum([
@@ -63,8 +60,6 @@ export const createCompanySchema = z.object({
     codeNaf: codeNafSchema.optional(),
     legalUnitWorkforceRange: workforceRangeCodeSchema.optional(),
     establishmentWorkforceRange: workforceRangeCodeSchema.optional(),
-    vatNumber: vatNumberSchema.optional(),
-    industry: industrySchema.optional(),
     website: websiteSchema.optional(),
     email: emailSchema.optional(),
     phone: phoneSchema.optional(),
@@ -73,7 +68,6 @@ export const createCompanySchema = z.object({
     addressLine2: addressLineSchema.optional(),
     postalCode: postalCodeSchema.optional(),
     city: citySchema.optional(),
-    region: regionSchema.optional(),
     country: countrySchema.optional(),
     isActive: z.boolean().optional(),
   }),
@@ -112,7 +106,6 @@ export const listCompaniesSchema = z.object({
     establishmentWorkforceRange: workforceRangeCodeSchema.optional(),
     city: citySchema.optional(),
     postalCode: postalCodeSchema.optional(),
-    industry: industrySchema.optional(),
     isActive: z
       .enum(["true", "false"])
       .optional(),
