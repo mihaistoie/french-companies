@@ -45,16 +45,17 @@ function calculateIndicateursEnvironnementauxScore(data: {
   recyclageDechets?: boolean;
   autresEnv?: boolean;
 }) {
-  const positiveCount =
-    (data.bilanCarbone ? 1 : 0) +
-    (data.decarbonisation ? 1 : 0) +
-    (data.qpENR ? 1 : 0) +
-    (data.iso14001 ? 1 : 0) +
-    (data.iso50001 ? 1 : 0) +
-    (data.recyclageDechets ? 1 : 0) +
-    (data.autresEnv ? 1 : 0);
+  const part1 = data.bilanCarbone ? 5 * 0.3 : 0;
+  const part2 = data.decarbonisation ? 5 * 0.1 : 0;
+  const part3 = data.qpENR ? 5 * 0.1 : 0;
+  const part4 = data.iso14001 ? 5 * 0.1 : 0;
+  const part5 = data.iso50001 ? 5 * 0.1 : 0;
+  const part6 = data.recyclageDechets ? 5 * 0.1 : 0;
+  const part7 = data.autresEnv ? 5 * 0.2 : 0;
 
-  return roundDecimal(((positiveCount + 1.25) / 8.25) * 5, 2);
+  const total = part1 + part2 + part3 + part4 + part5 + part6 + part7;
+
+  return roundDecimal(((total + 1.25) / 6.25) * 5, 2);
 }
 
 function calculateIndicateursSociauxScore(data: {
@@ -66,16 +67,17 @@ function calculateIndicateursSociauxScore(data: {
   aEgaliteHF?: boolean;
   aAutresSocial?: boolean;
 }) {
-  const positiveCount =
-    (data.iso45001 ? 1 : 0) +
-    (data.ess ? 1 : 0) +
-    (data.aEvaluationQvt ? 1 : 0) +
-    (data.aLabelEmployeur ? 1 : 0) +
-    (data.aVieAssociativeLocale ? 1 : 0) +
-    (data.aEgaliteHF ? 1 : 0) +
-    (data.aAutresSocial ? 1 : 0);
+  const part1 = data.iso45001 ? 5 * 0.3 : 0;
+  const part2 = data.ess ? 5 * 0.03 : 0;
+  const part3 = data.aEvaluationQvt ? 5 * 0.08 : 0;
+  const part4 = data.aLabelEmployeur ? 5 * 0.09 : 0;
+  const part5 = data.aVieAssociativeLocale ? 5 * 0.25 : 0;
+  const part6 = data.aEgaliteHF ? 5 * 0.05 : 0;
+  const part7 = data.aAutresSocial ? 5 * 0.2 : 0;
 
-  return roundDecimal(((positiveCount + 1.25) / 8.25) * 5, 2);
+  const total = part1 + part2 + part3 + part4 + part5 + part6 + part7;
+
+  return roundDecimal(((total + 1.25) / 6.25) * 5, 2);
 }
 
 function calculateIndicateursGouvernanceRseScore(data: {
@@ -87,16 +89,17 @@ function calculateIndicateursGouvernanceRseScore(data: {
   certifFscPefc?: boolean;
   aAutresGouvernance?: boolean;
 }) {
-  const positiveCount =
-    (data.aGouvernanceRse ? 1 : 0) +
-    (data.aEthique ? 1 : 0) +
-    (data.aEnquetesPartenaires ? 1 : 0) +
-    (data.charteAchats ? 1 : 0) +
-    (data.labelRfar ? 1 : 0) +
-    (data.certifFscPefc ? 1 : 0) +
-    (data.aAutresGouvernance ? 1 : 0);
+  const part1 = data.aGouvernanceRse ? 5 * 0.2 : 0;
+  const part2 = data.aEthique ? 5 * 0.2 : 0;
+  const part3 = data.aEnquetesPartenaires ? 5 * 0.15 : 0;
+  const part4 = data.charteAchats ? 5 * 0.06 : 0;
+  const part5 = data.labelRfar ? 5 * 0.1 : 0;
+  const part6 = data.certifFscPefc ? 5 * 0.04 : 0;
+  const part7 = data.aAutresGouvernance ? 5 * 0.25 : 0;
 
-  return roundDecimal(((positiveCount + 1.25) / 8.25) * 5, 2);
+  const total = part1 + part2 + part3 + part4 + part5 + part6 + part7;
+
+  return roundDecimal(((total + 1.25) / 6.25) * 5, 2);
 }
 
 function serializeEvaluation(evaluation: any, saved = true) {
@@ -149,6 +152,42 @@ const evaluationInclude = {
 
 const defaultEvaluationScore = 1;
 const defaultEvaluationNote = calculerNote(defaultEvaluationScore);
+
+async function updateEvaluationRseAggregateScore(id: string) {
+  const evaluation = await prisma.evaluationRse.findUnique({
+    where: { id },
+    select: {
+      labelsEngagementsRse: { select: { score: true } },
+      indicateursEnvironnementaux: { select: { score: true } },
+      indicateursSociaux: { select: { score: true } },
+      indicateursGouvernanceRse: { select: { score: true } },
+    },
+  });
+
+  if (!evaluation) {
+    throw new AppError("evaluations_rse.not_found", 404);
+  }
+
+  const indicatorScores = [
+    toNumber(evaluation.labelsEngagementsRse?.score ?? defaultEvaluationScore),
+    toNumber(evaluation.indicateursEnvironnementaux?.score ?? defaultEvaluationScore),
+    toNumber(evaluation.indicateursSociaux?.score ?? defaultEvaluationScore),
+    toNumber(evaluation.indicateursGouvernanceRse?.score ?? defaultEvaluationScore),
+  ];
+  const score = roundDecimal(
+    indicatorScores.reduce((sum, indicatorScore) => sum + indicatorScore, 0) /
+      indicatorScores.length,
+    2,
+  );
+
+  await prisma.evaluationRse.update({
+    where: { id },
+    data: {
+      score,
+      note: calculerNote(score),
+    },
+  });
+}
 
 export class EvaluationRseService {
   async getById(id: string) {
@@ -277,6 +316,8 @@ export class EvaluationRseService {
       },
     });
 
+    await updateEvaluationRseAggregateScore(id);
+
     return this.getById(id);
   }
 
@@ -369,6 +410,8 @@ export class EvaluationRseService {
       },
     });
 
+    await updateEvaluationRseAggregateScore(id);
+
     return this.getById(id);
   }
 
@@ -460,6 +503,8 @@ export class EvaluationRseService {
       },
     });
 
+    await updateEvaluationRseAggregateScore(id);
+
     return this.getById(id);
   }
 
@@ -537,6 +582,8 @@ export class EvaluationRseService {
         note: calculerNote(score),
       },
     });
+
+    await updateEvaluationRseAggregateScore(id);
 
     return this.getById(id);
   }
