@@ -1,9 +1,10 @@
-import type { PrismaClient } from "@prisma/client";
-
 import { env } from "../../config/env";
+import type { prisma as appPrisma } from "../../lib/prisma";
 import { hashPassword } from "../../lib/password";
 
-export async function ensureDefaultAdminUser(prisma: PrismaClient) {
+type AppPrismaClient = typeof appPrisma;
+
+export async function ensureDefaultAdminUser(prisma: AppPrismaClient) {
   const existingAdminUser = await prisma.user.findUnique({
     where: { email: env.DEFAULT_ADMIN_EMAIL },
     select: { id: true },

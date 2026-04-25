@@ -1,7 +1,9 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-import type { PrismaClient } from "@prisma/client";
+import type { prisma as appPrisma } from "../../lib/prisma";
+
+type AppPrismaClient = typeof appPrisma;
 
 type NafSeedRow = {
   code: string;
@@ -9,7 +11,7 @@ type NafSeedRow = {
   altCode: string;
 };
 
-export async function seedCodeNafIfEmpty(prisma: PrismaClient) {
+export async function seedCodeNafIfEmpty(prisma: AppPrismaClient) {
   const codeNafCount = await prisma.codeNaf.count();
 
   if (codeNafCount > 0) {

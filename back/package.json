@@ -5,7 +5,7 @@
   "description": "Scalable backend for storing French company information",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "node --env-file=.env ./node_modules/ts-node-dev/lib/bin.js --respawn --transpile-only src/server.ts",
+    "dev": "node --env-file=.env -r ts-node/register/transpile-only src/server.ts",
     "build": "tsc",
     "start": "node --env-file=.env dist/server.js",
     "prisma:generate": "prisma generate",

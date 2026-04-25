@@ -3,9 +3,10 @@ const AUTH_BASE_PATH = `${API_URL}/api/v1/auth`;
 const COMPANIES_BASE_PATH = `${API_URL}/api/v1/companies`;
 const CODE_NAF_BASE_PATH = `${API_URL}/api/v1/code-naf`;
 const CATEGORIE_JURIDIQUE_BASE_PATH = `${API_URL}/api/v1/categorie-juridique`;
+const EVALUATIONS_RSE_BASE_PATH = `${API_URL}/api/v1/evaluations-rse`;
 
 type RequestOptions = {
-  method?: "GET" | "POST" | "PATCH";
+  method?: "GET" | "POST" | "PATCH" | "DELETE";
   body?: unknown;
   token?: string;
 };
@@ -89,6 +90,99 @@ export type CategorieJuridique = {
   code: string;
   title: string;
 };
+
+export type EvaluationRse = {
+  id: string | null;
+  saved: boolean;
+  estActive: boolean;
+  entrepriseId: string;
+  entreprise: Pick<Company, "id" | "raisonSociale" | "siret" | "siren" | "siteWeb">;
+  dateEvaluation: string;
+  score: number;
+  note: "A" | "B" | "C" | "D";
+  labelsEngagementsRse: {
+    id: string;
+    score: number;
+    note: "A" | "B" | "C" | "D";
+    aReportingRse: boolean;
+    reportingRseDetail?: string | null;
+    aEvaluationEcovadis: boolean;
+    medailleEcovadis?: MedailleEcovadis | null;
+    anneeScoreEcovadis?: string | null;
+    estSocieteAMission: boolean;
+    estSignataireGlobalCompact: boolean;
+    globalCompactDetail?: string | null;
+  } | null;
+  indicateursEnvironnementaux: {
+    id: string;
+    score: number;
+    note: "A" | "B" | "C" | "D";
+    bilanCarbone: boolean;
+    bilanCarboneScope: BilanCarboneScope;
+    bilanCarboneDetail?: string | null;
+    decarbonisation: boolean;
+    decarbonisationDetail?: string | null;
+    qpENR: boolean;
+    qpENRDetail?: string | null;
+    iso14001: boolean;
+    iso14001Detail?: string | null;
+    iso50001: boolean;
+    iso50001Detail?: string | null;
+    recyclageDechets: boolean;
+    recyclageDechetsDetail?: string | null;
+    autresEnv: boolean;
+    autresEnvDetail?: string | null;
+  } | null;
+  indicateursSociaux: {
+    id: string;
+    score: number;
+    note: "A" | "B" | "C" | "D";
+    iso45001: boolean;
+    iso45001Detail?: string | null;
+    ess: boolean;
+    aEvaluationQvt: boolean;
+    detailEvaluationQvt?: string | null;
+    aLabelEmployeur: boolean;
+    detailLabelEmployeur?: string | null;
+    aVieAssociativeLocale: boolean;
+    detailVieAssociativeLocale?: string | null;
+    aEgaliteHF: boolean;
+    detailEgaliteHF?: string | null;
+    aAutresSocial: boolean;
+    detailAutresSocial?: string | null;
+  } | null;
+  indicateursGouvernanceRse: {
+    id: string;
+    score: number;
+    note: "A" | "B" | "C" | "D";
+    aGouvernanceRse: boolean;
+    detailGouvernanceRse?: string | null;
+    aEthique: boolean;
+    detailEthique?: string | null;
+    aEnquetesPartenaires: boolean;
+    detailEnquetesPartenaires?: string | null;
+    charteAchats: boolean;
+    labelRfar: boolean;
+    certifFscPefc: boolean;
+    aAutresGouvernance: boolean;
+    detailAutresGouvernance?: string | null;
+  } | null;
+};
+
+export type MedailleEcovadis =
+  | "PLATINUM"
+  | "GOLD"
+  | "SILVER"
+  | "BRONZE"
+  | "COMMITTED"
+  | "FAST_MOVER"
+  | "OTHER";
+
+export type BilanCarboneScope =
+  | "NON_PRECISE"
+  | "SCOPE_1"
+  | "SCOPE_1_2"
+  | "SCOPE_1_2_3";
 
 type AuthResponse = {
   user: AuthUser;
@@ -199,6 +293,13 @@ export async function lookupCompanyBySiret(token: string, siret: string) {
   );
 }
 
+export async function getCompany(token: string, id: string) {
+  return request<Company>(`${COMPANIES_BASE_PATH}/${id}`, {
+    method: "GET",
+    token,
+  });
+}
+
 export async function createCompany(
   token: string,
   payload: CreateCompanyPayload,
@@ -256,6 +357,179 @@ export async function autocompleteCategorieJuridique(
     {
       method: "GET",
       token,
+    },
+  );
+}
+
+export async function getCurrentEvaluationRse(token: string, entrepriseId: string) {
+  return request<EvaluationRse>(
+    `${EVALUATIONS_RSE_BASE_PATH}/companies/${entrepriseId}/current`,
+    {
+      method: "GET",
+      token,
+    },
+  );
+}
+
+export async function getActiveEvaluationRse(token: string, entrepriseId: string) {
+  return request<{ evaluation: EvaluationRse | null }>(
+    `${EVALUATIONS_RSE_BASE_PATH}/companies/${entrepriseId}/active`,
+    {
+      method: "GET",
+      token,
+    },
+  );
+}
+
+export async function getEvaluationRse(token: string, id: string) {
+  return request<EvaluationRse>(`${EVALUATIONS_RSE_BASE_PATH}/${id}`, {
+    method: "GET",
+    token,
+  });
+}
+
+export async function saveCurrentEvaluationRse(token: string, entrepriseId: string) {
+  return request<EvaluationRse>(
+    `${EVALUATIONS_RSE_BASE_PATH}/companies/${entrepriseId}/current`,
+    {
+      method: "POST",
+      token,
+    },
+  );
+}
+
+export async function listEvaluationsRse(token: string, entrepriseId: string) {
+  return request<{ items: EvaluationRse[] }>(
+    `${EVALUATIONS_RSE_BASE_PATH}/companies/${entrepriseId}`,
+    {
+      method: "GET",
+      token,
+    },
+  );
+}
+
+export async function deleteEvaluationRse(token: string, id: string) {
+  return request<{ success: boolean }>(`${EVALUATIONS_RSE_BASE_PATH}/${id}`, {
+    method: "DELETE",
+    token,
+  });
+}
+
+export type UpdateLabelsEngagementsRsePayload = {
+  aReportingRse?: boolean;
+  reportingRseDetail?: string | null;
+  aEvaluationEcovadis?: boolean;
+  medailleEcovadis?: MedailleEcovadis | null;
+  anneeScoreEcovadis?: string | null;
+  estSocieteAMission?: boolean;
+  estSignataireGlobalCompact?: boolean;
+  globalCompactDetail?: string | null;
+};
+
+export async function updateLabelsEngagementsRse(
+  token: string,
+  id: string,
+  payload: UpdateLabelsEngagementsRsePayload,
+) {
+  return request<EvaluationRse>(
+    `${EVALUATIONS_RSE_BASE_PATH}/${id}/labels-engagements-rse`,
+    {
+      method: "PATCH",
+      token,
+      body: payload,
+    },
+  );
+}
+
+export type UpdateIndicateursEnvironnementauxPayload = {
+  bilanCarbone?: boolean;
+  bilanCarboneScope?: BilanCarboneScope;
+  bilanCarboneDetail?: string | null;
+  decarbonisation?: boolean;
+  decarbonisationDetail?: string | null;
+  qpENR?: boolean;
+  qpENRDetail?: string | null;
+  iso14001?: boolean;
+  iso14001Detail?: string | null;
+  iso50001?: boolean;
+  iso50001Detail?: string | null;
+  recyclageDechets?: boolean;
+  recyclageDechetsDetail?: string | null;
+  autresEnv?: boolean;
+  autresEnvDetail?: string | null;
+};
+
+export async function updateIndicateursEnvironnementaux(
+  token: string,
+  id: string,
+  payload: UpdateIndicateursEnvironnementauxPayload,
+) {
+  return request<EvaluationRse>(
+    `${EVALUATIONS_RSE_BASE_PATH}/${id}/indicateurs-environnementaux`,
+    {
+      method: "PATCH",
+      token,
+      body: payload,
+    },
+  );
+}
+
+export type UpdateIndicateursSociauxPayload = {
+  iso45001?: boolean;
+  iso45001Detail?: string | null;
+  ess?: boolean;
+  aEvaluationQvt?: boolean;
+  detailEvaluationQvt?: string | null;
+  aLabelEmployeur?: boolean;
+  detailLabelEmployeur?: string | null;
+  aVieAssociativeLocale?: boolean;
+  detailVieAssociativeLocale?: string | null;
+  aEgaliteHF?: boolean;
+  detailEgaliteHF?: string | null;
+  aAutresSocial?: boolean;
+  detailAutresSocial?: string | null;
+};
+
+export async function updateIndicateursSociaux(
+  token: string,
+  id: string,
+  payload: UpdateIndicateursSociauxPayload,
+) {
+  return request<EvaluationRse>(
+    `${EVALUATIONS_RSE_BASE_PATH}/${id}/indicateurs-sociaux`,
+    {
+      method: "PATCH",
+      token,
+      body: payload,
+    },
+  );
+}
+
+export type UpdateIndicateursGouvernanceRsePayload = {
+  aGouvernanceRse?: boolean;
+  detailGouvernanceRse?: string | null;
+  aEthique?: boolean;
+  detailEthique?: string | null;
+  aEnquetesPartenaires?: boolean;
+  detailEnquetesPartenaires?: string | null;
+  charteAchats?: boolean;
+  labelRfar?: boolean;
+  certifFscPefc?: boolean;
+  aAutresGouvernance?: boolean;
+  detailAutresGouvernance?: string | null;
+};
+
+export async function updateIndicateursGouvernanceRse(
+  token: string,
+  id: string,
+  payload: UpdateIndicateursGouvernanceRsePayload,
+) {
+  return request<EvaluationRse>(
+    `${EVALUATIONS_RSE_BASE_PATH}/${id}/indicateurs-gouvernance-rse`,
+    {
+      method: "PATCH",
+      token,
+      body: payload,
     },
   );
 }

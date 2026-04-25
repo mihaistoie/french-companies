@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 import { env } from "../src/config/env";
 import { ensureDefaultAdminUser } from "../src/modules/auth/auth.bootstrap";
-import { seedCategorieJuridique } from "../src/modules/categorie-juridique/categorie-juridique.seed";
+import { seedCategorieJuridiqueIfEmpty } from "../src/modules/categorie-juridique/categorie-juridique.seed";
 import { seedCodeNafIfEmpty } from "../src/modules/code-naf/code-naf.seed";
 
 const adapter = new PrismaPg({
@@ -14,7 +14,7 @@ const prisma = new PrismaClient({ adapter });
 
 async function main() {
   await seedCodeNafIfEmpty(prisma);
-  await seedCategorieJuridique(prisma);
+  await seedCategorieJuridiqueIfEmpty(prisma);
   await ensureDefaultAdminUser(prisma);
 }
 

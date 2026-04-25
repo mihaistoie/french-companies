@@ -22,6 +22,25 @@ enum EvaluationRseNote {
   B
   C
   D
+  E
+  F
+}
+
+enum MedailleEcovadis {
+  PLATINUM
+  GOLD
+  SILVER
+  BRONZE
+  COMMITTED
+  FAST_MOVER
+  OTHER
+}
+
+enum BilanCarboneScope {
+  NON_PRECISE
+  SCOPE_1     @map("1")
+  SCOPE_1_2   @map("1 2")
+  SCOPE_1_2_3 @map("1 2 3")
 }
 
 model User {
@@ -88,18 +107,20 @@ model CategorieJuridique {
 }
 
 model EvaluationRse {
-  id                   String                @id @default(uuid()) @db.Uuid
-  estActive            Boolean               @default(false)
-  entrepriseId         String                @db.Uuid
-  entreprise           Entreprise            @relation(fields: [entrepriseId], references: [id], onDelete: Cascade)
-  dateEvaluation       DateTime              @db.Date
-  score                Decimal               @db.Decimal(4, 2)
-  note                 EvaluationRseNote
-  labelsEngagementsRse LabelsEngagementsRse?
+  id                          String                       @id @default(uuid()) @db.Uuid
+  estActive                   Boolean                      @default(false)
+  entrepriseId                String                       @db.Uuid
+  entreprise                  Entreprise                   @relation(fields: [entrepriseId], references: [id], onDelete: Cascade)
+  dateEvaluation              DateTime                     @db.Date
+  score                       Decimal                      @db.Decimal(4, 2)
+  note                        EvaluationRseNote
+  labelsEngagementsRse        LabelsEngagementsRse?
+  indicateursEnvironnementaux IndicateursEnvironnementaux?
+  indicateursSociaux          IndicateursSociaux?
+  indicateursGouvernanceRse   IndicateursGouvernanceRse?
 
   @@index([entrepriseId])
   @@index([dateEvaluation])
-  @@map("evaluationRse")
 }
 
 model LabelsEngagementsRse {
@@ -109,8 +130,8 @@ model LabelsEngagementsRse {
   aReportingRse              Boolean           @default(false)
   reportingRseDetail         String?
   aEvaluationEcovadis        Boolean           @default(false)
-  medailleEcovadis           String?
-  anneeScoreEcovadis         String?           @db.VarChar(20)
+  medailleEcovadis           MedailleEcovadis  @default(OTHER)
+  anneeScoreEcovadis         String?
   estSocieteAMission         Boolean           @default(false)
   estSignataireGlobalCompact Boolean           @default(false)
   globalCompactDetail        String?
@@ -118,5 +139,73 @@ model LabelsEngagementsRse {
   note                       EvaluationRseNote
 
   @@index([evaluationRseId])
-  @@map("labelsEngagementsRse")
+}
+
+model IndicateursEnvironnementaux {
+  id                     String            @id @default(uuid()) @db.Uuid
+  evaluationRseId        String            @unique @db.Uuid
+  evaluationRse          EvaluationRse     @relation(fields: [evaluationRseId], references: [id], onDelete: Cascade)
+  bilanCarbone           Boolean           @default(false)
+  bilanCarboneScope      BilanCarboneScope @default(NON_PRECISE)
+  bilanCarboneDetail     String?
+  decarbonisation        Boolean           @default(false)
+  decarbonisationDetail  String?
+  qpENR                  Boolean           @default(false)
+  qpENRDetail            String?
+  iso14001               Boolean           @default(false)
+  iso14001Detail         String?
+  iso50001               Boolean           @default(false)
+  iso50001Detail         String?
+  recyclageDechets       Boolean           @default(false)
+  recyclageDechetsDetail String?
+  autresEnv              Boolean           @default(false)
+  autresEnvDetail        String?
+  score                  Decimal           @db.Decimal(4, 2)
+  note                   EvaluationRseNote
+
+  @@index([evaluationRseId])
+}
+
+model IndicateursSociaux {
+  id                         String            @id @default(uuid()) @db.Uuid
+  evaluationRseId            String            @unique @db.Uuid
+  evaluationRse              EvaluationRse     @relation(fields: [evaluationRseId], references: [id], onDelete: Cascade)
+  iso45001                   Boolean           @default(false)
+  iso45001Detail             String?
+  ess                        Boolean           @default(false)
+  aEvaluationQvt             Boolean           @default(false)
+  detailEvaluationQvt        String?
+  aLabelEmployeur            Boolean           @default(false)
+  detailLabelEmployeur       String?
+  aVieAssociativeLocale      Boolean           @default(false)
+  detailVieAssociativeLocale String?
+  aEgaliteHF                 Boolean           @default(false)
+  detailEgaliteHF            String?
+  aAutresSocial              Boolean           @default(false)
+  detailAutresSocial         String?
+  score                      Decimal           @db.Decimal(4, 2)
+  note                       EvaluationRseNote
+
+  @@index([evaluationRseId])
+}
+
+model IndicateursGouvernanceRse {
+  id                        String            @id @default(uuid()) @db.Uuid
+  evaluationRseId           String            @unique @db.Uuid
+  evaluationRse             EvaluationRse     @relation(fields: [evaluationRseId], references: [id], onDelete: Cascade)
+  aGouvernanceRse           Boolean           @default(false)
+  detailGouvernanceRse      String?
+  aEthique                  Boolean           @default(false)
+  detailEthique             String?
+  aEnquetesPartenaires      Boolean           @default(false)
+  detailEnquetesPartenaires String?
+  charteAchats              Boolean           @default(false)
+  labelRfar                 Boolean           @default(false)
+  certifFscPefc             Boolean           @default(false)
+  aAutresGouvernance        Boolean           @default(false)
+  detailAutresGouvernance   String?
+  score                     Decimal           @db.Decimal(4, 2)
+  note                      EvaluationRseNote
+
+  @@index([evaluationRseId])
 }

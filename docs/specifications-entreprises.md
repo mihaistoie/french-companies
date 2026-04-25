@@ -329,7 +329,246 @@ PATCH /api/v1/companies/:id
 
 Les endpoints de consultation restent accessibles aux utilisateurs authentifies.
 
-## 5. Contrats API attendus
+## 5. Evaluation RSE
+
+### Objectif
+
+Permettre a un administrateur de creer une analyse RSE (`EvaluationRse`) pour une entreprise depuis la liste des entreprises.
+
+### Acces depuis la liste
+
+- Dans la liste des entreprises, l'utilisateur doit voir une action permettant d'acceder a l'evaluation RSE active de chaque entreprise.
+- Au clic sur l'action, le frontend appelle une API qui retourne l'evaluation RSE active si elle existe.
+- Si aucune evaluation active n'existe et que l'utilisateur est admin, le frontend ouvre le flux de creation de l'evaluation du jour.
+- Si aucune evaluation active n'existe et que l'utilisateur n'est pas admin, l'interface affiche un message d'absence d'evaluation active.
+
+### Navigation SPA
+
+L'application reste une SPA, mais les ecrans principaux doivent etre synchronises avec l'historique du navigateur afin que les boutons Back et Forward fonctionnent.
+
+Comportement attendu :
+
+- L'ouverture du formulaire de creation d'entreprise ajoute une entree d'historique avec `?view=create`.
+- L'ouverture du formulaire de modification d'entreprise ajoute une entree d'historique avec `?view=edit&companyId=:id`.
+- L'ouverture de l'ecran d'evaluation RSE ajoute une entree d'historique avec `?view=evaluation&companyId=:id`.
+- Le retour a la liste des entreprises supprime les parametres de navigation.
+- Un acces direct a une URL de navigation doit restaurer l'ecran correspondant lorsque l'utilisateur est authentifie.
+- Les boutons Back et Forward du navigateur doivent restaurer la liste, la creation, la modification ou l'evaluation sans rechargement complet de la page.
+
+### Endpoint d'evaluation active
+
+```http
+GET /api/v1/evaluations-rse/companies/:entrepriseId/active
+```
+
+Comportement attendu :
+
+- Si une evaluation active existe pour l'entreprise, l'API la retourne.
+- Si aucune evaluation active n'existe, l'API retourne `evaluation: null`.
+- Cet endpoint est accessible aux utilisateurs authentifies.
+
+### Endpoint de brouillon courant
+
+```http
+GET /api/v1/evaluations-rse/companies/:entrepriseId/current
+```
+
+Comportement attendu :
+
+- Si une evaluation existe deja pour l'entreprise a la date du jour, l'API la retourne.
+- Sinon, l'API retourne un brouillon non enregistre avec la date du jour.
+- L'entreprise associee est retournee et affichee en lecture seule.
+- Le score et la note sont retournes et affiches en lecture seule.
+
+### Ecran d'evaluation
+
+L'ecran d'evaluation doit afficher :
+
+- l'entreprise en lecture seule ;
+- la date d'evaluation ;
+- le score en lecture seule ;
+- la note en lecture seule ;
+- un bouton `Enregistrer` ;
+- un acces aux sections `LabelsEngagementsRse`, `IndicateursEnvironnementaux`, `IndicateursSociaux` et `IndicateursGouvernanceRse`.
+
+### Enregistrement
+
+```http
+POST /api/v1/evaluations-rse/companies/:entrepriseId/current
+```
+
+Comportement attendu :
+
+- L'API enregistre l'evaluation RSE pour l'entreprise a la date du jour.
+- Si une evaluation existe deja a cette date, elle est retournee.
+- Pour une entreprise donnee, une seule evaluation RSE peut etre active a la fois.
+- Lorsqu'une evaluation est enregistree comme active, toutes les autres evaluations de la meme entreprise doivent etre desactivees.
+- Une evaluation sauvegardee contient les blocs `LabelsEngagementsRse`, `IndicateursEnvironnementaux`, `IndicateursSociaux` et `IndicateursGouvernanceRse`.
+- Le score et la note restent en lecture seule dans l'interface.
+
+### Acces aux indicateurs
+
+Depuis l'ecran d'evaluation, l'utilisateur doit pouvoir acceder aux indicateurs suivants :
+
+- `LabelsEngagementsRse`
+- `IndicateursEnvironnementaux`
+- `IndicateursSociaux`
+- `IndicateursGouvernanceRse`
+
+Dans cette version, ces sections sont affichees dans l'ecran d'evaluation et presentent les informations disponibles en lecture seule.
+
+### Edition des labels et engagements RSE
+
+Un administrateur doit pouvoir modifier `LabelsEngagementsRse` depuis une page separee.
+
+Comportement attendu :
+
+- Depuis l'ecran d'evaluation, l'administrateur peut ouvrir une page de modification des labels et engagements RSE.
+- La page affiche l'entreprise concernee en lecture seule.
+- La page reste dans la SPA et ajoute une entree d'historique avec `?view=labels&evaluationId=:id`.
+- Un utilisateur non admin ne peut pas acceder a l'edition.
+- `aReportingRse` est un booleen.
+- Lorsque `aReportingRse` vaut `true`, le champ memo `reportingRseDetail` est affiche.
+- `aEvaluationEcovadis` est un booleen.
+- Lorsque `aEvaluationEcovadis` vaut `true`, le champ `medailleEcovadis` est affiche comme une liste de selection et le champ memo `anneeScoreEcovadis` est affiche.
+- `medailleEcovadis` propose les valeurs `PLATINUM`, `GOLD`, `SILVER`, `BRONZE`, `COMMITTED`, `FAST_MOVER` et `OTHER`.
+- `estSocieteAMission` est un booleen.
+- `estSignataireGlobalCompact` est un booleen.
+- Lorsque `estSignataireGlobalCompact` vaut `true`, le champ memo `globalCompactDetail` est affiche.
+- Lorsque le booleen associe vaut `false`, le champ memo associe est masque et sa valeur est videe a l'enregistrement.
+
+```http
+PATCH /api/v1/evaluations-rse/:id/labels-engagements-rse
+```
+
+Comportement attendu :
+
+- Seul un administrateur peut appeler cet endpoint.
+- L'API met a jour `LabelsEngagementsRse`.
+- L'API recalcule le score et la note du bloc `LabelsEngagementsRse`.
+- L'API retourne l'evaluation RSE mise a jour.
+
+### Edition des indicateurs environnementaux
+
+Un administrateur doit pouvoir modifier `IndicateursEnvironnementaux` depuis une page separee.
+
+Comportement attendu :
+
+- Depuis l'ecran d'evaluation, l'administrateur peut ouvrir une page de modification des indicateurs environnementaux.
+- La page affiche l'entreprise concernee en lecture seule.
+- La page reste dans la SPA et ajoute une entree d'historique avec `?view=environment&evaluationId=:id`.
+- Un utilisateur non admin ne peut pas acceder a l'edition.
+- `bilanCarbone` est un booleen.
+- Lorsque `bilanCarbone` vaut `true`, `bilanCarboneScope` est affiche comme une liste de selection et le champ memo `bilanCarboneDetail` est affiche.
+- `bilanCarboneScope` propose les valeurs `NON_PRECISE`, `SCOPE_1`, `SCOPE_1_2` et `SCOPE_1_2_3`.
+- Lorsque `decarbonisation` vaut `true`, le champ memo `decarbonisationDetail` est affiche.
+- Lorsque `qpENR` vaut `true`, le champ memo `qpENRDetail` est affiche.
+- Lorsque `iso14001` vaut `true`, le champ memo `iso14001Detail` est affiche.
+- Lorsque `iso50001` vaut `true`, le champ memo `iso50001Detail` est affiche.
+- Lorsque `recyclageDechets` vaut `true`, le champ memo `recyclageDechetsDetail` est affiche.
+- Lorsque `autresEnv` vaut `true`, le champ memo `autresEnvDetail` est affiche.
+- Lorsque le booleen associe vaut `false`, le champ memo associe est masque et sa valeur est videe a l'enregistrement.
+
+```http
+PATCH /api/v1/evaluations-rse/:id/indicateurs-environnementaux
+```
+
+Comportement attendu :
+
+- Seul un administrateur peut appeler cet endpoint.
+- L'API met a jour `IndicateursEnvironnementaux`.
+- L'API recalcule le score et la note du bloc `IndicateursEnvironnementaux`.
+- L'API retourne l'evaluation RSE mise a jour.
+
+### Edition des indicateurs sociaux
+
+Un administrateur doit pouvoir modifier `IndicateursSociaux` depuis une page separee.
+
+Comportement attendu :
+
+- Depuis l'ecran d'evaluation, l'administrateur peut ouvrir une page de modification des indicateurs sociaux.
+- La page affiche l'entreprise concernee en lecture seule.
+- La page reste dans la SPA et ajoute une entree d'historique avec `?view=social&evaluationId=:id`.
+- Un utilisateur non admin ne peut pas acceder a l'edition.
+- `iso45001` est un booleen.
+- Lorsque `iso45001` vaut `true`, le champ memo `iso45001Detail` est affiche.
+- `ess` est un booleen sans champ detail associe.
+- Lorsque `aEvaluationQvt` vaut `true`, le champ memo `detailEvaluationQvt` est affiche.
+- Lorsque `aLabelEmployeur` vaut `true`, le champ memo `detailLabelEmployeur` est affiche.
+- Lorsque `aVieAssociativeLocale` vaut `true`, le champ memo `detailVieAssociativeLocale` est affiche.
+- Lorsque `aEgaliteHF` vaut `true`, le champ memo `detailEgaliteHF` est affiche.
+- Lorsque `aAutresSocial` vaut `true`, le champ memo `detailAutresSocial` est affiche.
+- Lorsque le booleen associe vaut `false`, le champ memo associe est masque et sa valeur est videe a l'enregistrement.
+
+```http
+PATCH /api/v1/evaluations-rse/:id/indicateurs-sociaux
+```
+
+Comportement attendu :
+
+- Seul un administrateur peut appeler cet endpoint.
+- L'API met a jour `IndicateursSociaux`.
+- L'API recalcule le score et la note du bloc `IndicateursSociaux`.
+- L'API retourne l'evaluation RSE mise a jour.
+
+### Edition des indicateurs de gouvernance RSE
+
+Un administrateur doit pouvoir modifier `IndicateursGouvernanceRse` depuis une page separee.
+
+Comportement attendu :
+
+- Depuis l'ecran d'evaluation, l'administrateur peut ouvrir une page de modification des indicateurs de gouvernance RSE.
+- La page affiche l'entreprise concernee en lecture seule.
+- La page reste dans la SPA et ajoute une entree d'historique avec `?view=governance&evaluationId=:id`.
+- Un utilisateur non admin ne peut pas acceder a l'edition.
+- Lorsque `aGouvernanceRse` vaut `true`, le champ memo `detailGouvernanceRse` est affiche.
+- Lorsque `aEthique` vaut `true`, le champ memo `detailEthique` est affiche.
+- Lorsque `aEnquetesPartenaires` vaut `true`, le champ memo `detailEnquetesPartenaires` est affiche.
+- `charteAchats`, `labelRfar` et `certifFscPefc` sont des booleens sans champ detail associe.
+- Lorsque `aAutresGouvernance` vaut `true`, le champ memo `detailAutresGouvernance` est affiche.
+- Lorsque le booleen associe vaut `false`, le champ memo associe est masque et sa valeur est videe a l'enregistrement.
+
+```http
+PATCH /api/v1/evaluations-rse/:id/indicateurs-gouvernance-rse
+```
+
+Comportement attendu :
+
+- Seul un administrateur peut appeler cet endpoint.
+- L'API met a jour `IndicateursGouvernanceRse`.
+- L'API recalcule le score et la note du bloc `IndicateursGouvernanceRse`.
+- L'API retourne l'evaluation RSE mise a jour.
+
+### Historique des evaluations
+
+Depuis l'ecran d'evaluation d'une entreprise, l'utilisateur doit voir la liste des evaluations RSE deja enregistrees pour cette entreprise.
+
+```http
+GET /api/v1/evaluations-rse/companies/:entrepriseId
+```
+
+Comportement attendu :
+
+- L'API retourne toutes les evaluations RSE de l'entreprise.
+- La liste est triee avec l'evaluation active en premier, puis les evaluations les plus recentes.
+- Cet endpoint est accessible aux utilisateurs authentifies.
+- L'interface affiche au minimum la date d'evaluation, le statut actif/inactif, le score et la note.
+- L'utilisateur peut ouvrir une evaluation existante depuis la liste pour consulter ses indicateurs.
+
+### Suppression d'une evaluation
+
+```http
+DELETE /api/v1/evaluations-rse/:id
+```
+
+Comportement attendu :
+
+- Seul un administrateur peut supprimer une evaluation RSE.
+- La suppression retire aussi les donnees rattachees a cette evaluation, notamment `LabelsEngagementsRse`, `IndicateursEnvironnementaux`, `IndicateursSociaux` et `IndicateursGouvernanceRse`.
+- Apres suppression, la liste des evaluations est rechargee dans l'interface.
+- Si l'evaluation supprimee etait celle affichee, l'interface affiche une autre evaluation existante ou revient a la liste des entreprises si aucune evaluation ne reste.
+
+## 6. Contrats API attendus
 
 ### Liste des entreprises
 
@@ -404,7 +643,7 @@ La reponse doit indiquer si l'entreprise existe deja, retourner l'entreprise exi
 }
 ```
 
-## 6. Criteres d'acceptation
+## 7. Criteres d'acceptation
 
 La fonctionnalite est acceptee si :
 
@@ -431,3 +670,22 @@ La fonctionnalite est acceptee si :
 - Un admin peut creer une entreprise.
 - Un admin peut modifier une entreprise existante.
 - Apres creation ou modification, la liste des entreprises est mise a jour.
+- Un admin peut lancer la creation d'une evaluation RSE depuis la liste des entreprises.
+- Un utilisateur authentifie peut acceder a l'evaluation active d'une entreprise depuis la liste.
+- Si aucune evaluation active n'existe, seul un admin peut entrer dans le flux de creation.
+- Une entreprise ne peut avoir qu'une seule evaluation RSE active.
+- L'ecran d'evaluation affiche l'entreprise en lecture seule.
+- L'ecran d'evaluation affiche le score et la note en lecture seule.
+- L'ecran d'evaluation permet d'enregistrer l'evaluation RSE.
+- L'ecran d'evaluation permet d'acceder aux sections `LabelsEngagementsRse`, `IndicateursEnvironnementaux`, `IndicateursSociaux` et `IndicateursGouvernanceRse`.
+- Un admin peut modifier `LabelsEngagementsRse` depuis une page separee.
+- Les champs memo de `LabelsEngagementsRse` sont affiches uniquement lorsque le booleen associe vaut `true`.
+- Un admin peut modifier `IndicateursEnvironnementaux` depuis une page separee.
+- Les champs memo de `IndicateursEnvironnementaux` sont affiches uniquement lorsque le booleen associe vaut `true`.
+- Un admin peut modifier `IndicateursSociaux` depuis une page separee.
+- Les champs memo de `IndicateursSociaux` sont affiches uniquement lorsque le booleen associe vaut `true`.
+- Un admin peut modifier `IndicateursGouvernanceRse` depuis une page separee.
+- Les champs memo de `IndicateursGouvernanceRse` sont affiches uniquement lorsque le booleen associe vaut `true`.
+- L'ecran d'evaluation affiche l'historique des evaluations existantes pour l'entreprise.
+- Un admin peut supprimer une evaluation RSE depuis cet historique.
+- La navigation SPA fonctionne avec les boutons Back et Forward du navigateur.

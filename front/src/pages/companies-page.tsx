@@ -1,8 +1,14 @@
 import { type FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import {
+  ArrowLeft,
+  BadgeCheck,
+  BarChart3,
   Building2,
+  Trash2,
   ExternalLink,
   Globe2,
+  Landmark,
+  Leaf,
   LoaderCircle,
   LogOut,
   Pencil,
@@ -10,6 +16,7 @@ import {
   RefreshCw,
   Save,
   Search,
+  Users,
   X,
 } from "lucide-react";
 import { ErrorMessage } from "@/components/common/error-message";
@@ -24,15 +31,29 @@ import {
   autocompleteCategorieJuridique,
   autocompleteCodeNaf,
   createCompany,
+  deleteEvaluationRse,
+  getActiveEvaluationRse,
+  getCompany,
+  getCurrentEvaluationRse,
+  getEvaluationRse,
+  listEvaluationsRse,
   listCompanies,
   lookupCompanyBySiret,
+  saveCurrentEvaluationRse,
+  updateIndicateursEnvironnementaux,
+  updateIndicateursGouvernanceRse,
+  updateIndicateursSociaux,
+  updateLabelsEngagementsRse,
   updateCompany,
+  type BilanCarboneScope,
   type AuthUser,
   type CategorieJuridique,
   type CodeNaf,
   type Company,
   type CompanyDraft,
   type CreateCompanyPayload,
+  type EvaluationRse,
+  type MedailleEcovadis,
   type UpdateCompanyPayload,
 } from "@/lib/api";
 import { type Locale, getTranslation } from "@/lib/translations";
@@ -160,8 +181,58 @@ const establishmentOptions = {
   ],
 } as const;
 
+const medailleEcovadisOptions: { value: MedailleEcovadis; label: string }[] = [
+  { value: "PLATINUM", label: "Platine (top 1% des entreprises)" },
+  { value: "GOLD", label: "Or (top 5% des entreprises)" },
+  { value: "SILVER", label: "Argent (top 15% des entreprises)" },
+  { value: "BRONZE", label: "Bronze (top 35% des entreprises)" },
+  { value: "COMMITTED", label: "Engage (entreprise engagee sans medaille)" },
+  { value: "FAST_MOVER", label: "Progression rapide (amelioration significative)" },
+  { value: "OTHER", label: "Autre / Non classe" },
+];
+
+const bilanCarboneScopeOptions: { value: BilanCarboneScope; label: string }[] = [
+  { value: "NON_PRECISE", label: "Non precise" },
+  { value: "SCOPE_1", label: "Scope 1" },
+  { value: "SCOPE_1_2", label: "Scope 1 et 2" },
+  { value: "SCOPE_1_2_3", label: "Scope 1, 2 et 3" },
+];
+
 const controlClassName =
   "flex min-h-11 w-full rounded-xl border border-input bg-background/70 px-4 py-2 text-sm shadow-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50";
+
+function currentUrlView() {
+  const searchParams = new URLSearchParams(window.location.search);
+  return {
+    view: searchParams.get("view"),
+    companyId: searchParams.get("companyId"),
+    evaluationId: searchParams.get("evaluationId"),
+  };
+}
+
+function pushUrlView(
+  view?: "create" | "edit" | "evaluation" | "labels" | "environment" | "social" | "governance",
+  ids: { companyId?: string; evaluationId?: string } = {},
+) {
+  const url = new URL(window.location.href);
+  url.searchParams.delete("view");
+  url.searchParams.delete("companyId");
+  url.searchParams.delete("evaluationId");
+
+  if (view) {
+    url.searchParams.set("view", view);
+  }
+
+  if (ids.companyId) {
+    url.searchParams.set("companyId", ids.companyId);
+  }
+
+  if (ids.evaluationId) {
+    url.searchParams.set("evaluationId", ids.evaluationId);
+  }
+
+  window.history.pushState({}, "", url);
+}
 
 function compactPayload(
   values: CompanyFormValues,
@@ -969,11 +1040,13 @@ function CompanyMobileCard({
   locale,
   isAdmin,
   onEdit,
+  onEvaluate,
 }: {
   company: Company;
   locale: Locale;
   isAdmin: boolean;
   onEdit: (company: Company) => void;
+  onEvaluate: (company: Company) => void;
 }) {
   const t = getTranslation(locale);
   const websiteLabel = formatWebsite(company.siteWeb);
@@ -1018,19 +1091,1545 @@ function CompanyMobileCard({
           )}
         </div>
 
-        {isAdmin ? (
+        <div className="grid gap-2 sm:grid-cols-2">
+          {isAdmin ? (
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={() => onEdit(company)}
+            >
+              <Pencil className="h-4 w-4" />
+              {t.actions.edit}
+            </Button>
+          ) : null}
+          <Button
+            type="button"
+            variant="secondary"
+            className="w-full"
+            onClick={() => onEvaluate(company)}
+          >
+            <BarChart3 className="h-4 w-4" />
+            {t.actions.activeEvaluation}
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function EvaluationRsePage({
+  locale,
+  token,
+  evaluation,
+  isAdmin,
+  onBack,
+  onSaved,
+  onEditLabels,
+  onEditEnvironment,
+  onEditSocial,
+  onEditGovernance,
+}: {
+  locale: Locale;
+  token: string;
+  evaluation: EvaluationRse;
+  isAdmin: boolean;
+  onBack: () => void;
+  onSaved: (evaluation: EvaluationRse) => void;
+  onEditLabels: (evaluation: EvaluationRse) => void;
+  onEditEnvironment: (evaluation: EvaluationRse) => void;
+  onEditSocial: (evaluation: EvaluationRse) => void;
+  onEditGovernance: (evaluation: EvaluationRse) => void;
+}) {
+  const t = getTranslation(locale);
+  const [currentEvaluation, setCurrentEvaluation] = useState(evaluation);
+  const [evaluations, setEvaluations] = useState<EvaluationRse[]>([]);
+  const [activeSection, setActiveSection] =
+    useState<"labels" | "environment" | "social" | "governance">("labels");
+  const [isSaving, setIsSaving] = useState(false);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+
+  const loadHistory = useCallback(async () => {
+    setIsLoadingHistory(true);
+
+    try {
+      const response = await listEvaluationsRse(token, currentEvaluation.entrepriseId);
+      setEvaluations(response.items);
+      return response.items;
+    } catch (error) {
+      setError(getErrorMessage(error));
+      return [];
+    } finally {
+      setIsLoadingHistory(false);
+    }
+  }, [currentEvaluation.entrepriseId, token]);
+
+  useEffect(() => {
+    void loadHistory();
+  }, [loadHistory]);
+
+  async function handleSave() {
+    setIsSaving(true);
+    setError(null);
+
+    try {
+      const savedEvaluation = await saveCurrentEvaluationRse(
+        token,
+        currentEvaluation.entrepriseId,
+      );
+      setCurrentEvaluation(savedEvaluation);
+      onSaved(savedEvaluation);
+      await loadHistory();
+    } catch (error) {
+      setError(getErrorMessage(error));
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  async function handleDeleteEvaluation(evaluation: EvaluationRse) {
+    if (!evaluation.id || !window.confirm(t.evaluationRse.deleteConfirm)) {
+      return;
+    }
+
+    setError(null);
+    setMessage(null);
+
+    try {
+      await deleteEvaluationRse(token, evaluation.id);
+      setMessage(t.evaluationRse.deleted);
+      const remainingEvaluations = await loadHistory();
+
+      if (currentEvaluation.id === evaluation.id) {
+        const nextEvaluation = remainingEvaluations[0] ?? null;
+
+        if (nextEvaluation) {
+          setCurrentEvaluation(nextEvaluation);
+          onSaved(nextEvaluation);
+        } else {
+          onBack();
+        }
+      }
+    } catch (error) {
+      setError(getErrorMessage(error));
+    }
+  }
+
+  return (
+    <main className="min-h-screen">
+      <div className="container flex min-h-screen flex-col gap-6 py-6 sm:py-8">
+        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <Button type="button" variant="ghost" onClick={onBack}>
+              <ArrowLeft className="h-4 w-4" />
+              {t.actions.back}
+            </Button>
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight">
+              {t.evaluationRse.title}
+            </h1>
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+              {t.evaluationRse.description}
+            </p>
+          </div>
+
+          {!currentEvaluation.saved ? (
+            <Button type="button" onClick={handleSave} disabled={isSaving}>
+              {isSaving ? (
+                <LoaderCircle className="h-4 w-4 animate-spin" />
+              ) : (
+                <Save className="h-4 w-4" />
+              )}
+              {t.evaluationRse.save}
+            </Button>
+          ) : null}
+        </header>
+
+        {error ? <ErrorMessage message={error} /> : null}
+        {message ? (
+          <p className="rounded-xl border border-border bg-secondary/60 px-4 py-3 text-sm">
+            {message}
+          </p>
+        ) : null}
+
+        <section className="grid gap-4 lg:grid-cols-[1fr_0.8fr]">
+          <Card>
+            <CardHeader>
+              <CardTitle>{t.evaluationRse.company}</CardTitle>
+              <p className="text-sm text-muted-foreground">
+                {t.evaluationRse.readonlyCompany}
+              </p>
+            </CardHeader>
+            <CardContent className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <p className="text-xs uppercase text-muted-foreground">
+                  {t.companies.raisonSociale}
+                </p>
+                <p className="mt-1 font-medium">
+                  {currentEvaluation.entreprise.raisonSociale}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs uppercase text-muted-foreground">
+                  {t.companies.siret}
+                </p>
+                <p className="mt-1 font-mono">{currentEvaluation.entreprise.siret}</p>
+              </div>
+              <div>
+                <p className="text-xs uppercase text-muted-foreground">
+                  {t.companies.siren}
+                </p>
+                <p className="mt-1 font-mono">{currentEvaluation.entreprise.siren}</p>
+              </div>
+              <div>
+                <p className="text-xs uppercase text-muted-foreground">
+                  {t.evaluationRse.date}
+                </p>
+                <p className="mt-1 font-medium">
+                  {new Date(currentEvaluation.dateEvaluation).toLocaleDateString(
+                    locale === "fr" ? "fr-FR" : "en-US",
+                  )}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>{currentEvaluation.saved ? t.evaluationRse.saved : t.evaluationRse.draft}</CardTitle>
+            </CardHeader>
+            <CardContent className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-xl border border-border bg-background/60 p-4">
+                <p className="text-xs uppercase text-muted-foreground">
+                  {t.evaluationRse.score}
+                </p>
+                <p className="mt-2 text-3xl font-semibold">
+                  {currentEvaluation.score}
+                </p>
+              </div>
+              <div className="rounded-xl border border-border bg-background/60 p-4">
+                <p className="text-xs uppercase text-muted-foreground">
+                  {t.evaluationRse.note}
+                </p>
+                <p className="mt-2 text-3xl font-semibold">
+                  {currentEvaluation.note}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        <section className="flex flex-wrap gap-3">
           <Button
             type="button"
             variant="outline"
-            className="w-full"
-            onClick={() => onEdit(company)}
+            className={
+              activeSection === "labels"
+                ? "border-[#e64a19] bg-[#e64a19] text-white hover:bg-[#cf3f11] hover:text-white"
+                : "border-[#e64a19]/60 text-[#d94716] hover:bg-[#fff1eb] dark:text-[#ff8a5c] dark:hover:bg-[#3a1a10]"
+            }
+            onClick={() => setActiveSection("labels")}
           >
-            <Pencil className="h-4 w-4" />
-            {t.actions.edit}
+            <BadgeCheck className="h-4 w-4" />
+            {t.evaluationRse.labels}
           </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className={
+              activeSection === "environment"
+                ? "border-[#22c55e] bg-[#22c55e] text-[#052e16] hover:bg-[#16a34a] hover:text-white"
+                : "border-[#22c55e]/60 text-[#15803d] hover:bg-[#ecfdf3] dark:text-[#86efac] dark:hover:bg-[#0f2f1c]"
+            }
+            onClick={() => setActiveSection("environment")}
+          >
+            <Leaf className="h-4 w-4" />
+            {t.evaluationRse.environment}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className={
+              activeSection === "social"
+                ? "border-[#2563eb] bg-[#2563eb] text-white hover:bg-[#1d4ed8] hover:text-white"
+                : "border-[#2563eb]/60 text-[#1d4ed8] hover:bg-[#eff6ff] dark:text-[#93c5fd] dark:hover:bg-[#10213f]"
+            }
+            onClick={() => setActiveSection("social")}
+          >
+            <Users className="h-4 w-4" />
+            {t.evaluationRse.social}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className={
+              activeSection === "governance"
+                ? "border-[#7c3aed] bg-[#7c3aed] text-white hover:bg-[#6d28d9] hover:text-white"
+                : "border-[#7c3aed]/60 text-[#6d28d9] hover:bg-[#f5f3ff] dark:text-[#c4b5fd] dark:hover:bg-[#24123f]"
+            }
+            onClick={() => setActiveSection("governance")}
+          >
+            <Landmark className="h-4 w-4" />
+            {t.evaluationRse.governance}
+          </Button>
+        </section>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>{t.evaluationRse.history}</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {isLoadingHistory ? (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <LoaderCircle className="h-4 w-4 animate-spin text-primary" />
+                {t.states.loadingAction}
+              </div>
+            ) : evaluations.length === 0 ? (
+              <p className="text-sm text-muted-foreground">{t.evaluationRse.noHistory}</p>
+            ) : (
+              evaluations.map((evaluation) => (
+                <div
+                  key={evaluation.id ?? `${evaluation.entrepriseId}-${evaluation.dateEvaluation}`}
+                  className="grid gap-3 rounded-xl border border-border bg-background/60 p-4 md:grid-cols-[1fr_auto]"
+                >
+                  <div>
+                    <p className="font-medium">
+                      {new Date(evaluation.dateEvaluation).toLocaleDateString(
+                        locale === "fr" ? "fr-FR" : "en-US",
+                      )}
+                    </p>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {evaluation.estActive ? t.evaluationRse.active : t.evaluationRse.inactive}
+                      {" · "}
+                      {t.evaluationRse.score} {evaluation.score}
+                      {" · "}
+                      {t.evaluationRse.note} {evaluation.note}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2 md:justify-end">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentEvaluation(evaluation)}
+                    >
+                      {t.evaluationRse.open}
+                    </Button>
+                    {isAdmin && evaluation.id ? (
+                      <Button
+                        type="button"
+                        variant="danger"
+                        size="sm"
+                        onClick={() => void handleDeleteEvaluation(evaluation)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        {t.actions.delete}
+                      </Button>
+                    ) : null}
+                  </div>
+                </div>
+              ))
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <CardTitle>
+              {activeSection === "labels"
+                ? t.evaluationRse.labels
+                : activeSection === "environment"
+                  ? t.evaluationRse.environment
+                  : activeSection === "social"
+                    ? t.evaluationRse.social
+                    : t.evaluationRse.governance}
+            </CardTitle>
+            {activeSection === "labels" && isAdmin && currentEvaluation.id ? (
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={() => onEditLabels(currentEvaluation)}
+              >
+                <Pencil className="h-4 w-4" />
+                {t.evaluationRse.editLabels}
+              </Button>
+            ) : null}
+            {activeSection === "environment" && isAdmin && currentEvaluation.id ? (
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={() => onEditEnvironment(currentEvaluation)}
+              >
+                <Pencil className="h-4 w-4" />
+                {t.evaluationRse.editEnvironment}
+              </Button>
+            ) : null}
+            {activeSection === "social" && isAdmin && currentEvaluation.id ? (
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={() => onEditSocial(currentEvaluation)}
+              >
+                <Pencil className="h-4 w-4" />
+                {t.evaluationRse.editSocial}
+              </Button>
+            ) : null}
+            {activeSection === "governance" && isAdmin && currentEvaluation.id ? (
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={() => onEditGovernance(currentEvaluation)}
+              >
+                <Pencil className="h-4 w-4" />
+                {t.evaluationRse.editGovernance}
+              </Button>
+            ) : null}
+          </CardHeader>
+          <CardContent className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {activeSection === "labels" ? (
+              currentEvaluation.labelsEngagementsRse ? (
+                <>
+                  <Indicator label="Reporting RSE" value={currentEvaluation.labelsEngagementsRse.aReportingRse} />
+                  <Indicator label="Ecovadis" value={currentEvaluation.labelsEngagementsRse.aEvaluationEcovadis} />
+                  <Indicator label="Societe a mission" value={currentEvaluation.labelsEngagementsRse.estSocieteAMission} />
+                  <Indicator label="Global Compact" value={currentEvaluation.labelsEngagementsRse.estSignataireGlobalCompact} />
+                  <Indicator label={t.evaluationRse.score} value={currentEvaluation.labelsEngagementsRse.score} />
+                  <Indicator label={t.evaluationRse.note} value={currentEvaluation.labelsEngagementsRse.note} />
+                </>
+              ) : (
+                <p className="text-sm text-muted-foreground">{t.evaluationRse.noLabels}</p>
+              )
+            ) : activeSection === "environment" ? (
+              currentEvaluation.indicateursEnvironnementaux ? (
+              <>
+                <Indicator label="Bilan carbone" value={currentEvaluation.indicateursEnvironnementaux.bilanCarbone} />
+                <Indicator label="Decarbonisation" value={currentEvaluation.indicateursEnvironnementaux.decarbonisation} />
+                <Indicator label="QP ENR" value={currentEvaluation.indicateursEnvironnementaux.qpENR} />
+                <Indicator label="ISO 14001" value={currentEvaluation.indicateursEnvironnementaux.iso14001} />
+                <Indicator label="ISO 50001" value={currentEvaluation.indicateursEnvironnementaux.iso50001} />
+                <Indicator label="Recyclage dechets" value={currentEvaluation.indicateursEnvironnementaux.recyclageDechets} />
+                <Indicator label="Autres" value={currentEvaluation.indicateursEnvironnementaux.autresEnv} />
+                <Indicator label={t.evaluationRse.score} value={currentEvaluation.indicateursEnvironnementaux.score} />
+                <Indicator label={t.evaluationRse.note} value={currentEvaluation.indicateursEnvironnementaux.note} />
+              </>
+              ) : (
+                <p className="text-sm text-muted-foreground">{t.evaluationRse.noEnvironment}</p>
+              )
+            ) : activeSection === "social" ? (
+              currentEvaluation.indicateursSociaux ? (
+                <>
+                  <Indicator label="ISO 45001" value={currentEvaluation.indicateursSociaux.iso45001} />
+                  <Indicator label="ESS" value={currentEvaluation.indicateursSociaux.ess} />
+                  <Indicator label="Evaluation QVT" value={currentEvaluation.indicateursSociaux.aEvaluationQvt} />
+                  <Indicator label="Label employeur" value={currentEvaluation.indicateursSociaux.aLabelEmployeur} />
+                  <Indicator label="Vie associative locale" value={currentEvaluation.indicateursSociaux.aVieAssociativeLocale} />
+                  <Indicator label="Egalite femmes-hommes" value={currentEvaluation.indicateursSociaux.aEgaliteHF} />
+                  <Indicator label="Autres" value={currentEvaluation.indicateursSociaux.aAutresSocial} />
+                  <Indicator label={t.evaluationRse.score} value={currentEvaluation.indicateursSociaux.score} />
+                  <Indicator label={t.evaluationRse.note} value={currentEvaluation.indicateursSociaux.note} />
+                </>
+              ) : (
+                <p className="text-sm text-muted-foreground">{t.evaluationRse.noSocial}</p>
+              )
+            ) : currentEvaluation.indicateursGouvernanceRse ? (
+              <>
+                <Indicator label="Gouvernance RSE" value={currentEvaluation.indicateursGouvernanceRse.aGouvernanceRse} />
+                <Indicator label="Ethique" value={currentEvaluation.indicateursGouvernanceRse.aEthique} />
+                <Indicator label="Enquetes partenaires" value={currentEvaluation.indicateursGouvernanceRse.aEnquetesPartenaires} />
+                <Indicator label="Charte achats" value={currentEvaluation.indicateursGouvernanceRse.charteAchats} />
+                <Indicator label="Label RFAR" value={currentEvaluation.indicateursGouvernanceRse.labelRfar} />
+                <Indicator label="Certification FSC/PEFC" value={currentEvaluation.indicateursGouvernanceRse.certifFscPefc} />
+                <Indicator label="Autres" value={currentEvaluation.indicateursGouvernanceRse.aAutresGouvernance} />
+                <Indicator label={t.evaluationRse.score} value={currentEvaluation.indicateursGouvernanceRse.score} />
+                <Indicator label={t.evaluationRse.note} value={currentEvaluation.indicateursGouvernanceRse.note} />
+              </>
+            ) : (
+              <p className="text-sm text-muted-foreground">{t.evaluationRse.noGovernance}</p>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </main>
+  );
+}
+
+function Indicator({ label, value }: { label: string; value: boolean | number | string }) {
+  return (
+    <div className="rounded-xl border border-border bg-background/60 p-4">
+      <p className="text-xs uppercase text-muted-foreground">{label}</p>
+      <p className="mt-2 font-semibold">
+        {typeof value === "boolean" ? (value ? "Oui" : "Non") : value}
+      </p>
+    </div>
+  );
+}
+
+type LabelsFormValues = {
+  aReportingRse: boolean;
+  reportingRseDetail: string;
+  aEvaluationEcovadis: boolean;
+  medailleEcovadis: MedailleEcovadis;
+  anneeScoreEcovadis: string;
+  estSocieteAMission: boolean;
+  estSignataireGlobalCompact: boolean;
+  globalCompactDetail: string;
+};
+
+function labelsToFormValues(evaluation: EvaluationRse): LabelsFormValues {
+  const labels = evaluation.labelsEngagementsRse;
+
+  return {
+    aReportingRse: labels?.aReportingRse ?? false,
+    reportingRseDetail: valueOrEmpty(labels?.reportingRseDetail),
+    aEvaluationEcovadis: labels?.aEvaluationEcovadis ?? false,
+    medailleEcovadis: labels?.medailleEcovadis ?? "OTHER",
+    anneeScoreEcovadis: valueOrEmpty(labels?.anneeScoreEcovadis),
+    estSocieteAMission: labels?.estSocieteAMission ?? false,
+    estSignataireGlobalCompact: labels?.estSignataireGlobalCompact ?? false,
+    globalCompactDetail: valueOrEmpty(labels?.globalCompactDetail),
+  };
+}
+
+function LabelsEngagementsRsePage({
+  locale,
+  token,
+  evaluation,
+  onBack,
+  onSaved,
+}: {
+  locale: Locale;
+  token: string;
+  evaluation: EvaluationRse;
+  onBack: () => void;
+  onSaved: (evaluation: EvaluationRse) => void;
+}) {
+  const t = getTranslation(locale);
+  const [currentEvaluation, setCurrentEvaluation] = useState(evaluation);
+  const [values, setValues] = useState<LabelsFormValues>(
+    labelsToFormValues(evaluation),
+  );
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+
+  function updateBoolean(field: keyof LabelsFormValues, checked: boolean) {
+    setValues((current) => ({
+      ...current,
+      [field]: checked,
+    }));
+  }
+
+  function updateText(field: keyof LabelsFormValues, value: string) {
+    setValues((current) => ({
+      ...current,
+      [field]: value,
+    }));
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsSaving(true);
+    setError(null);
+    setMessage(null);
+
+    try {
+      const savedEvaluation = await updateLabelsEngagementsRse(
+        token,
+        currentEvaluation.id!,
+        {
+          aReportingRse: values.aReportingRse,
+          reportingRseDetail: values.aReportingRse
+            ? values.reportingRseDetail
+            : null,
+          aEvaluationEcovadis: values.aEvaluationEcovadis,
+          medailleEcovadis: values.aEvaluationEcovadis
+            ? values.medailleEcovadis
+            : null,
+          anneeScoreEcovadis: values.aEvaluationEcovadis
+            ? values.anneeScoreEcovadis
+            : null,
+          estSocieteAMission: values.estSocieteAMission,
+          estSignataireGlobalCompact: values.estSignataireGlobalCompact,
+          globalCompactDetail: values.estSignataireGlobalCompact
+            ? values.globalCompactDetail
+            : null,
+        },
+      );
+      setCurrentEvaluation(savedEvaluation);
+      setValues(labelsToFormValues(savedEvaluation));
+      onSaved(savedEvaluation);
+      setMessage(t.evaluationRse.labelsSaved);
+    } catch (error) {
+      setError(getErrorMessage(error));
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  return (
+    <main className="min-h-screen">
+      <div className="container flex min-h-screen flex-col gap-6 py-6 sm:py-8">
+        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <Button type="button" variant="ghost" onClick={onBack}>
+              <ArrowLeft className="h-4 w-4" />
+              {t.actions.back}
+            </Button>
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight">
+              {t.evaluationRse.labels}
+            </h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {currentEvaluation.entreprise.raisonSociale} -{" "}
+              {currentEvaluation.entreprise.siret}
+            </p>
+          </div>
+        </header>
+
+        {error ? <ErrorMessage message={error} /> : null}
+        {message ? (
+          <p className="rounded-xl border border-border bg-secondary/60 px-4 py-3 text-sm">
+            {message}
+          </p>
         ) : null}
-      </CardContent>
-    </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>{t.evaluationRse.editLabels}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form className="space-y-5" onSubmit={handleSubmit}>
+              <div className="grid gap-4 md:grid-cols-2">
+                <LabelCheckbox
+                  label="Reporting RSE"
+                  checked={values.aReportingRse}
+                  onChange={(checked) => updateBoolean("aReportingRse", checked)}
+                />
+                {values.aReportingRse ? (
+                  <MemoField
+                    label={t.evaluationRse.reportingRseDetail}
+                    value={values.reportingRseDetail}
+                    onChange={(value) => updateText("reportingRseDetail", value)}
+                  />
+                ) : null}
+
+                <LabelCheckbox
+                  label="Ecovadis"
+                  checked={values.aEvaluationEcovadis}
+                  onChange={(checked) =>
+                    updateBoolean("aEvaluationEcovadis", checked)
+                  }
+                />
+                {values.aEvaluationEcovadis ? (
+                  <>
+                    <SelectField
+                      label={t.evaluationRse.medailleEcovadis}
+                      value={values.medailleEcovadis}
+                      options={medailleEcovadisOptions}
+                      onChange={(value) =>
+                        updateText("medailleEcovadis", value)
+                      }
+                    />
+                    <MemoField
+                      label={t.evaluationRse.anneeScoreEcovadis}
+                      value={values.anneeScoreEcovadis}
+                      onChange={(value) =>
+                        updateText("anneeScoreEcovadis", value)
+                      }
+                    />
+                  </>
+                ) : null}
+
+                <LabelCheckbox
+                  label="Societe a mission"
+                  checked={values.estSocieteAMission}
+                  onChange={(checked) =>
+                    updateBoolean("estSocieteAMission", checked)
+                  }
+                />
+                <LabelCheckbox
+                  label="Global Compact"
+                  checked={values.estSignataireGlobalCompact}
+                  onChange={(checked) =>
+                    updateBoolean("estSignataireGlobalCompact", checked)
+                  }
+                />
+                {values.estSignataireGlobalCompact ? (
+                  <MemoField
+                    label={t.evaluationRse.globalCompactDetail}
+                    value={values.globalCompactDetail}
+                    onChange={(value) => updateText("globalCompactDetail", value)}
+                  />
+                ) : null}
+              </div>
+
+              <div className="flex justify-end">
+                <Button type="submit" disabled={isSaving}>
+                  {isSaving ? (
+                    <LoaderCircle className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Save className="h-4 w-4" />
+                  )}
+                  {t.evaluationRse.saveLabels}
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </main>
+  );
+}
+
+function LabelCheckbox({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+}) {
+  return (
+    <label className="flex min-h-16 cursor-pointer items-center gap-3 rounded-xl border border-border bg-background/60 px-4 py-3">
+      <input
+        type="checkbox"
+        className="h-4 w-4 rounded border-input accent-primary"
+        checked={checked}
+        onChange={(event) => onChange(event.target.checked)}
+      />
+      <span className="font-medium">{label}</span>
+    </label>
+  );
+}
+
+function MemoField({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <div className="space-y-2 md:col-span-2">
+      <Label>{label}</Label>
+      <textarea
+        className={`${controlClassName} min-h-28 resize-y`}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+      />
+    </div>
+  );
+}
+
+function SelectField({
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  options: { value: string; label: string }[];
+  onChange: (value: string) => void;
+}) {
+  return (
+    <div className="space-y-2 md:col-span-2">
+      <Label>{label}</Label>
+      <select
+        className={controlClassName}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+type EnvironmentFormValues = {
+  bilanCarbone: boolean;
+  bilanCarboneScope: BilanCarboneScope;
+  bilanCarboneDetail: string;
+  decarbonisation: boolean;
+  decarbonisationDetail: string;
+  qpENR: boolean;
+  qpENRDetail: string;
+  iso14001: boolean;
+  iso14001Detail: string;
+  iso50001: boolean;
+  iso50001Detail: string;
+  recyclageDechets: boolean;
+  recyclageDechetsDetail: string;
+  autresEnv: boolean;
+  autresEnvDetail: string;
+};
+
+function environmentToFormValues(evaluation: EvaluationRse): EnvironmentFormValues {
+  const environment = evaluation.indicateursEnvironnementaux;
+
+  return {
+    bilanCarbone: environment?.bilanCarbone ?? false,
+    bilanCarboneScope: environment?.bilanCarboneScope ?? "NON_PRECISE",
+    bilanCarboneDetail: valueOrEmpty(environment?.bilanCarboneDetail),
+    decarbonisation: environment?.decarbonisation ?? false,
+    decarbonisationDetail: valueOrEmpty(environment?.decarbonisationDetail),
+    qpENR: environment?.qpENR ?? false,
+    qpENRDetail: valueOrEmpty(environment?.qpENRDetail),
+    iso14001: environment?.iso14001 ?? false,
+    iso14001Detail: valueOrEmpty(environment?.iso14001Detail),
+    iso50001: environment?.iso50001 ?? false,
+    iso50001Detail: valueOrEmpty(environment?.iso50001Detail),
+    recyclageDechets: environment?.recyclageDechets ?? false,
+    recyclageDechetsDetail: valueOrEmpty(environment?.recyclageDechetsDetail),
+    autresEnv: environment?.autresEnv ?? false,
+    autresEnvDetail: valueOrEmpty(environment?.autresEnvDetail),
+  };
+}
+
+function IndicateursEnvironnementauxPage({
+  locale,
+  token,
+  evaluation,
+  onBack,
+  onSaved,
+}: {
+  locale: Locale;
+  token: string;
+  evaluation: EvaluationRse;
+  onBack: () => void;
+  onSaved: (evaluation: EvaluationRse) => void;
+}) {
+  const t = getTranslation(locale);
+  const [currentEvaluation, setCurrentEvaluation] = useState(evaluation);
+  const [values, setValues] = useState<EnvironmentFormValues>(
+    environmentToFormValues(evaluation),
+  );
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+
+  function updateBoolean(field: keyof EnvironmentFormValues, checked: boolean) {
+    setValues((current) => ({
+      ...current,
+      [field]: checked,
+    }));
+  }
+
+  function updateText(field: keyof EnvironmentFormValues, value: string) {
+    setValues((current) => ({
+      ...current,
+      [field]: value,
+    }));
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsSaving(true);
+    setError(null);
+    setMessage(null);
+
+    try {
+      const savedEvaluation = await updateIndicateursEnvironnementaux(
+        token,
+        currentEvaluation.id!,
+        {
+          bilanCarbone: values.bilanCarbone,
+          bilanCarboneScope: values.bilanCarbone
+            ? values.bilanCarboneScope
+            : "NON_PRECISE",
+          bilanCarboneDetail: values.bilanCarbone
+            ? values.bilanCarboneDetail
+            : null,
+          decarbonisation: values.decarbonisation,
+          decarbonisationDetail: values.decarbonisation
+            ? values.decarbonisationDetail
+            : null,
+          qpENR: values.qpENR,
+          qpENRDetail: values.qpENR ? values.qpENRDetail : null,
+          iso14001: values.iso14001,
+          iso14001Detail: values.iso14001 ? values.iso14001Detail : null,
+          iso50001: values.iso50001,
+          iso50001Detail: values.iso50001 ? values.iso50001Detail : null,
+          recyclageDechets: values.recyclageDechets,
+          recyclageDechetsDetail: values.recyclageDechets
+            ? values.recyclageDechetsDetail
+            : null,
+          autresEnv: values.autresEnv,
+          autresEnvDetail: values.autresEnv ? values.autresEnvDetail : null,
+        },
+      );
+      setCurrentEvaluation(savedEvaluation);
+      setValues(environmentToFormValues(savedEvaluation));
+      onSaved(savedEvaluation);
+      setMessage(t.evaluationRse.environmentSaved);
+    } catch (error) {
+      setError(getErrorMessage(error));
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  return (
+    <main className="min-h-screen">
+      <div className="container flex min-h-screen flex-col gap-6 py-6 sm:py-8">
+        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <Button type="button" variant="ghost" onClick={onBack}>
+              <ArrowLeft className="h-4 w-4" />
+              {t.actions.back}
+            </Button>
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight">
+              {t.evaluationRse.environment}
+            </h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {currentEvaluation.entreprise.raisonSociale} -{" "}
+              {currentEvaluation.entreprise.siret}
+            </p>
+          </div>
+        </header>
+
+        {error ? <ErrorMessage message={error} /> : null}
+        {message ? (
+          <p className="rounded-xl border border-border bg-secondary/60 px-4 py-3 text-sm">
+            {message}
+          </p>
+        ) : null}
+
+        <Card>
+          <CardHeader>
+            <CardTitle>{t.evaluationRse.editEnvironment}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form className="space-y-5" onSubmit={handleSubmit}>
+              <div className="grid gap-4 md:grid-cols-2">
+                <LabelCheckbox
+                  label="Bilan carbone"
+                  checked={values.bilanCarbone}
+                  onChange={(checked) => updateBoolean("bilanCarbone", checked)}
+                />
+                {values.bilanCarbone ? (
+                  <>
+                    <SelectField
+                      label={t.evaluationRse.bilanCarboneScope}
+                      value={values.bilanCarboneScope}
+                      options={bilanCarboneScopeOptions}
+                      onChange={(value) => updateText("bilanCarboneScope", value)}
+                    />
+                    <MemoField
+                      label={t.evaluationRse.bilanCarboneDetail}
+                      value={values.bilanCarboneDetail}
+                      onChange={(value) => updateText("bilanCarboneDetail", value)}
+                    />
+                  </>
+                ) : null}
+
+                <LabelCheckbox
+                  label="Decarbonisation"
+                  checked={values.decarbonisation}
+                  onChange={(checked) => updateBoolean("decarbonisation", checked)}
+                />
+                {values.decarbonisation ? (
+                  <MemoField
+                    label={t.evaluationRse.decarbonisationDetail}
+                    value={values.decarbonisationDetail}
+                    onChange={(value) => updateText("decarbonisationDetail", value)}
+                  />
+                ) : null}
+
+                <LabelCheckbox
+                  label="QP ENR"
+                  checked={values.qpENR}
+                  onChange={(checked) => updateBoolean("qpENR", checked)}
+                />
+                {values.qpENR ? (
+                  <MemoField
+                    label={t.evaluationRse.qpENRDetail}
+                    value={values.qpENRDetail}
+                    onChange={(value) => updateText("qpENRDetail", value)}
+                  />
+                ) : null}
+
+                <LabelCheckbox
+                  label="ISO 14001"
+                  checked={values.iso14001}
+                  onChange={(checked) => updateBoolean("iso14001", checked)}
+                />
+                {values.iso14001 ? (
+                  <MemoField
+                    label={t.evaluationRse.iso14001Detail}
+                    value={values.iso14001Detail}
+                    onChange={(value) => updateText("iso14001Detail", value)}
+                  />
+                ) : null}
+
+                <LabelCheckbox
+                  label="ISO 50001"
+                  checked={values.iso50001}
+                  onChange={(checked) => updateBoolean("iso50001", checked)}
+                />
+                {values.iso50001 ? (
+                  <MemoField
+                    label={t.evaluationRse.iso50001Detail}
+                    value={values.iso50001Detail}
+                    onChange={(value) => updateText("iso50001Detail", value)}
+                  />
+                ) : null}
+
+                <LabelCheckbox
+                  label="Recyclage dechets"
+                  checked={values.recyclageDechets}
+                  onChange={(checked) => updateBoolean("recyclageDechets", checked)}
+                />
+                {values.recyclageDechets ? (
+                  <MemoField
+                    label={t.evaluationRse.recyclageDechetsDetail}
+                    value={values.recyclageDechetsDetail}
+                    onChange={(value) =>
+                      updateText("recyclageDechetsDetail", value)
+                    }
+                  />
+                ) : null}
+
+                <LabelCheckbox
+                  label="Autres"
+                  checked={values.autresEnv}
+                  onChange={(checked) => updateBoolean("autresEnv", checked)}
+                />
+                {values.autresEnv ? (
+                  <MemoField
+                    label={t.evaluationRse.autresEnvDetail}
+                    value={values.autresEnvDetail}
+                    onChange={(value) => updateText("autresEnvDetail", value)}
+                  />
+                ) : null}
+              </div>
+
+              <div className="flex justify-end">
+                <Button type="submit" disabled={isSaving}>
+                  {isSaving ? (
+                    <LoaderCircle className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Save className="h-4 w-4" />
+                  )}
+                  {t.evaluationRse.saveEnvironment}
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </main>
+  );
+}
+
+type SocialFormValues = {
+  iso45001: boolean;
+  iso45001Detail: string;
+  ess: boolean;
+  aEvaluationQvt: boolean;
+  detailEvaluationQvt: string;
+  aLabelEmployeur: boolean;
+  detailLabelEmployeur: string;
+  aVieAssociativeLocale: boolean;
+  detailVieAssociativeLocale: string;
+  aEgaliteHF: boolean;
+  detailEgaliteHF: string;
+  aAutresSocial: boolean;
+  detailAutresSocial: string;
+};
+
+function socialToFormValues(evaluation: EvaluationRse): SocialFormValues {
+  const social = evaluation.indicateursSociaux;
+
+  return {
+    iso45001: social?.iso45001 ?? false,
+    iso45001Detail: valueOrEmpty(social?.iso45001Detail),
+    ess: social?.ess ?? false,
+    aEvaluationQvt: social?.aEvaluationQvt ?? false,
+    detailEvaluationQvt: valueOrEmpty(social?.detailEvaluationQvt),
+    aLabelEmployeur: social?.aLabelEmployeur ?? false,
+    detailLabelEmployeur: valueOrEmpty(social?.detailLabelEmployeur),
+    aVieAssociativeLocale: social?.aVieAssociativeLocale ?? false,
+    detailVieAssociativeLocale: valueOrEmpty(social?.detailVieAssociativeLocale),
+    aEgaliteHF: social?.aEgaliteHF ?? false,
+    detailEgaliteHF: valueOrEmpty(social?.detailEgaliteHF),
+    aAutresSocial: social?.aAutresSocial ?? false,
+    detailAutresSocial: valueOrEmpty(social?.detailAutresSocial),
+  };
+}
+
+function IndicateursSociauxPage({
+  locale,
+  token,
+  evaluation,
+  onBack,
+  onSaved,
+}: {
+  locale: Locale;
+  token: string;
+  evaluation: EvaluationRse;
+  onBack: () => void;
+  onSaved: (evaluation: EvaluationRse) => void;
+}) {
+  const t = getTranslation(locale);
+  const [currentEvaluation, setCurrentEvaluation] = useState(evaluation);
+  const [values, setValues] = useState<SocialFormValues>(
+    socialToFormValues(evaluation),
+  );
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+
+  function updateBoolean(field: keyof SocialFormValues, checked: boolean) {
+    setValues((current) => ({
+      ...current,
+      [field]: checked,
+    }));
+  }
+
+  function updateText(field: keyof SocialFormValues, value: string) {
+    setValues((current) => ({
+      ...current,
+      [field]: value,
+    }));
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsSaving(true);
+    setError(null);
+    setMessage(null);
+
+    try {
+      const savedEvaluation = await updateIndicateursSociaux(
+        token,
+        currentEvaluation.id!,
+        {
+          iso45001: values.iso45001,
+          iso45001Detail: values.iso45001 ? values.iso45001Detail : null,
+          ess: values.ess,
+          aEvaluationQvt: values.aEvaluationQvt,
+          detailEvaluationQvt: values.aEvaluationQvt
+            ? values.detailEvaluationQvt
+            : null,
+          aLabelEmployeur: values.aLabelEmployeur,
+          detailLabelEmployeur: values.aLabelEmployeur
+            ? values.detailLabelEmployeur
+            : null,
+          aVieAssociativeLocale: values.aVieAssociativeLocale,
+          detailVieAssociativeLocale: values.aVieAssociativeLocale
+            ? values.detailVieAssociativeLocale
+            : null,
+          aEgaliteHF: values.aEgaliteHF,
+          detailEgaliteHF: values.aEgaliteHF ? values.detailEgaliteHF : null,
+          aAutresSocial: values.aAutresSocial,
+          detailAutresSocial: values.aAutresSocial
+            ? values.detailAutresSocial
+            : null,
+        },
+      );
+      setCurrentEvaluation(savedEvaluation);
+      setValues(socialToFormValues(savedEvaluation));
+      onSaved(savedEvaluation);
+      setMessage(t.evaluationRse.socialSaved);
+    } catch (error) {
+      setError(getErrorMessage(error));
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  return (
+    <main className="min-h-screen">
+      <div className="container flex min-h-screen flex-col gap-6 py-6 sm:py-8">
+        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <Button type="button" variant="ghost" onClick={onBack}>
+              <ArrowLeft className="h-4 w-4" />
+              {t.actions.back}
+            </Button>
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight">
+              {t.evaluationRse.social}
+            </h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {currentEvaluation.entreprise.raisonSociale} -{" "}
+              {currentEvaluation.entreprise.siret}
+            </p>
+          </div>
+        </header>
+
+        {error ? <ErrorMessage message={error} /> : null}
+        {message ? (
+          <p className="rounded-xl border border-border bg-secondary/60 px-4 py-3 text-sm">
+            {message}
+          </p>
+        ) : null}
+
+        <Card>
+          <CardHeader>
+            <CardTitle>{t.evaluationRse.editSocial}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form className="space-y-5" onSubmit={handleSubmit}>
+              <div className="grid gap-4 md:grid-cols-2">
+                <LabelCheckbox
+                  label="ISO 45001"
+                  checked={values.iso45001}
+                  onChange={(checked) => updateBoolean("iso45001", checked)}
+                />
+                {values.iso45001 ? (
+                  <MemoField
+                    label={t.evaluationRse.iso45001Detail}
+                    value={values.iso45001Detail}
+                    onChange={(value) => updateText("iso45001Detail", value)}
+                  />
+                ) : null}
+
+                <LabelCheckbox
+                  label="ESS"
+                  checked={values.ess}
+                  onChange={(checked) => updateBoolean("ess", checked)}
+                />
+
+                <LabelCheckbox
+                  label="Evaluation QVT"
+                  checked={values.aEvaluationQvt}
+                  onChange={(checked) =>
+                    updateBoolean("aEvaluationQvt", checked)
+                  }
+                />
+                {values.aEvaluationQvt ? (
+                  <MemoField
+                    label={t.evaluationRse.detailEvaluationQvt}
+                    value={values.detailEvaluationQvt}
+                    onChange={(value) => updateText("detailEvaluationQvt", value)}
+                  />
+                ) : null}
+
+                <LabelCheckbox
+                  label="Label employeur"
+                  checked={values.aLabelEmployeur}
+                  onChange={(checked) =>
+                    updateBoolean("aLabelEmployeur", checked)
+                  }
+                />
+                {values.aLabelEmployeur ? (
+                  <MemoField
+                    label={t.evaluationRse.detailLabelEmployeur}
+                    value={values.detailLabelEmployeur}
+                    onChange={(value) => updateText("detailLabelEmployeur", value)}
+                  />
+                ) : null}
+
+                <LabelCheckbox
+                  label="Vie associative locale"
+                  checked={values.aVieAssociativeLocale}
+                  onChange={(checked) =>
+                    updateBoolean("aVieAssociativeLocale", checked)
+                  }
+                />
+                {values.aVieAssociativeLocale ? (
+                  <MemoField
+                    label={t.evaluationRse.detailVieAssociativeLocale}
+                    value={values.detailVieAssociativeLocale}
+                    onChange={(value) =>
+                      updateText("detailVieAssociativeLocale", value)
+                    }
+                  />
+                ) : null}
+
+                <LabelCheckbox
+                  label="Egalite femmes-hommes"
+                  checked={values.aEgaliteHF}
+                  onChange={(checked) => updateBoolean("aEgaliteHF", checked)}
+                />
+                {values.aEgaliteHF ? (
+                  <MemoField
+                    label={t.evaluationRse.detailEgaliteHF}
+                    value={values.detailEgaliteHF}
+                    onChange={(value) => updateText("detailEgaliteHF", value)}
+                  />
+                ) : null}
+
+                <LabelCheckbox
+                  label="Autres"
+                  checked={values.aAutresSocial}
+                  onChange={(checked) => updateBoolean("aAutresSocial", checked)}
+                />
+                {values.aAutresSocial ? (
+                  <MemoField
+                    label={t.evaluationRse.detailAutresSocial}
+                    value={values.detailAutresSocial}
+                    onChange={(value) => updateText("detailAutresSocial", value)}
+                  />
+                ) : null}
+              </div>
+
+              <div className="flex justify-end">
+                <Button type="submit" disabled={isSaving}>
+                  {isSaving ? (
+                    <LoaderCircle className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Save className="h-4 w-4" />
+                  )}
+                  {t.evaluationRse.save}
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </main>
+  );
+}
+
+type GovernanceFormValues = {
+  aGouvernanceRse: boolean;
+  detailGouvernanceRse: string;
+  aEthique: boolean;
+  detailEthique: string;
+  aEnquetesPartenaires: boolean;
+  detailEnquetesPartenaires: string;
+  charteAchats: boolean;
+  labelRfar: boolean;
+  certifFscPefc: boolean;
+  aAutresGouvernance: boolean;
+  detailAutresGouvernance: string;
+};
+
+function governanceToFormValues(evaluation: EvaluationRse): GovernanceFormValues {
+  const governance = evaluation.indicateursGouvernanceRse;
+
+  return {
+    aGouvernanceRse: governance?.aGouvernanceRse ?? false,
+    detailGouvernanceRse: valueOrEmpty(governance?.detailGouvernanceRse),
+    aEthique: governance?.aEthique ?? false,
+    detailEthique: valueOrEmpty(governance?.detailEthique),
+    aEnquetesPartenaires: governance?.aEnquetesPartenaires ?? false,
+    detailEnquetesPartenaires: valueOrEmpty(governance?.detailEnquetesPartenaires),
+    charteAchats: governance?.charteAchats ?? false,
+    labelRfar: governance?.labelRfar ?? false,
+    certifFscPefc: governance?.certifFscPefc ?? false,
+    aAutresGouvernance: governance?.aAutresGouvernance ?? false,
+    detailAutresGouvernance: valueOrEmpty(governance?.detailAutresGouvernance),
+  };
+}
+
+function IndicateursGouvernanceRsePage({
+  locale,
+  token,
+  evaluation,
+  onBack,
+  onSaved,
+}: {
+  locale: Locale;
+  token: string;
+  evaluation: EvaluationRse;
+  onBack: () => void;
+  onSaved: (evaluation: EvaluationRse) => void;
+}) {
+  const t = getTranslation(locale);
+  const [currentEvaluation, setCurrentEvaluation] = useState(evaluation);
+  const [values, setValues] = useState<GovernanceFormValues>(
+    governanceToFormValues(evaluation),
+  );
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+
+  function updateBoolean(field: keyof GovernanceFormValues, checked: boolean) {
+    setValues((current) => ({
+      ...current,
+      [field]: checked,
+    }));
+  }
+
+  function updateText(field: keyof GovernanceFormValues, value: string) {
+    setValues((current) => ({
+      ...current,
+      [field]: value,
+    }));
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsSaving(true);
+    setError(null);
+    setMessage(null);
+
+    try {
+      const savedEvaluation = await updateIndicateursGouvernanceRse(
+        token,
+        currentEvaluation.id!,
+        {
+          aGouvernanceRse: values.aGouvernanceRse,
+          detailGouvernanceRse: values.aGouvernanceRse
+            ? values.detailGouvernanceRse
+            : null,
+          aEthique: values.aEthique,
+          detailEthique: values.aEthique ? values.detailEthique : null,
+          aEnquetesPartenaires: values.aEnquetesPartenaires,
+          detailEnquetesPartenaires: values.aEnquetesPartenaires
+            ? values.detailEnquetesPartenaires
+            : null,
+          charteAchats: values.charteAchats,
+          labelRfar: values.labelRfar,
+          certifFscPefc: values.certifFscPefc,
+          aAutresGouvernance: values.aAutresGouvernance,
+          detailAutresGouvernance: values.aAutresGouvernance
+            ? values.detailAutresGouvernance
+            : null,
+        },
+      );
+      setCurrentEvaluation(savedEvaluation);
+      setValues(governanceToFormValues(savedEvaluation));
+      onSaved(savedEvaluation);
+      setMessage(t.evaluationRse.governanceSaved);
+    } catch (error) {
+      setError(getErrorMessage(error));
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  return (
+    <main className="min-h-screen">
+      <div className="container flex min-h-screen flex-col gap-6 py-6 sm:py-8">
+        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <Button type="button" variant="ghost" onClick={onBack}>
+              <ArrowLeft className="h-4 w-4" />
+              {t.actions.back}
+            </Button>
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight">
+              {t.evaluationRse.governance}
+            </h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {currentEvaluation.entreprise.raisonSociale} -{" "}
+              {currentEvaluation.entreprise.siret}
+            </p>
+          </div>
+        </header>
+
+        {error ? <ErrorMessage message={error} /> : null}
+        {message ? (
+          <p className="rounded-xl border border-border bg-secondary/60 px-4 py-3 text-sm">
+            {message}
+          </p>
+        ) : null}
+
+        <Card>
+          <CardHeader>
+            <CardTitle>{t.evaluationRse.editGovernance}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form className="space-y-5" onSubmit={handleSubmit}>
+              <div className="grid gap-4 md:grid-cols-2">
+                <LabelCheckbox
+                  label="Gouvernance RSE"
+                  checked={values.aGouvernanceRse}
+                  onChange={(checked) =>
+                    updateBoolean("aGouvernanceRse", checked)
+                  }
+                />
+                {values.aGouvernanceRse ? (
+                  <MemoField
+                    label={t.evaluationRse.detailGouvernanceRse}
+                    value={values.detailGouvernanceRse}
+                    onChange={(value) => updateText("detailGouvernanceRse", value)}
+                  />
+                ) : null}
+
+                <LabelCheckbox
+                  label="Ethique"
+                  checked={values.aEthique}
+                  onChange={(checked) => updateBoolean("aEthique", checked)}
+                />
+                {values.aEthique ? (
+                  <MemoField
+                    label={t.evaluationRse.detailEthique}
+                    value={values.detailEthique}
+                    onChange={(value) => updateText("detailEthique", value)}
+                  />
+                ) : null}
+
+                <LabelCheckbox
+                  label="Enquetes partenaires"
+                  checked={values.aEnquetesPartenaires}
+                  onChange={(checked) =>
+                    updateBoolean("aEnquetesPartenaires", checked)
+                  }
+                />
+                {values.aEnquetesPartenaires ? (
+                  <MemoField
+                    label={t.evaluationRse.detailEnquetesPartenaires}
+                    value={values.detailEnquetesPartenaires}
+                    onChange={(value) =>
+                      updateText("detailEnquetesPartenaires", value)
+                    }
+                  />
+                ) : null}
+
+                <LabelCheckbox
+                  label="Charte achats"
+                  checked={values.charteAchats}
+                  onChange={(checked) => updateBoolean("charteAchats", checked)}
+                />
+                <LabelCheckbox
+                  label="Label RFAR"
+                  checked={values.labelRfar}
+                  onChange={(checked) => updateBoolean("labelRfar", checked)}
+                />
+                <LabelCheckbox
+                  label="Certification FSC/PEFC"
+                  checked={values.certifFscPefc}
+                  onChange={(checked) => updateBoolean("certifFscPefc", checked)}
+                />
+
+                <LabelCheckbox
+                  label="Autres"
+                  checked={values.aAutresGouvernance}
+                  onChange={(checked) =>
+                    updateBoolean("aAutresGouvernance", checked)
+                  }
+                />
+                {values.aAutresGouvernance ? (
+                  <MemoField
+                    label={t.evaluationRse.detailAutresGouvernance}
+                    value={values.detailAutresGouvernance}
+                    onChange={(value) =>
+                      updateText("detailAutresGouvernance", value)
+                    }
+                  />
+                ) : null}
+              </div>
+
+              <div className="flex justify-end">
+                <Button type="submit" disabled={isSaving}>
+                  {isSaving ? (
+                    <LoaderCircle className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Save className="h-4 w-4" />
+                  )}
+                  {t.evaluationRse.save}
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </main>
   );
 }
 
@@ -1048,6 +2647,12 @@ export function CompaniesPage({
   const [error, setError] = useState<string | null>(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editingCompany, setEditingCompany] = useState<Company | null>(null);
+  const [evaluation, setEvaluation] = useState<EvaluationRse | null>(null);
+  const [labelsEvaluation, setLabelsEvaluation] = useState<EvaluationRse | null>(null);
+  const [environmentEvaluation, setEnvironmentEvaluation] = useState<EvaluationRse | null>(null);
+  const [socialEvaluation, setSocialEvaluation] = useState<EvaluationRse | null>(null);
+  const [governanceEvaluation, setGovernanceEvaluation] = useState<EvaluationRse | null>(null);
+  const [isLoadingEvaluation, setIsLoadingEvaluation] = useState(false);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const isAdmin = user.role === "ADMIN";
@@ -1087,6 +2692,420 @@ export function CompaniesPage({
     return () => window.clearTimeout(timeoutId);
   }, [search]);
 
+  const showCompanyList = useCallback((shouldPush = true) => {
+    setEvaluation(null);
+    setLabelsEvaluation(null);
+    setEnvironmentEvaluation(null);
+    setSocialEvaluation(null);
+    setGovernanceEvaluation(null);
+    setIsCreateOpen(false);
+    setEditingCompany(null);
+
+    if (shouldPush) {
+      pushUrlView();
+    }
+  }, []);
+
+  const openCreateCompany = useCallback((shouldPush = true) => {
+    if (!isAdmin) {
+      setError(t.companies.adminOnly);
+      return;
+    }
+
+    setEvaluation(null);
+    setLabelsEvaluation(null);
+    setEnvironmentEvaluation(null);
+    setSocialEvaluation(null);
+    setGovernanceEvaluation(null);
+    setEditingCompany(null);
+    setIsCreateOpen(true);
+
+    if (shouldPush) {
+      pushUrlView("create");
+    }
+  }, [isAdmin, t.companies.adminOnly]);
+
+  const openEditCompany = useCallback((company: Company, shouldPush = true) => {
+    if (!isAdmin) {
+      setError(t.companies.adminOnly);
+      return;
+    }
+
+    setEvaluation(null);
+    setLabelsEvaluation(null);
+    setEnvironmentEvaluation(null);
+    setSocialEvaluation(null);
+    setGovernanceEvaluation(null);
+    setIsCreateOpen(false);
+    setEditingCompany(company);
+
+    if (shouldPush) {
+      pushUrlView("edit", { companyId: company.id });
+    }
+  }, [isAdmin, t.companies.adminOnly]);
+
+  const openEditCompanyById = useCallback(async (companyId: string, shouldPush = true) => {
+    if (!isAdmin) {
+      setError(t.companies.adminOnly);
+      return;
+    }
+
+    setError(null);
+
+    try {
+      const company = await getCompany(token, companyId);
+      openEditCompany(company, shouldPush);
+    } catch (error) {
+      setError(getErrorMessage(error));
+      showCompanyList(false);
+    }
+  }, [isAdmin, openEditCompany, showCompanyList, t.companies.adminOnly, token]);
+
+  const openEvaluationByCompanyId = useCallback(async (
+    companyId: string,
+    shouldPush = true,
+  ) => {
+    setIsLoadingEvaluation(true);
+    setError(null);
+
+    try {
+      const active = await getActiveEvaluationRse(token, companyId);
+
+      if (active.evaluation) {
+        setLabelsEvaluation(null);
+        setEnvironmentEvaluation(null);
+        setSocialEvaluation(null);
+        setGovernanceEvaluation(null);
+        setEvaluation(active.evaluation);
+        setIsCreateOpen(false);
+        setEditingCompany(null);
+
+        if (shouldPush) {
+          pushUrlView("evaluation", { companyId });
+        }
+        return;
+      }
+
+      if (!isAdmin) {
+        setError(t.evaluationRse.notFound);
+        return;
+      }
+
+      const currentEvaluation = await getCurrentEvaluationRse(token, companyId);
+      setLabelsEvaluation(null);
+      setEnvironmentEvaluation(null);
+      setSocialEvaluation(null);
+      setGovernanceEvaluation(null);
+      setEvaluation(currentEvaluation);
+      setIsCreateOpen(false);
+      setEditingCompany(null);
+
+      if (shouldPush) {
+        pushUrlView("evaluation", { companyId });
+      }
+    } catch (error) {
+      setError(getErrorMessage(error));
+    } finally {
+      setIsLoadingEvaluation(false);
+    }
+  }, [isAdmin, t.evaluationRse.notFound, token]);
+
+  const openLabelsEditor = useCallback((nextEvaluation: EvaluationRse, shouldPush = true) => {
+    if (!isAdmin || !nextEvaluation.id) {
+      return;
+    }
+
+    setEvaluation(null);
+    setIsCreateOpen(false);
+    setEditingCompany(null);
+    setLabelsEvaluation(nextEvaluation);
+
+    if (shouldPush) {
+      pushUrlView("labels", { evaluationId: nextEvaluation.id });
+    }
+  }, [isAdmin]);
+
+  const openLabelsEditorById = useCallback(async (
+    evaluationId: string,
+    shouldPush = true,
+  ) => {
+    if (!isAdmin) {
+      setError(t.companies.adminOnly);
+      return;
+    }
+
+    setError(null);
+    setIsLoadingEvaluation(true);
+
+    try {
+      const nextEvaluation = await getEvaluationRse(token, evaluationId);
+      openLabelsEditor(nextEvaluation, shouldPush);
+    } catch (error) {
+      setError(getErrorMessage(error));
+      showCompanyList(false);
+    } finally {
+      setIsLoadingEvaluation(false);
+    }
+  }, [isAdmin, openLabelsEditor, showCompanyList, t.companies.adminOnly, token]);
+
+  const openEnvironmentEditor = useCallback((nextEvaluation: EvaluationRse, shouldPush = true) => {
+    if (!isAdmin || !nextEvaluation.id) {
+      return;
+    }
+
+    setEvaluation(null);
+    setLabelsEvaluation(null);
+    setIsCreateOpen(false);
+    setEditingCompany(null);
+    setEnvironmentEvaluation(nextEvaluation);
+
+    if (shouldPush) {
+      pushUrlView("environment", { evaluationId: nextEvaluation.id });
+    }
+  }, [isAdmin]);
+
+  const openEnvironmentEditorById = useCallback(async (
+    evaluationId: string,
+    shouldPush = true,
+  ) => {
+    if (!isAdmin) {
+      setError(t.companies.adminOnly);
+      return;
+    }
+
+    setError(null);
+    setIsLoadingEvaluation(true);
+
+    try {
+      const nextEvaluation = await getEvaluationRse(token, evaluationId);
+      openEnvironmentEditor(nextEvaluation, shouldPush);
+    } catch (error) {
+      setError(getErrorMessage(error));
+      showCompanyList(false);
+    } finally {
+      setIsLoadingEvaluation(false);
+    }
+  }, [isAdmin, openEnvironmentEditor, showCompanyList, t.companies.adminOnly, token]);
+
+  const openSocialEditor = useCallback((nextEvaluation: EvaluationRse, shouldPush = true) => {
+    if (!isAdmin || !nextEvaluation.id) {
+      return;
+    }
+
+    setEvaluation(null);
+    setLabelsEvaluation(null);
+    setEnvironmentEvaluation(null);
+    setIsCreateOpen(false);
+    setEditingCompany(null);
+    setSocialEvaluation(nextEvaluation);
+
+    if (shouldPush) {
+      pushUrlView("social", { evaluationId: nextEvaluation.id });
+    }
+  }, [isAdmin]);
+
+  const openSocialEditorById = useCallback(async (
+    evaluationId: string,
+    shouldPush = true,
+  ) => {
+    if (!isAdmin) {
+      setError(t.companies.adminOnly);
+      return;
+    }
+
+    setError(null);
+    setIsLoadingEvaluation(true);
+
+    try {
+      const nextEvaluation = await getEvaluationRse(token, evaluationId);
+      openSocialEditor(nextEvaluation, shouldPush);
+    } catch (error) {
+      setError(getErrorMessage(error));
+      showCompanyList(false);
+    } finally {
+      setIsLoadingEvaluation(false);
+    }
+  }, [isAdmin, openSocialEditor, showCompanyList, t.companies.adminOnly, token]);
+
+  const openGovernanceEditor = useCallback((nextEvaluation: EvaluationRse, shouldPush = true) => {
+    if (!isAdmin || !nextEvaluation.id) {
+      return;
+    }
+
+    setEvaluation(null);
+    setLabelsEvaluation(null);
+    setEnvironmentEvaluation(null);
+    setSocialEvaluation(null);
+    setIsCreateOpen(false);
+    setEditingCompany(null);
+    setGovernanceEvaluation(nextEvaluation);
+
+    if (shouldPush) {
+      pushUrlView("governance", { evaluationId: nextEvaluation.id });
+    }
+  }, [isAdmin]);
+
+  const openGovernanceEditorById = useCallback(async (
+    evaluationId: string,
+    shouldPush = true,
+  ) => {
+    if (!isAdmin) {
+      setError(t.companies.adminOnly);
+      return;
+    }
+
+    setError(null);
+    setIsLoadingEvaluation(true);
+
+    try {
+      const nextEvaluation = await getEvaluationRse(token, evaluationId);
+      openGovernanceEditor(nextEvaluation, shouldPush);
+    } catch (error) {
+      setError(getErrorMessage(error));
+      showCompanyList(false);
+    } finally {
+      setIsLoadingEvaluation(false);
+    }
+  }, [isAdmin, openGovernanceEditor, showCompanyList, t.companies.adminOnly, token]);
+
+  useEffect(() => {
+    const applyUrlView = () => {
+      const { view, companyId, evaluationId } = currentUrlView();
+
+      if (view === "create") {
+        openCreateCompany(false);
+        return;
+      }
+
+      if (view === "edit" && companyId) {
+        void openEditCompanyById(companyId, false);
+        return;
+      }
+
+      if (view === "evaluation" && companyId) {
+        void openEvaluationByCompanyId(companyId, false);
+        return;
+      }
+
+      if (view === "labels" && evaluationId) {
+        void openLabelsEditorById(evaluationId, false);
+        return;
+      }
+
+      if (view === "environment" && evaluationId) {
+        void openEnvironmentEditorById(evaluationId, false);
+        return;
+      }
+
+      if (view === "social" && evaluationId) {
+        void openSocialEditorById(evaluationId, false);
+        return;
+      }
+
+      if (view === "governance" && evaluationId) {
+        void openGovernanceEditorById(evaluationId, false);
+        return;
+      }
+
+      showCompanyList(false);
+    };
+
+    applyUrlView();
+    window.addEventListener("popstate", applyUrlView);
+
+    return () => window.removeEventListener("popstate", applyUrlView);
+  }, [
+    openCreateCompany,
+    openEditCompanyById,
+    openEvaluationByCompanyId,
+    openEnvironmentEditorById,
+    openGovernanceEditorById,
+    openLabelsEditorById,
+    openSocialEditorById,
+    showCompanyList,
+  ]);
+
+  if (governanceEvaluation) {
+    return (
+      <IndicateursGouvernanceRsePage
+        locale={locale}
+        token={token}
+        evaluation={governanceEvaluation}
+        onBack={() => {
+          setEvaluation(governanceEvaluation);
+          setGovernanceEvaluation(null);
+          pushUrlView("evaluation", { companyId: governanceEvaluation.entrepriseId });
+        }}
+        onSaved={setGovernanceEvaluation}
+      />
+    );
+  }
+
+  if (socialEvaluation) {
+    return (
+      <IndicateursSociauxPage
+        locale={locale}
+        token={token}
+        evaluation={socialEvaluation}
+        onBack={() => {
+          setEvaluation(socialEvaluation);
+          setSocialEvaluation(null);
+          pushUrlView("evaluation", { companyId: socialEvaluation.entrepriseId });
+        }}
+        onSaved={setSocialEvaluation}
+      />
+    );
+  }
+
+  if (environmentEvaluation) {
+    return (
+      <IndicateursEnvironnementauxPage
+        locale={locale}
+        token={token}
+        evaluation={environmentEvaluation}
+        onBack={() => {
+          setEvaluation(environmentEvaluation);
+          setEnvironmentEvaluation(null);
+          pushUrlView("evaluation", { companyId: environmentEvaluation.entrepriseId });
+        }}
+        onSaved={setEnvironmentEvaluation}
+      />
+    );
+  }
+
+  if (labelsEvaluation) {
+    return (
+      <LabelsEngagementsRsePage
+        locale={locale}
+        token={token}
+        evaluation={labelsEvaluation}
+        onBack={() => {
+          setEvaluation(labelsEvaluation);
+          setLabelsEvaluation(null);
+          pushUrlView("evaluation", { companyId: labelsEvaluation.entrepriseId });
+        }}
+        onSaved={setLabelsEvaluation}
+      />
+    );
+  }
+
+  if (evaluation) {
+    return (
+      <EvaluationRsePage
+        locale={locale}
+        token={token}
+        evaluation={evaluation}
+        isAdmin={isAdmin}
+        onBack={() => showCompanyList()}
+        onSaved={setEvaluation}
+        onEditLabels={openLabelsEditor}
+        onEditEnvironment={openEnvironmentEditor}
+        onEditSocial={openSocialEditor}
+        onEditGovernance={openGovernanceEditor}
+      />
+    );
+  }
+
   return (
     <main className="min-h-screen">
       <div className="container flex min-h-screen flex-col gap-6 py-6 sm:py-8">
@@ -1124,12 +3143,21 @@ export function CompaniesPage({
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
+            {isLoadingEvaluation ? (
+              <div className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-3 text-sm text-muted-foreground">
+                <LoaderCircle className="h-4 w-4 animate-spin text-primary" />
+                {t.evaluationRse.title}
+              </div>
+            ) : null}
             {isAdmin ? (
               <Button
                 type="button"
                 onClick={() => {
-                  setEditingCompany(null);
-                  setIsCreateOpen((isOpen) => !isOpen);
+                  if (isCreateOpen) {
+                    showCompanyList();
+                  } else {
+                    openCreateCompany();
+                  }
                 }}
               >
                 {isCreateOpen ? (
@@ -1192,10 +3220,10 @@ export function CompaniesPage({
             key="create-company"
             locale={locale}
             token={token}
-            onCancel={() => setIsCreateOpen(false)}
+            onCancel={() => showCompanyList()}
             onSaved={async () => {
               await loadCompanies();
-              setIsCreateOpen(false);
+              showCompanyList();
             }}
           />
         ) : null}
@@ -1206,10 +3234,10 @@ export function CompaniesPage({
             locale={locale}
             token={token}
             company={editingCompany}
-            onCancel={() => setEditingCompany(null)}
+            onCancel={() => showCompanyList()}
             onSaved={async () => {
               await loadCompanies();
-              setEditingCompany(null);
+              showCompanyList();
             }}
           />
         ) : null}
@@ -1249,10 +3277,8 @@ export function CompaniesPage({
                     company={company}
                     locale={locale}
                     isAdmin={isAdmin}
-                    onEdit={(company) => {
-                      setIsCreateOpen(false);
-                      setEditingCompany(company);
-                    }}
+                    onEdit={(company) => openEditCompany(company)}
+                    onEvaluate={(company) => void openEvaluationByCompanyId(company.id)}
                   />
                 ))}
               </div>
@@ -1274,6 +3300,9 @@ export function CompaniesPage({
                           </th>
                           <th className="px-5 py-4 font-semibold">
                             {t.companies.siteWeb}
+                          </th>
+                          <th className="px-5 py-4 text-right font-semibold">
+                            {t.actions.activeEvaluation}
                           </th>
                           {isAdmin ? (
                             <th className="px-5 py-4 text-right font-semibold">
@@ -1318,20 +3347,32 @@ export function CompaniesPage({
                                   </span>
                                 )}
                               </td>
-                              {isAdmin ? (
-                                <td className="px-5 py-4 text-right">
+                              <td className="px-5 py-4 text-right">
+                                <div className="flex justify-end gap-2">
                                   <Button
                                     type="button"
-                                    variant="outline"
+                                    variant="secondary"
                                     size="sm"
-                                    onClick={() => {
-                                      setIsCreateOpen(false);
-                                      setEditingCompany(company);
-                                    }}
+                                    onClick={() => void openEvaluationByCompanyId(company.id)}
                                   >
-                                    <Pencil className="h-4 w-4" />
-                                    {t.actions.edit}
+                                    <BarChart3 className="h-4 w-4" />
+                                    {t.actions.activeEvaluation}
                                   </Button>
+                                </div>
+                              </td>
+                              {isAdmin ? (
+                                <td className="px-5 py-4 text-right">
+                                  <div className="flex justify-end">
+                                    <Button
+                                      type="button"
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => openEditCompany(company)}
+                                    >
+                                      <Pencil className="h-4 w-4" />
+                                      {t.actions.edit}
+                                    </Button>
+                                  </div>
                                 </td>
                               ) : null}
                             </tr>
