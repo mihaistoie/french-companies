@@ -4,4 +4,3 @@ dist
 .codex
 coverage
 *.log
-*.tsbuildinfo

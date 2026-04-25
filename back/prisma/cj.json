@@ -1,0 +1,1042 @@
+[
+    {
+        "code":  "0000",
+        "title":  "Organisme de placement collectif en valeurs mobilières sans personnalité morale"
+    },
+    {
+        "code":  "1000",
+        "title":  "Entrepreneur individuel"
+    },
+    {
+        "code":  "2110",
+        "title":  "Indivision entre personnes physiques"
+    },
+    {
+        "code":  "2120",
+        "title":  "Indivision avec personne morale"
+    },
+    {
+        "code":  "2210",
+        "title":  "Société créée de fait entre personnes physiques"
+    },
+    {
+        "code":  "2220",
+        "title":  "Société créée de fait avec personne morale"
+    },
+    {
+        "code":  "2310",
+        "title":  "Société en participation entre personnes physiques"
+    },
+    {
+        "code":  "2320",
+        "title":  "Société en participation avec personne morale"
+    },
+    {
+        "code":  "2385",
+        "title":  "Société en participation de professions libérales"
+    },
+    {
+        "code":  "2400",
+        "title":  "Fiducie"
+    },
+    {
+        "code":  "2700",
+        "title":  "Paroisse hors zone concordataire"
+    },
+    {
+        "code":  "2800",
+        "title":  "Assujetti unique à la TVA"
+    },
+    {
+        "code":  "2900",
+        "title":  "Autre groupement de droit privé non doté de la personnalité morale"
+    },
+    {
+        "code":  "3110",
+        "title":  "Représentation ou agence commerciale d\u0027état ou organisme public étranger immatriculé au RCS"
+    },
+    {
+        "code":  "3120",
+        "title":  "Société commerciale étrangère immatriculée au RCS"
+    },
+    {
+        "code":  "3205",
+        "title":  "Organisation internationale"
+    },
+    {
+        "code":  "3210",
+        "title":  "État, collectivité ou établissement public étranger"
+    },
+    {
+        "code":  "3220",
+        "title":  "Société étrangère non immatriculée au RCS"
+    },
+    {
+        "code":  "3290",
+        "title":  "Autre personne morale de droit étranger"
+    },
+    {
+        "code":  "4110",
+        "title":  "Établissement public national à caractère industriel ou commercial doté d\u0027un comptable public"
+    },
+    {
+        "code":  "4120",
+        "title":  "Établissement public national à caractère industriel ou commercial non doté d\u0027un comptable public"
+    },
+    {
+        "code":  "4130",
+        "title":  "Exploitant public"
+    },
+    {
+        "code":  "4140",
+        "title":  "Établissement public local à caractère industriel ou commercial"
+    },
+    {
+        "code":  "4150",
+        "title":  "Régie d\u0027une collectivité locale à caractère industriel ou commercial"
+    },
+    {
+        "code":  "4160",
+        "title":  "Institution Banque de France"
+    },
+    {
+        "code":  "5191",
+        "title":  "Société de caution mutuelle"
+    },
+    {
+        "code":  "5192",
+        "title":  "Société coopérative de banque populaire"
+    },
+    {
+        "code":  "5193",
+        "title":  "Caisse de crédit maritime mutuel"
+    },
+    {
+        "code":  "5194",
+        "title":  "Caisse (fédérale) de crédit mutuel"
+    },
+    {
+        "code":  "5195",
+        "title":  "Association coopérative inscrite (droit local Alsace Moselle)"
+    },
+    {
+        "code":  "5196",
+        "title":  "Caisse d\u0027épargne et de prévoyance à forme coopérative"
+    },
+    {
+        "code":  "5202",
+        "title":  "Société en nom collectif"
+    },
+    {
+        "code":  "5203",
+        "title":  "Société en nom collectif coopérative"
+    },
+    {
+        "code":  "5306",
+        "title":  "Société en commandite simple"
+    },
+    {
+        "code":  "5307",
+        "title":  "Société en commandite simple coopérative"
+    },
+    {
+        "code":  "5308",
+        "title":  "Société en commandite par actions"
+    },
+    {
+        "code":  "5309",
+        "title":  "Société en commandite par actions coopérative"
+    },
+    {
+        "code":  "5310",
+        "title":  "Société en libre partenariat (SLP)"
+    },
+    {
+        "code":  "5370",
+        "title":  "Société de Participations Financières de Profession Libérale Société en commandite par actions (SPFPL SCA)"
+    },
+    {
+        "code":  "5385",
+        "title":  "Société d\u0027exercice libéral en commandite par actions"
+    },
+    {
+        "code":  "5410",
+        "title":  "SARL nationale"
+    },
+    {
+        "code":  "5415",
+        "title":  "SARL d\u0027économie mixte"
+    },
+    {
+        "code":  "5422",
+        "title":  "SARL immobilière pour le commerce et l\u0027industrie (SICOMI)"
+    },
+    {
+        "code":  "5426",
+        "title":  "SARL immobilière de gestion"
+    },
+    {
+        "code":  "5430",
+        "title":  "SARL d\u0027aménagement foncier et d\u0027équipement rural (SAFER)"
+    },
+    {
+        "code":  "5431",
+        "title":  "SARL mixte d\u0027intérêt agricole (SMIA)"
+    },
+    {
+        "code":  "5432",
+        "title":  "SARL d\u0027intérêt collectif agricole (SICA)"
+    },
+    {
+        "code":  "5442",
+        "title":  "SARL d\u0027attribution"
+    },
+    {
+        "code":  "5443",
+        "title":  "SARL coopérative de construction"
+    },
+    {
+        "code":  "5451",
+        "title":  "SARL coopérative de consommation"
+    },
+    {
+        "code":  "5453",
+        "title":  "SARL coopérative artisanale"
+    },
+    {
+        "code":  "5454",
+        "title":  "SARL coopérative d\u0027intérêt maritime"
+    },
+    {
+        "code":  "5455",
+        "title":  "SARL coopérative de transport"
+    },
+    {
+        "code":  "5458",
+        "title":  "SARL coopérative de production (SCOP)"
+    },
+    {
+        "code":  "5459",
+        "title":  "SARL union de sociétés coopératives"
+    },
+    {
+        "code":  "5460",
+        "title":  "Autre SARL coopérative"
+    },
+    {
+        "code":  "5470",
+        "title":  "Société de Participations Financières de Profession Libérale Société à responsabilité limitée (SPFPL SARL)"
+    },
+    {
+        "code":  "5485",
+        "title":  "Société d\u0027exercice libéral à responsabilité limitée"
+    },
+    {
+        "code":  "5499",
+        "title":  "Société à responsabilité limitée (sans autre indication)"
+    },
+    {
+        "code":  "5505",
+        "title":  "SA à participation ouvrière à conseil d\u0027administration"
+    },
+    {
+        "code":  "5510",
+        "title":  "SA nationale à conseil d\u0027administration"
+    },
+    {
+        "code":  "5515",
+        "title":  "SA d\u0027économie mixte à conseil d\u0027administration"
+    },
+    {
+        "code":  "5520",
+        "title":  "Fonds à forme sociétale à conseil d\u0027administration"
+    },
+    {
+        "code":  "5522",
+        "title":  "SA immobilière pour le commerce et l\u0027industrie (SICOMI) à conseil d\u0027administration"
+    },
+    {
+        "code":  "5525",
+        "title":  "SA immobilière d\u0027investissement à conseil d\u0027administration"
+    },
+    {
+        "code":  "5530",
+        "title":  "SA d\u0027aménagement foncier et d\u0027équipement rural (SAFER) à conseil d\u0027administration"
+    },
+    {
+        "code":  "5531",
+        "title":  "Société anonyme mixte d\u0027intérêt agricole (SMIA) à conseil d\u0027administration"
+    },
+    {
+        "code":  "5532",
+        "title":  "SA d\u0027intérêt collectif agricole (SICA) à conseil d\u0027administration"
+    },
+    {
+        "code":  "5542",
+        "title":  "SA d\u0027attribution à conseil d\u0027administration"
+    },
+    {
+        "code":  "5543",
+        "title":  "SA coopérative de construction à conseil d\u0027administration"
+    },
+    {
+        "code":  "5546",
+        "title":  "SA de HLM à conseil d\u0027administration"
+    },
+    {
+        "code":  "5547",
+        "title":  "SA coopérative de production de HLM à conseil d\u0027administration"
+    },
+    {
+        "code":  "5548",
+        "title":  "SA de crédit immobilier à conseil d\u0027administration"
+    },
+    {
+        "code":  "5551",
+        "title":  "SA coopérative de consommation à conseil d\u0027administration"
+    },
+    {
+        "code":  "5552",
+        "title":  "SA coopérative de commerçants-détaillants à conseil d\u0027administration"
+    },
+    {
+        "code":  "5553",
+        "title":  "SA coopérative artisanale à conseil d\u0027administration"
+    },
+    {
+        "code":  "5554",
+        "title":  "SA coopérative (d\u0027intérêt) maritime à conseil d\u0027administration"
+    },
+    {
+        "code":  "5555",
+        "title":  "SA coopérative de transport à conseil d\u0027administration"
+    },
+    {
+        "code":  "5558",
+        "title":  "SA coopérative de production  (SCOP) à conseil d\u0027administration"
+    },
+    {
+        "code":  "5559",
+        "title":  "SA union de sociétés coopératives à conseil d\u0027administration"
+    },
+    {
+        "code":  "5560",
+        "title":  "Autre SA coopérative à conseil d\u0027administration"
+    },
+    {
+        "code":  "5570",
+        "title":  "Société de Participations Financières de Profession Libérale Société anonyme à conseil d\u0027administration (SPFPL SA à conseil d\u0027administration)"
+    },
+    {
+        "code":  "5585",
+        "title":  "Société d\u0027exercice libéral à forme anonyme à conseil d\u0027administration"
+    },
+    {
+        "code":  "5599",
+        "title":  "SA à conseil d\u0027administration (s.a.i.)"
+    },
+    {
+        "code":  "5605",
+        "title":  "SA à participation ouvrière à directoire"
+    },
+    {
+        "code":  "5610",
+        "title":  "SA nationale à directoire"
+    },
+    {
+        "code":  "5615",
+        "title":  "SA d\u0027économie mixte à directoire"
+    },
+    {
+        "code":  "5620",
+        "title":  "Fonds à forme sociétale à directoire"
+    },
+    {
+        "code":  "5622",
+        "title":  "SA immobilière pour le commerce et l\u0027industrie (SICOMI) à directoire"
+    },
+    {
+        "code":  "5625",
+        "title":  "SA immobilière d\u0027investissement à directoire"
+    },
+    {
+        "code":  "5630",
+        "title":  "Safer anonyme à directoire"
+    },
+    {
+        "code":  "5631",
+        "title":  "SA mixte d\u0027intérêt agricole (SMIA)"
+    },
+    {
+        "code":  "5632",
+        "title":  "SA d\u0027intérêt collectif agricole (SICA)"
+    },
+    {
+        "code":  "5642",
+        "title":  "SA d\u0027attribution à directoire"
+    },
+    {
+        "code":  "5643",
+        "title":  "SA coopérative de construction à directoire"
+    },
+    {
+        "code":  "5646",
+        "title":  "SA de HLM à directoire"
+    },
+    {
+        "code":  "5647",
+        "title":  "Société coopérative de production de HLM anonyme à directoire"
+    },
+    {
+        "code":  "5648",
+        "title":  "SA de crédit immobilier à directoire"
+    },
+    {
+        "code":  "5651",
+        "title":  "SA coopérative de consommation à directoire"
+    },
+    {
+        "code":  "5652",
+        "title":  "SA coopérative de commerçants-détaillants à directoire"
+    },
+    {
+        "code":  "5653",
+        "title":  "SA coopérative artisanale à directoire"
+    },
+    {
+        "code":  "5654",
+        "title":  "SA coopérative d\u0027intérêt maritime à directoire"
+    },
+    {
+        "code":  "5655",
+        "title":  "SA coopérative de transport à directoire"
+    },
+    {
+        "code":  "5658",
+        "title":  "SA coopérative de production (SCOP) à directoire"
+    },
+    {
+        "code":  "5659",
+        "title":  "SA union de sociétés coopératives à directoire"
+    },
+    {
+        "code":  "5660",
+        "title":  "Autre SA coopérative à directoire"
+    },
+    {
+        "code":  "5670",
+        "title":  "Société de Participations Financières de Profession Libérale Société anonyme à Directoire (SPFPL SA à directoire)"
+    },
+    {
+        "code":  "5685",
+        "title":  "Société d\u0027exercice libéral à forme anonyme à directoire"
+    },
+    {
+        "code":  "5699",
+        "title":  "SA à directoire (s.a.i.)"
+    },
+    {
+        "code":  "5710",
+        "title":  "SAS, société par actions simplifiée"
+    },
+    {
+        "code":  "5770",
+        "title":  "Société de Participations Financières de Profession Libérale Société par actions simplifiée (SPFPL SAS)"
+    },
+    {
+        "code":  "5785",
+        "title":  "Société d\u0027exercice libéral par action simplifiée"
+    },
+    {
+        "code":  "5800",
+        "title":  "Société européenne"
+    },
+    {
+        "code":  "6100",
+        "title":  "Caisse d\u0027Épargne et de Prévoyance"
+    },
+    {
+        "code":  "6210",
+        "title":  "Groupement européen d\u0027intérêt économique (GEIE)"
+    },
+    {
+        "code":  "6220",
+        "title":  "Groupement d\u0027intérêt économique (GIE)"
+    },
+    {
+        "code":  "6316",
+        "title":  "Coopérative d\u0027utilisation de matériel agricole en commun (CUMA)"
+    },
+    {
+        "code":  "6317",
+        "title":  "Société coopérative agricole"
+    },
+    {
+        "code":  "6318",
+        "title":  "Union de sociétés coopératives agricoles"
+    },
+    {
+        "code":  "6411",
+        "title":  "Société d\u0027assurance à forme mutuelle"
+    },
+    {
+        "code":  "6511",
+        "title":  "Sociétés Interprofessionnelles de Soins Ambulatoires"
+    },
+    {
+        "code":  "6521",
+        "title":  "Société civile de placement collectif immobilier (SCPI)"
+    },
+    {
+        "code":  "6532",
+        "title":  "Société civile d\u0027intérêt collectif agricole (SICA)"
+    },
+    {
+        "code":  "6533",
+        "title":  "Groupement agricole d\u0027exploitation en commun (GAEC)"
+    },
+    {
+        "code":  "6534",
+        "title":  "Groupement foncier agricole"
+    },
+    {
+        "code":  "6535",
+        "title":  "Groupement agricole foncier"
+    },
+    {
+        "code":  "6536",
+        "title":  "Groupement forestier"
+    },
+    {
+        "code":  "6537",
+        "title":  "Groupement pastoral"
+    },
+    {
+        "code":  "6538",
+        "title":  "Groupement foncier et rural"
+    },
+    {
+        "code":  "6539",
+        "title":  "Société civile foncière"
+    },
+    {
+        "code":  "6540",
+        "title":  "Société civile immobilière"
+    },
+    {
+        "code":  "6541",
+        "title":  "Société civile immobilière de construction-vente"
+    },
+    {
+        "code":  "6542",
+        "title":  "Société civile d\u0027attribution"
+    },
+    {
+        "code":  "6543",
+        "title":  "Société civile coopérative de construction"
+    },
+    {
+        "code":  "6544",
+        "title":  "Société civile immobilière d\u0027 accession progressive à la propriété"
+    },
+    {
+        "code":  "6551",
+        "title":  "Société civile coopérative de consommation"
+    },
+    {
+        "code":  "6554",
+        "title":  "Société civile coopérative d\u0027intérêt maritime"
+    },
+    {
+        "code":  "6558",
+        "title":  "Société civile coopérative entre médecins"
+    },
+    {
+        "code":  "6560",
+        "title":  "Autre société civile coopérative"
+    },
+    {
+        "code":  "6561",
+        "title":  "SCP d\u0027avocats"
+    },
+    {
+        "code":  "6562",
+        "title":  "SCP d\u0027avocats aux conseils"
+    },
+    {
+        "code":  "6563",
+        "title":  "SCP d\u0027avoués d\u0027appel"
+    },
+    {
+        "code":  "6564",
+        "title":  "SCP d\u0027huissiers"
+    },
+    {
+        "code":  "6565",
+        "title":  "SCP de notaires"
+    },
+    {
+        "code":  "6566",
+        "title":  "SCP de commissaires-priseurs"
+    },
+    {
+        "code":  "6567",
+        "title":  "SCP de greffiers de tribunal de commerce"
+    },
+    {
+        "code":  "6568",
+        "title":  "SCP de conseils juridiques"
+    },
+    {
+        "code":  "6569",
+        "title":  "SCP de commissaires aux comptes"
+    },
+    {
+        "code":  "6571",
+        "title":  "SCP de médecins"
+    },
+    {
+        "code":  "6572",
+        "title":  "SCP de dentistes"
+    },
+    {
+        "code":  "6573",
+        "title":  "SCP d\u0027infirmiers"
+    },
+    {
+        "code":  "6574",
+        "title":  "SCP de masseurs-kinésithérapeutes"
+    },
+    {
+        "code":  "6575",
+        "title":  "SCP de directeurs de laboratoire d\u0027analyse médicale"
+    },
+    {
+        "code":  "6576",
+        "title":  "SCP de vétérinaires"
+    },
+    {
+        "code":  "6577",
+        "title":  "SCP de géomètres experts"
+    },
+    {
+        "code":  "6578",
+        "title":  "SCP d\u0027architectes"
+    },
+    {
+        "code":  "6585",
+        "title":  "Autre société civile professionnelle"
+    },
+    {
+        "code":  "6589",
+        "title":  "Société civile de moyens"
+    },
+    {
+        "code":  "6595",
+        "title":  "Caisse locale de crédit mutuel"
+    },
+    {
+        "code":  "6596",
+        "title":  "Caisse de crédit agricole mutuel"
+    },
+    {
+        "code":  "6597",
+        "title":  "Société civile d\u0027exploitation agricole"
+    },
+    {
+        "code":  "6598",
+        "title":  "Exploitation agricole à responsabilité limitée"
+    },
+    {
+        "code":  "6599",
+        "title":  "Autre société civile"
+    },
+    {
+        "code":  "6901",
+        "title":  "Autre personne de droit privé inscrite au registre du commerce et des sociétés"
+    },
+    {
+        "code":  "7111",
+        "title":  "Autorité constitutionnelle"
+    },
+    {
+        "code":  "7112",
+        "title":  "Autorité administrative ou publique indépendante"
+    },
+    {
+        "code":  "7113",
+        "title":  "Ministère"
+    },
+    {
+        "code":  "7120",
+        "title":  "Service central d\u0027un ministère"
+    },
+    {
+        "code":  "7150",
+        "title":  "Service du ministère de la Défense"
+    },
+    {
+        "code":  "7160",
+        "title":  "Service déconcentré à compétence nationale d\u0027un ministère (hors Défense)"
+    },
+    {
+        "code":  "7171",
+        "title":  "Service déconcentré de l\u0027État à compétence (inter) régionale"
+    },
+    {
+        "code":  "7172",
+        "title":  "Service déconcentré de l\u0027État à compétence (inter) départementale"
+    },
+    {
+        "code":  "7179",
+        "title":  "(Autre) Service déconcentré de l\u0027État à compétence territoriale"
+    },
+    {
+        "code":  "7190",
+        "title":  "Ecole nationale non dotée de la personnalité morale"
+    },
+    {
+        "code":  "7210",
+        "title":  "Commune et commune nouvelle"
+    },
+    {
+        "code":  "7220",
+        "title":  "Département"
+    },
+    {
+        "code":  "7225",
+        "title":  "Collectivité et territoire d\u0027Outre Mer"
+    },
+    {
+        "code":  "7229",
+        "title":  "(Autre) Collectivité territoriale"
+    },
+    {
+        "code":  "7230",
+        "title":  "Région"
+    },
+    {
+        "code":  "7312",
+        "title":  "Commune associée et commune déléguée"
+    },
+    {
+        "code":  "7313",
+        "title":  "Section de commune"
+    },
+    {
+        "code":  "7314",
+        "title":  "Ensemble urbain"
+    },
+    {
+        "code":  "7321",
+        "title":  "Association syndicale autorisée"
+    },
+    {
+        "code":  "7322",
+        "title":  "Association foncière urbaine"
+    },
+    {
+        "code":  "7323",
+        "title":  "Association foncière de remembrement"
+    },
+    {
+        "code":  "7331",
+        "title":  "Établissement public local d\u0027enseignement"
+    },
+    {
+        "code":  "7340",
+        "title":  "Pôle métropolitain"
+    },
+    {
+        "code":  "7341",
+        "title":  "Secteur de commune"
+    },
+    {
+        "code":  "7342",
+        "title":  "District urbain"
+    },
+    {
+        "code":  "7343",
+        "title":  "Communauté urbaine"
+    },
+    {
+        "code":  "7344",
+        "title":  "Métropole"
+    },
+    {
+        "code":  "7345",
+        "title":  "Syndicat intercommunal à vocation multiple (SIVOM)"
+    },
+    {
+        "code":  "7346",
+        "title":  "Communauté de communes"
+    },
+    {
+        "code":  "7347",
+        "title":  "Communauté de villes"
+    },
+    {
+        "code":  "7348",
+        "title":  "Communauté d\u0027agglomération"
+    },
+    {
+        "code":  "7349",
+        "title":  "Autre établissement public local de coopération non spécialisé ou entente"
+    },
+    {
+        "code":  "7351",
+        "title":  "Institution interdépartementale ou entente"
+    },
+    {
+        "code":  "7352",
+        "title":  "Institution interrégionale ou entente"
+    },
+    {
+        "code":  "7353",
+        "title":  "Syndicat intercommunal à vocation unique (SIVU)"
+    },
+    {
+        "code":  "7354",
+        "title":  "Syndicat mixte fermé"
+    },
+    {
+        "code":  "7355",
+        "title":  "Syndicat mixte ouvert"
+    },
+    {
+        "code":  "7356",
+        "title":  "Commission syndicale pour la gestion des biens indivis des communes"
+    },
+    {
+        "code":  "7357",
+        "title":  "Pôle d\u0027équilibre territorial et rural (PETR)"
+    },
+    {
+        "code":  "7361",
+        "title":  "Centre communal d\u0027action sociale"
+    },
+    {
+        "code":  "7362",
+        "title":  "Caisse des écoles"
+    },
+    {
+        "code":  "7363",
+        "title":  "Caisse de crédit municipal"
+    },
+    {
+        "code":  "7364",
+        "title":  "Établissement d\u0027hospitalisation"
+    },
+    {
+        "code":  "7365",
+        "title":  "Syndicat inter hospitalier"
+    },
+    {
+        "code":  "7366",
+        "title":  "Établissement public local social et médico-social"
+    },
+    {
+        "code":  "7367",
+        "title":  "Centre Intercommunal d\u0027action sociale (CIAS)"
+    },
+    {
+        "code":  "7371",
+        "title":  "Office public d\u0027habitation à loyer modéré (OPHLM)"
+    },
+    {
+        "code":  "7372",
+        "title":  "Service départemental d\u0027incendie et de secours (SDIS)"
+    },
+    {
+        "code":  "7373",
+        "title":  "Établissement public local culturel"
+    },
+    {
+        "code":  "7378",
+        "title":  "Régie d\u0027une collectivité locale à caractère administratif"
+    },
+    {
+        "code":  "7379",
+        "title":  "(Autre) Établissement public administratif local"
+    },
+    {
+        "code":  "7381",
+        "title":  "Organisme consulaire"
+    },
+    {
+        "code":  "7382",
+        "title":  "Établissement public national ayant fonction d\u0027administration centrale"
+    },
+    {
+        "code":  "7383",
+        "title":  "Établissement public national à caractère scientifique culturel et professionnel"
+    },
+    {
+        "code":  "7384",
+        "title":  "Autre établissement public national d\u0027enseignement"
+    },
+    {
+        "code":  "7385",
+        "title":  "Autre établissement public national administratif à compétence territoriale limitée"
+    },
+    {
+        "code":  "7389",
+        "title":  "Établissement public national à caractère administratif"
+    },
+    {
+        "code":  "7410",
+        "title":  "Groupement d\u0027intérêt public (GIP)"
+    },
+    {
+        "code":  "7430",
+        "title":  "Établissement public des cultes d\u0027Alsace-Lorraine"
+    },
+    {
+        "code":  "7450",
+        "title":  "Etablissement public administratif, cercle et foyer dans les armées"
+    },
+    {
+        "code":  "7470",
+        "title":  "Groupement de coopération sanitaire à gestion publique"
+    },
+    {
+        "code":  "7490",
+        "title":  "Autre personne morale de droit administratif"
+    },
+    {
+        "code":  "8110",
+        "title":  "Régime général de la Sécurité Sociale"
+    },
+    {
+        "code":  "8120",
+        "title":  "Régime spécial de Sécurité Sociale"
+    },
+    {
+        "code":  "8130",
+        "title":  "Institution de retraite complémentaire"
+    },
+    {
+        "code":  "8140",
+        "title":  "Mutualité sociale agricole"
+    },
+    {
+        "code":  "8150",
+        "title":  "Régime maladie des non-salariés non agricoles"
+    },
+    {
+        "code":  "8160",
+        "title":  "Régime vieillesse ne dépendant pas du régime général de la Sécurité Sociale"
+    },
+    {
+        "code":  "8170",
+        "title":  "Régime d\u0027assurance chômage"
+    },
+    {
+        "code":  "8190",
+        "title":  "Autre régime de prévoyance sociale"
+    },
+    {
+        "code":  "8210",
+        "title":  "Mutuelle"
+    },
+    {
+        "code":  "8250",
+        "title":  "Assurance mutuelle agricole"
+    },
+    {
+        "code":  "8290",
+        "title":  "Autre organisme mutualiste"
+    },
+    {
+        "code":  "8310",
+        "title":  "Comité social économique d’entreprise"
+    },
+    {
+        "code":  "8311",
+        "title":  "Comité social économique d\u0027établissement"
+    },
+    {
+        "code":  "8410",
+        "title":  "Syndicat de salariés"
+    },
+    {
+        "code":  "8420",
+        "title":  "Syndicat patronal"
+    },
+    {
+        "code":  "8450",
+        "title":  "Ordre professionnel ou assimilé"
+    },
+    {
+        "code":  "8470",
+        "title":  "Centre technique industriel ou comité professionnel du développement économique"
+    },
+    {
+        "code":  "8490",
+        "title":  "Autre organisme professionnel"
+    },
+    {
+        "code":  "8510",
+        "title":  "Institution de prévoyance"
+    },
+    {
+        "code":  "8520",
+        "title":  "Institution de retraite supplémentaire"
+    },
+    {
+        "code":  "9110",
+        "title":  "Syndicat de copropriété"
+    },
+    {
+        "code":  "9150",
+        "title":  "Association syndicale libre"
+    },
+    {
+        "code":  "9210",
+        "title":  "Association non déclarée"
+    },
+    {
+        "code":  "9220",
+        "title":  "Association déclarée"
+    },
+    {
+        "code":  "9221",
+        "title":  "Association déclarée d\u0027insertion par l\u0027économique"
+    },
+    {
+        "code":  "9222",
+        "title":  "Association intermédiaire"
+    },
+    {
+        "code":  "9223",
+        "title":  "Groupement d\u0027employeurs"
+    },
+    {
+        "code":  "9224",
+        "title":  "Association d\u0027avocats à responsabilité professionnelle individuelle"
+    },
+    {
+        "code":  "9230",
+        "title":  "Association déclarée, reconnue d\u0027utilité publique"
+    },
+    {
+        "code":  "9240",
+        "title":  "Congrégation"
+    },
+    {
+        "code":  "9260",
+        "title":  "Association de droit local (Bas-Rhin, Haut-Rhin et Moselle)"
+    },
+    {
+        "code":  "9300",
+        "title":  "Fondation"
+    },
+    {
+        "code":  "9900",
+        "title":  "Autre personne morale de droit privé"
+    },
+    {
+        "code":  "9970",
+        "title":  "Groupement de coopération sanitaire à gestion privée"
+    }
+]

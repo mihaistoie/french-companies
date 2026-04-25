@@ -1,0 +1,3657 @@
+[
+  {
+    "code": "01.12Z",
+    "title": "01.12Z - Culture du riz",
+    "altCode": "0112Z"
+  },
+  {
+    "code": "01.13Z",
+    "title": "01.13Z - Culture de légumes, de melons, de racines et de tubercules",
+    "altCode": "0113Z"
+  },
+  {
+    "code": "01.14Z",
+    "title": "01.14Z - Culture de la canne à sucre",
+    "altCode": "0114Z"
+  },
+  {
+    "code": "01.15Z",
+    "title": "01.15Z - Culture du tabac",
+    "altCode": "0115Z"
+  },
+  {
+    "code": "01.16Z",
+    "title": "01.16Z - Culture de plantes à fibres",
+    "altCode": "0116Z"
+  },
+  {
+    "code": "01.19Z",
+    "title": "01.19Z - Autres cultures non permanentes",
+    "altCode": "0119Z"
+  },
+  {
+    "code": "01.21Z",
+    "title": "01.21Z - Culture de la vigne",
+    "altCode": "0121Z"
+  },
+  {
+    "code": "01.22Z",
+    "title": "01.22Z - Culture de fruits tropicaux et subtropicaux",
+    "altCode": "0122Z"
+  },
+  {
+    "code": "01.23Z",
+    "title": "01.23Z - Culture d'agrumes",
+    "altCode": "0123Z"
+  },
+  {
+    "code": "01.24Z",
+    "title": "01.24Z - Culture de fruits à pépins et à noyau",
+    "altCode": "0124Z"
+  },
+  {
+    "code": "01.25Z",
+    "title": "01.25Z - Culture d'autres fruits d'arbres ou d'arbustes et de fruits à coque",
+    "altCode": "0125Z"
+  },
+  {
+    "code": "01.26Z",
+    "title": "01.26Z - Culture de fruits oléagineux",
+    "altCode": "0126Z"
+  },
+  {
+    "code": "01.27Z",
+    "title": "01.27Z - Culture de plantes à boissons",
+    "altCode": "0127Z"
+  },
+  {
+    "code": "01.28Z",
+    "title": "01.28Z - Culture de plantes à épices, aromatiques, médicinales et pharmaceutiques",
+    "altCode": "0128Z"
+  },
+  {
+    "code": "01.29Z",
+    "title": "01.29Z - Autres cultures permanentes",
+    "altCode": "0129Z"
+  },
+  {
+    "code": "01.30Z",
+    "title": "01.30Z - Reproduction de plantes",
+    "altCode": "0130Z"
+  },
+  {
+    "code": "01.41Z",
+    "title": "01.41Z - Élevage de vaches laitières",
+    "altCode": "0141Z"
+  },
+  {
+    "code": "01.42Z",
+    "title": "01.42Z - Élevage d'autres bovins et de buffles",
+    "altCode": "0142Z"
+  },
+  {
+    "code": "01.43Z",
+    "title": "01.43Z - Élevage de chevaux et d'autres équidés",
+    "altCode": "0143Z"
+  },
+  {
+    "code": "01.44Z",
+    "title": "01.44Z - Élevage de chameaux et d'autres camélidés",
+    "altCode": "0144Z"
+  },
+  {
+    "code": "01.45Z",
+    "title": "01.45Z - Élevage d'ovins et de caprins",
+    "altCode": "0145Z"
+  },
+  {
+    "code": "01.46Z",
+    "title": "01.46Z - Élevage de porcins",
+    "altCode": "0146Z"
+  },
+  {
+    "code": "01.47Z",
+    "title": "01.47Z - Élevage de volailles",
+    "altCode": "0147Z"
+  },
+  {
+    "code": "01.49Z",
+    "title": "01.49Z - Élevage d'autres animaux",
+    "altCode": "0149Z"
+  },
+  {
+    "code": "01.50Z",
+    "title": "01.50Z - Culture et élevage associés",
+    "altCode": "0150Z"
+  },
+  {
+    "code": "01.61Z",
+    "title": "01.61Z - Activités de soutien aux cultures",
+    "altCode": "0161Z"
+  },
+  {
+    "code": "01.62Z",
+    "title": "01.62Z - Activités de soutien à la production animale",
+    "altCode": "0162Z"
+  },
+  {
+    "code": "01.63Z",
+    "title": "01.63Z - Traitement primaire des récoltes",
+    "altCode": "0163Z"
+  },
+  {
+    "code": "01.64Z",
+    "title": "01.64Z - Traitement des semences",
+    "altCode": "0164Z"
+  },
+  {
+    "code": "01.70Z",
+    "title": "01.70Z - Chasse, piégeage et services annexes",
+    "altCode": "0170Z"
+  },
+  {
+    "code": "02.10Z",
+    "title": "02.10Z - Sylviculture et autres activités forestières",
+    "altCode": "0210Z"
+  },
+  {
+    "code": "02.20Z",
+    "title": "02.20Z - Exploitation forestière",
+    "altCode": "0220Z"
+  },
+  {
+    "code": "02.30Z",
+    "title": "02.30Z - Récolte de produits forestiers non ligneux poussant à l'état sauvage",
+    "altCode": "0230Z"
+  },
+  {
+    "code": "02.40Z",
+    "title": "02.40Z - Services de soutien à l'exploitation forestière",
+    "altCode": "0240Z"
+  },
+  {
+    "code": "03.11Z",
+    "title": "03.11Z - Pêche en mer",
+    "altCode": "0311Z"
+  },
+  {
+    "code": "03.12Z",
+    "title": "03.12Z - Pêche en eau douce",
+    "altCode": "0312Z"
+  },
+  {
+    "code": "03.21Z",
+    "title": "03.21Z - Aquaculture en mer",
+    "altCode": "0321Z"
+  },
+  {
+    "code": "03.22Z",
+    "title": "03.22Z - Aquaculture en eau douce",
+    "altCode": "0322Z"
+  },
+  {
+    "code": "05.10Z",
+    "title": "05.10Z - Extraction de houille",
+    "altCode": "0510Z"
+  },
+  {
+    "code": "05.20Z",
+    "title": "05.20Z - Extraction de lignite",
+    "altCode": "0520Z"
+  },
+  {
+    "code": "06.10Z",
+    "title": "06.10Z - Extraction de pétrole brut",
+    "altCode": "0610Z"
+  },
+  {
+    "code": "06.20Z",
+    "title": "06.20Z - Extraction de gaz naturel",
+    "altCode": "0620Z"
+  },
+  {
+    "code": "07.10Z",
+    "title": "07.10Z - Extraction de minerais de fer",
+    "altCode": "0710Z"
+  },
+  {
+    "code": "07.21Z",
+    "title": "07.21Z - Extraction de minerais d'uranium et de thorium",
+    "altCode": "0721Z"
+  },
+  {
+    "code": "07.29Z",
+    "title": "07.29Z - Extraction d'autres minerais de métaux non ferreux",
+    "altCode": "0729Z"
+  },
+  {
+    "code": "08.11Z",
+    "title": "08.11Z - Extraction de pierres ornementales et de construction, de calcaire industriel, de gypse, de craie et d'ardoise",
+    "altCode": "0811Z"
+  },
+  {
+    "code": "08.12Z",
+    "title": "08.12Z - Exploitation de gravières et sablières, extraction d'argiles et de kaolin",
+    "altCode": "0812Z"
+  },
+  {
+    "code": "08.91Z",
+    "title": "08.91Z - Extraction des minéraux chimiques et d'engrais minéraux",
+    "altCode": "0891Z"
+  },
+  {
+    "code": "08.92Z",
+    "title": "08.92Z - Extraction de tourbe",
+    "altCode": "0892Z"
+  },
+  {
+    "code": "08.93Z",
+    "title": "08.93Z - Production de sel",
+    "altCode": "0893Z"
+  },
+  {
+    "code": "08.99Z",
+    "title": "08.99Z - Autres activités extractives n.c.a.",
+    "altCode": "0899Z"
+  },
+  {
+    "code": "09.10Z",
+    "title": "09.10Z - Activités de soutien à l'extraction d'hydrocarbures",
+    "altCode": "0910Z"
+  },
+  {
+    "code": "09.90Z",
+    "title": "09.90Z - Activités de soutien aux autres industries extractives",
+    "altCode": "0990Z"
+  },
+  {
+    "code": "10.11Z",
+    "title": "10.11Z - Transformation et conservation de la viande de boucherie",
+    "altCode": "1011Z"
+  },
+  {
+    "code": "10.12Z",
+    "title": "10.12Z - Transformation et conservation de la viande de volaille",
+    "altCode": "1012Z"
+  },
+  {
+    "code": "10.13A",
+    "title": "10.13A - Préparation industrielle de produits à base de viande",
+    "altCode": "1013A"
+  },
+  {
+    "code": "10.13B",
+    "title": "10.13B - Charcuterie",
+    "altCode": "1013B"
+  },
+  {
+    "code": "10.20Z",
+    "title": "10.20Z - Transformation et conservation de poisson, de crustacés et de mollusques",
+    "altCode": "1020Z"
+  },
+  {
+    "code": "10.31Z",
+    "title": "10.31Z - Transformation et conservation de pommes de terre",
+    "altCode": "1031Z"
+  },
+  {
+    "code": "10.32Z",
+    "title": "10.32Z - Préparation de jus de fruits et légumes",
+    "altCode": "1032Z"
+  },
+  {
+    "code": "10.39A",
+    "title": "10.39A - Autre transformation et conservation de légumes",
+    "altCode": "1039A"
+  },
+  {
+    "code": "10.39B",
+    "title": "10.39B - Transformation et conservation de fruits",
+    "altCode": "1039B"
+  },
+  {
+    "code": "10.41A",
+    "title": "10.41A - Fabrication d'huiles et graisses brutes",
+    "altCode": "1041A"
+  },
+  {
+    "code": "10.41B",
+    "title": "10.41B - Fabrication d'huiles et graisses raffinées",
+    "altCode": "1041B"
+  },
+  {
+    "code": "10.42Z",
+    "title": "10.42Z - Fabrication de margarine et graisses comestibles similaires",
+    "altCode": "1042Z"
+  },
+  {
+    "code": "10.51A",
+    "title": "10.51A - Fabrication de lait liquide et de produits frais",
+    "altCode": "1051A"
+  },
+  {
+    "code": "10.51B",
+    "title": "10.51B - Fabrication de beurre",
+    "altCode": "1051B"
+  },
+  {
+    "code": "10.51C",
+    "title": "10.51C - Fabrication de fromage",
+    "altCode": "1051C"
+  },
+  {
+    "code": "10.51D",
+    "title": "10.51D - Fabrication d'autres produits laitiers",
+    "altCode": "1051D"
+  },
+  {
+    "code": "10.52Z",
+    "title": "10.52Z - Fabrication de glaces et sorbets",
+    "altCode": "1052Z"
+  },
+  {
+    "code": "10.61A",
+    "title": "10.61A - Meunerie",
+    "altCode": "1061A"
+  },
+  {
+    "code": "10.61B",
+    "title": "10.61B - Autres activités du travail des grains",
+    "altCode": "1061B"
+  },
+  {
+    "code": "10.62Z",
+    "title": "10.62Z - Fabrication de produits amylacés",
+    "altCode": "1062Z"
+  },
+  {
+    "code": "10.71A",
+    "title": "10.71A - Fabrication industrielle de pain et de pâtisserie fraîche",
+    "altCode": "1071A"
+  },
+  {
+    "code": "10.71B",
+    "title": "10.71B - Cuisson de produits de boulangerie",
+    "altCode": "1071B"
+  },
+  {
+    "code": "10.71C",
+    "title": "10.71C - Boulangerie et boulangerie-pâtisserie",
+    "altCode": "1071C"
+  },
+  {
+    "code": "10.71D",
+    "title": "10.71D - Pâtisserie",
+    "altCode": "1071D"
+  },
+  {
+    "code": "10.72Z",
+    "title": "10.72Z - Fabrication de biscuits, biscottes et pâtisseries de conservation",
+    "altCode": "1072Z"
+  },
+  {
+    "code": "10.73Z",
+    "title": "10.73Z - Fabrication de pâtes alimentaires",
+    "altCode": "1073Z"
+  },
+  {
+    "code": "10.81Z",
+    "title": "10.81Z - Fabrication de sucre",
+    "altCode": "1081Z"
+  },
+  {
+    "code": "10.82Z",
+    "title": "10.82Z - Fabrication de cacao, chocolat et de produits de confiserie",
+    "altCode": "1082Z"
+  },
+  {
+    "code": "10.83Z",
+    "title": "10.83Z - Transformation du thé et du café",
+    "altCode": "1083Z"
+  },
+  {
+    "code": "10.84Z",
+    "title": "10.84Z - Fabrication de condiments et assaisonnements",
+    "altCode": "1084Z"
+  },
+  {
+    "code": "10.85Z",
+    "title": "10.85Z - Fabrication de plats préparés",
+    "altCode": "1085Z"
+  },
+  {
+    "code": "10.86Z",
+    "title": "10.86Z - Fabrication d'aliments homogénéisés et diététiques",
+    "altCode": "1086Z"
+  },
+  {
+    "code": "10.89Z",
+    "title": "10.89Z - Fabrication d'autres produits alimentaires n.c.a.",
+    "altCode": "1089Z"
+  },
+  {
+    "code": "10.91Z",
+    "title": "10.91Z - Fabrication d'aliments pour animaux de ferme",
+    "altCode": "1091Z"
+  },
+  {
+    "code": "10.92Z",
+    "title": "10.92Z - Fabrication d'aliments pour animaux de compagnie",
+    "altCode": "1092Z"
+  },
+  {
+    "code": "11.01Z",
+    "title": "11.01Z - Production de boissons alcooliques distillées",
+    "altCode": "1101Z"
+  },
+  {
+    "code": "11.02A",
+    "title": "11.02A - Fabrication de vins effervescents",
+    "altCode": "1102A"
+  },
+  {
+    "code": "11.02B",
+    "title": "11.02B - Vinification",
+    "altCode": "1102B"
+  },
+  {
+    "code": "11.03Z",
+    "title": "11.03Z - Fabrication de cidre et de vins de fruits",
+    "altCode": "1103Z"
+  },
+  {
+    "code": "11.04Z",
+    "title": "11.04Z - Production d'autres boissons fermentées non distillées",
+    "altCode": "1104Z"
+  },
+  {
+    "code": "11.05Z",
+    "title": "11.05Z - Fabrication de bière",
+    "altCode": "1105Z"
+  },
+  {
+    "code": "11.06Z",
+    "title": "11.06Z - Fabrication de malt",
+    "altCode": "1106Z"
+  },
+  {
+    "code": "11.07A",
+    "title": "11.07A - Industrie des eaux de table",
+    "altCode": "1107A"
+  },
+  {
+    "code": "11.07B",
+    "title": "11.07B - Production de boissons rafraîchissantes",
+    "altCode": "1107B"
+  },
+  {
+    "code": "12.00Z",
+    "title": "12.00Z - Fabrication de produits à base de tabac",
+    "altCode": "1200Z"
+  },
+  {
+    "code": "13.10Z",
+    "title": "13.10Z - Préparation de fibres textiles et filature",
+    "altCode": "1310Z"
+  },
+  {
+    "code": "13.20Z",
+    "title": "13.20Z - Tissage",
+    "altCode": "1320Z"
+  },
+  {
+    "code": "13.30Z",
+    "title": "13.30Z - Ennoblissement textile",
+    "altCode": "1330Z"
+  },
+  {
+    "code": "13.91Z",
+    "title": "13.91Z - Fabrication d'étoffes à mailles",
+    "altCode": "1391Z"
+  },
+  {
+    "code": "13.92Z",
+    "title": "13.92Z - Fabrication d'articles textiles, sauf habillement",
+    "altCode": "1392Z"
+  },
+  {
+    "code": "13.93Z",
+    "title": "13.93Z - Fabrication de tapis et moquettes",
+    "altCode": "1393Z"
+  },
+  {
+    "code": "13.94Z",
+    "title": "13.94Z - Fabrication de ficelles, cordes et filets",
+    "altCode": "1394Z"
+  },
+  {
+    "code": "13.95Z",
+    "title": "13.95Z - Fabrication de non-tissés, sauf habillement",
+    "altCode": "1395Z"
+  },
+  {
+    "code": "13.96Z",
+    "title": "13.96Z - Fabrication d'autres textiles techniques et industriels",
+    "altCode": "1396Z"
+  },
+  {
+    "code": "13.99Z",
+    "title": "13.99Z - Fabrication d'autres textiles n.c.a.",
+    "altCode": "1399Z"
+  },
+  {
+    "code": "14.11Z",
+    "title": "14.11Z - Fabrication de vêtements en cuir",
+    "altCode": "1411Z"
+  },
+  {
+    "code": "14.12Z",
+    "title": "14.12Z - Fabrication de vêtements de travail",
+    "altCode": "1412Z"
+  },
+  {
+    "code": "14.13Z",
+    "title": "14.13Z - Fabrication de vêtements de dessus",
+    "altCode": "1413Z"
+  },
+  {
+    "code": "14.14Z",
+    "title": "14.14Z - Fabrication de vêtements de dessous",
+    "altCode": "1414Z"
+  },
+  {
+    "code": "14.19Z",
+    "title": "14.19Z - Fabrication d'autres vêtements et accessoires",
+    "altCode": "1419Z"
+  },
+  {
+    "code": "14.20Z",
+    "title": "14.20Z - Fabrication d'articles en fourrure",
+    "altCode": "1420Z"
+  },
+  {
+    "code": "14.31Z",
+    "title": "14.31Z - Fabrication d'articles chaussants à mailles",
+    "altCode": "1431Z"
+  },
+  {
+    "code": "14.39Z",
+    "title": "14.39Z - Fabrication d'autres articles à mailles",
+    "altCode": "1439Z"
+  },
+  {
+    "code": "15.11Z",
+    "title": "15.11Z - \"Apprêt et tannage des cuirs",
+    "altCode": "1511Z"
+  },
+  {
+    "code": "15.12Z",
+    "title": "15.12Z - Fabrication d'articles de voyage, de maroquinerie et de sellerie",
+    "altCode": "1512Z"
+  },
+  {
+    "code": "15.20Z",
+    "title": "15.20Z - Fabrication de chaussures",
+    "altCode": "1520Z"
+  },
+  {
+    "code": "16.10A",
+    "title": "16.10A - Sciage et rabotage du bois, hors imprégnation",
+    "altCode": "1610A"
+  },
+  {
+    "code": "16.10B",
+    "title": "16.10B - Imprégnation du bois",
+    "altCode": "1610B"
+  },
+  {
+    "code": "16.21Z",
+    "title": "16.21Z - Fabrication de placage et de panneaux de bois",
+    "altCode": "1621Z"
+  },
+  {
+    "code": "16.22Z",
+    "title": "16.22Z - Fabrication de parquets assemblés",
+    "altCode": "1622Z"
+  },
+  {
+    "code": "16.23Z",
+    "title": "16.23Z - Fabrication de charpentes et d'autres menuiseries",
+    "altCode": "1623Z"
+  },
+  {
+    "code": "16.24Z",
+    "title": "16.24Z - Fabrication d'emballages en bois",
+    "altCode": "1624Z"
+  },
+  {
+    "code": "16.29Z",
+    "title": "16.29Z - \"Fabrication d'objets divers en bois",
+    "altCode": "1629Z"
+  },
+  {
+    "code": "17.11Z",
+    "title": "17.11Z - Fabrication de pâte à papier",
+    "altCode": "1711Z"
+  },
+  {
+    "code": "17.12Z",
+    "title": "17.12Z - Fabrication de papier et de carton",
+    "altCode": "1712Z"
+  },
+  {
+    "code": "17.21A",
+    "title": "17.21A - Fabrication de carton ondulé",
+    "altCode": "1721A"
+  },
+  {
+    "code": "17.21B",
+    "title": "17.21B - Fabrication de cartonnages",
+    "altCode": "1721B"
+  },
+  {
+    "code": "17.21C",
+    "title": "17.21C - Fabrication d'emballages en papier",
+    "altCode": "1721C"
+  },
+  {
+    "code": "17.22Z",
+    "title": "17.22Z - Fabrication d'articles en papier à usage sanitaire ou domestique",
+    "altCode": "1722Z"
+  },
+  {
+    "code": "17.23Z",
+    "title": "17.23Z - Fabrication d'articles de papeterie",
+    "altCode": "1723Z"
+  },
+  {
+    "code": "17.24Z",
+    "title": "17.24Z - Fabrication de papiers peints",
+    "altCode": "1724Z"
+  },
+  {
+    "code": "17.29Z",
+    "title": "17.29Z - Fabrication d'autres articles en papier ou en carton",
+    "altCode": "1729Z"
+  },
+  {
+    "code": "18.11Z",
+    "title": "18.11Z - Imprimerie de journaux",
+    "altCode": "1811Z"
+  },
+  {
+    "code": "18.12Z",
+    "title": "18.12Z - Autre imprimerie (labeur)",
+    "altCode": "1812Z"
+  },
+  {
+    "code": "18.13Z",
+    "title": "18.13Z - Activités de pré-presse",
+    "altCode": "1813Z"
+  },
+  {
+    "code": "18.14Z",
+    "title": "18.14Z - Reliure et activités connexes",
+    "altCode": "1814Z"
+  },
+  {
+    "code": "18.20Z",
+    "title": "18.20Z - Reproduction d'enregistrements",
+    "altCode": "1820Z"
+  },
+  {
+    "code": "19.10Z",
+    "title": "19.10Z - Cokéfaction",
+    "altCode": "1910Z"
+  },
+  {
+    "code": "19.20Z",
+    "title": "19.20Z - Raffinage du pétrole",
+    "altCode": "1920Z"
+  },
+  {
+    "code": "20.11Z",
+    "title": "20.11Z - Fabrication de gaz industriels",
+    "altCode": "2011Z"
+  },
+  {
+    "code": "20.12Z",
+    "title": "20.12Z - Fabrication de colorants et de pigments",
+    "altCode": "2012Z"
+  },
+  {
+    "code": "20.13A",
+    "title": "20.13A - Enrichissement et retraitement de matières nucléaires",
+    "altCode": "2013A"
+  },
+  {
+    "code": "20.13B",
+    "title": "20.13B - Fabrication d'autres produits chimiques inorganiques de base n.c.a.",
+    "altCode": "2013B"
+  },
+  {
+    "code": "20.14Z",
+    "title": "20.14Z - Fabrication d'autres produits chimiques organiques de base",
+    "altCode": "2014Z"
+  },
+  {
+    "code": "20.15Z",
+    "title": "20.15Z - Fabrication de produits azotés et d'engrais",
+    "altCode": "2015Z"
+  },
+  {
+    "code": "20.16Z",
+    "title": "20.16Z - Fabrication de matières plastiques de base",
+    "altCode": "2016Z"
+  },
+  {
+    "code": "20.17Z",
+    "title": "20.17Z - Fabrication de caoutchouc synthétique",
+    "altCode": "2017Z"
+  },
+  {
+    "code": "20.20Z",
+    "title": "20.20Z - Fabrication de pesticides et d'autres produits agrochimiques",
+    "altCode": "2020Z"
+  },
+  {
+    "code": "20.30Z",
+    "title": "20.30Z - Fabrication de peintures, vernis, encres et mastics",
+    "altCode": "2030Z"
+  },
+  {
+    "code": "20.41Z",
+    "title": "20.41Z - Fabrication de savons, détergents et produits d'entretien",
+    "altCode": "2041Z"
+  },
+  {
+    "code": "20.42Z",
+    "title": "20.42Z - Fabrication de parfums et de produits pour la toilette",
+    "altCode": "2042Z"
+  },
+  {
+    "code": "20.51Z",
+    "title": "20.51Z - Fabrication de produits explosifs",
+    "altCode": "2051Z"
+  },
+  {
+    "code": "20.52Z",
+    "title": "20.52Z - Fabrication de colles",
+    "altCode": "2052Z"
+  },
+  {
+    "code": "20.53Z",
+    "title": "20.53Z - Fabrication d'huiles essentielles",
+    "altCode": "2053Z"
+  },
+  {
+    "code": "20.59Z",
+    "title": "20.59Z - Fabrication d'autres produits chimiques n.c.a.",
+    "altCode": "2059Z"
+  },
+  {
+    "code": "20.60Z",
+    "title": "20.60Z - Fabrication de fibres artificielles ou synthétiques",
+    "altCode": "2060Z"
+  },
+  {
+    "code": "21.10Z",
+    "title": "21.10Z - Fabrication de produits pharmaceutiques de base",
+    "altCode": "2110Z"
+  },
+  {
+    "code": "21.20Z",
+    "title": "21.20Z - Fabrication de préparations pharmaceutiques",
+    "altCode": "2120Z"
+  },
+  {
+    "code": "22.11Z",
+    "title": "22.11Z - Fabrication et rechapage de pneumatiques",
+    "altCode": "2211Z"
+  },
+  {
+    "code": "22.19Z",
+    "title": "22.19Z - Fabrication d'autres articles en caoutchouc",
+    "altCode": "2219Z"
+  },
+  {
+    "code": "22.21Z",
+    "title": "22.21Z - Fabrication de plaques, feuilles, tubes et profilés en matières plastiques",
+    "altCode": "2221Z"
+  },
+  {
+    "code": "22.22Z",
+    "title": "22.22Z - Fabrication d'emballages en matières plastiques",
+    "altCode": "2222Z"
+  },
+  {
+    "code": "22.23Z",
+    "title": "22.23Z - Fabrication d'éléments en matières plastiques pour la construction",
+    "altCode": "2223Z"
+  },
+  {
+    "code": "22.29A",
+    "title": "22.29A - Fabrication de pièces techniques à base de matières plastiques",
+    "altCode": "2229A"
+  },
+  {
+    "code": "22.29B",
+    "title": "22.29B - Fabrication de produits de consommation courante en matières plastiques",
+    "altCode": "2229B"
+  },
+  {
+    "code": "23.11Z",
+    "title": "23.11Z - Fabrication de verre plat",
+    "altCode": "2311Z"
+  },
+  {
+    "code": "23.12Z",
+    "title": "23.12Z - Façonnage et transformation du verre plat",
+    "altCode": "2312Z"
+  },
+  {
+    "code": "23.13Z",
+    "title": "23.13Z - Fabrication de verre creux",
+    "altCode": "2313Z"
+  },
+  {
+    "code": "23.14Z",
+    "title": "23.14Z - Fabrication de fibres de verre",
+    "altCode": "2314Z"
+  },
+  {
+    "code": "23.19Z",
+    "title": "23.19Z - Fabrication et façonnage d'autres articles en verre, y compris verre technique",
+    "altCode": "2319Z"
+  },
+  {
+    "code": "23.20Z",
+    "title": "23.20Z - Fabrication de produits réfractaires",
+    "altCode": "2320Z"
+  },
+  {
+    "code": "23.31Z",
+    "title": "23.31Z - Fabrication de carreaux en céramique",
+    "altCode": "2331Z"
+  },
+  {
+    "code": "23.32Z",
+    "title": "23.32Z - Fabrication de briques, tuiles et produits de construction, en terre cuite",
+    "altCode": "2332Z"
+  },
+  {
+    "code": "23.41Z",
+    "title": "23.41Z - Fabrication d'articles céramiques à usage domestique ou ornemental",
+    "altCode": "2341Z"
+  },
+  {
+    "code": "23.42Z",
+    "title": "23.42Z - Fabrication d'appareils sanitaires en céramique",
+    "altCode": "2342Z"
+  },
+  {
+    "code": "23.43Z",
+    "title": "23.43Z - Fabrication d'isolateurs et pièces isolantes en céramique",
+    "altCode": "2343Z"
+  },
+  {
+    "code": "23.44Z",
+    "title": "23.44Z - Fabrication d'autres produits céramiques à usage technique",
+    "altCode": "2344Z"
+  },
+  {
+    "code": "23.49Z",
+    "title": "23.49Z - Fabrication d'autres produits céramiques",
+    "altCode": "2349Z"
+  },
+  {
+    "code": "23.51Z",
+    "title": "23.51Z - Fabrication de ciment",
+    "altCode": "2351Z"
+  },
+  {
+    "code": "23.52Z",
+    "title": "23.52Z - Fabrication de chaux et plâtre",
+    "altCode": "2352Z"
+  },
+  {
+    "code": "23.61Z",
+    "title": "23.61Z - Fabrication d'éléments en béton pour la construction",
+    "altCode": "2361Z"
+  },
+  {
+    "code": "23.62Z",
+    "title": "23.62Z - Fabrication d'éléments en plâtre pour la construction",
+    "altCode": "2362Z"
+  },
+  {
+    "code": "23.63Z",
+    "title": "23.63Z - Fabrication de béton prêt à l'emploi",
+    "altCode": "2363Z"
+  },
+  {
+    "code": "23.64Z",
+    "title": "23.64Z - Fabrication de mortiers et bétons secs",
+    "altCode": "2364Z"
+  },
+  {
+    "code": "23.65Z",
+    "title": "23.65Z - Fabrication d'ouvrages en fibre-ciment",
+    "altCode": "2365Z"
+  },
+  {
+    "code": "23.69Z",
+    "title": "23.69Z - Fabrication d'autres ouvrages en béton, en ciment ou en plâtre",
+    "altCode": "2369Z"
+  },
+  {
+    "code": "23.70Z",
+    "title": "23.70Z - Taille, façonnage et finissage de pierres",
+    "altCode": "2370Z"
+  },
+  {
+    "code": "23.91Z",
+    "title": "23.91Z - Fabrication de produits abrasifs",
+    "altCode": "2391Z"
+  },
+  {
+    "code": "23.99Z",
+    "title": "23.99Z - Fabrication d'autres produits minéraux non métalliques n.c.a.",
+    "altCode": "2399Z"
+  },
+  {
+    "code": "24.10Z",
+    "title": "24.10Z - Sidérurgie",
+    "altCode": "2410Z"
+  },
+  {
+    "code": "24.20Z",
+    "title": "24.20Z - Fabrication de tubes, tuyaux, profilés creux et accessoires correspondants en acier",
+    "altCode": "2420Z"
+  },
+  {
+    "code": "24.31Z",
+    "title": "24.31Z - Étirage à froid de barres",
+    "altCode": "2431Z"
+  },
+  {
+    "code": "24.32Z",
+    "title": "24.32Z - Laminage à froid de feuillards",
+    "altCode": "2432Z"
+  },
+  {
+    "code": "24.33Z",
+    "title": "24.33Z - Profilage à froid par formage ou pliage",
+    "altCode": "2433Z"
+  },
+  {
+    "code": "24.34Z",
+    "title": "24.34Z - Tréfilage à froid",
+    "altCode": "2434Z"
+  },
+  {
+    "code": "24.41Z",
+    "title": "24.41Z - Production de métaux précieux",
+    "altCode": "2441Z"
+  },
+  {
+    "code": "24.42Z",
+    "title": "24.42Z - Métallurgie de l'aluminium",
+    "altCode": "2442Z"
+  },
+  {
+    "code": "24.43Z",
+    "title": "24.43Z - Métallurgie du plomb, du zinc ou de l'étain",
+    "altCode": "2443Z"
+  },
+  {
+    "code": "24.44Z",
+    "title": "24.44Z - Métallurgie du cuivre",
+    "altCode": "2444Z"
+  },
+  {
+    "code": "24.45Z",
+    "title": "24.45Z - Métallurgie des autres métaux non ferreux",
+    "altCode": "2445Z"
+  },
+  {
+    "code": "24.46Z",
+    "title": "24.46Z - Élaboration et transformation de matières nucléaires",
+    "altCode": "2446Z"
+  },
+  {
+    "code": "24.51Z",
+    "title": "24.51Z - Fonderie de fonte",
+    "altCode": "2451Z"
+  },
+  {
+    "code": "24.52Z",
+    "title": "24.52Z - Fonderie d'acier",
+    "altCode": "2452Z"
+  },
+  {
+    "code": "24.53Z",
+    "title": "24.53Z - Fonderie de métaux légers",
+    "altCode": "2453Z"
+  },
+  {
+    "code": "24.54Z",
+    "title": "24.54Z - Fonderie d'autres métaux non ferreux",
+    "altCode": "2454Z"
+  },
+  {
+    "code": "25.11Z",
+    "title": "25.11Z - Fabrication de structures métalliques et de parties de structures",
+    "altCode": "2511Z"
+  },
+  {
+    "code": "25.12Z",
+    "title": "25.12Z - Fabrication de portes et fenêtres en métal",
+    "altCode": "2512Z"
+  },
+  {
+    "code": "25.21Z",
+    "title": "25.21Z - Fabrication de radiateurs et de chaudières pour le chauffage central",
+    "altCode": "2521Z"
+  },
+  {
+    "code": "25.29Z",
+    "title": "25.29Z - Fabrication d'autres réservoirs, citernes et conteneurs métalliques",
+    "altCode": "2529Z"
+  },
+  {
+    "code": "25.30Z",
+    "title": "25.30Z - Fabrication de générateurs de vapeur, à l'exception des chaudières pour le chauffage central",
+    "altCode": "2530Z"
+  },
+  {
+    "code": "25.40Z",
+    "title": "25.40Z - Fabrication d'armes et de munitions",
+    "altCode": "2540Z"
+  },
+  {
+    "code": "25.50A",
+    "title": "25.50A - \"Forge, estampage, matriçage",
+    "altCode": "2550A"
+  },
+  {
+    "code": "25.50B",
+    "title": "25.50B - Découpage, emboutissage",
+    "altCode": "2550B"
+  },
+  {
+    "code": "25.61Z",
+    "title": "25.61Z - Traitement et revêtement des métaux",
+    "altCode": "2561Z"
+  },
+  {
+    "code": "25.62A",
+    "title": "25.62A - Décolletage",
+    "altCode": "2562A"
+  },
+  {
+    "code": "25.62B",
+    "title": "25.62B - Mécanique industrielle",
+    "altCode": "2562B"
+  },
+  {
+    "code": "25.71Z",
+    "title": "25.71Z - Fabrication de coutellerie",
+    "altCode": "2571Z"
+  },
+  {
+    "code": "25.72Z",
+    "title": "25.72Z - Fabrication de serrures et de ferrures",
+    "altCode": "2572Z"
+  },
+  {
+    "code": "25.73A",
+    "title": "25.73A - Fabrication de moules et modèles",
+    "altCode": "2573A"
+  },
+  {
+    "code": "25.73B",
+    "title": "25.73B - Fabrication d'autres outillages",
+    "altCode": "2573B"
+  },
+  {
+    "code": "25.91Z",
+    "title": "25.91Z - Fabrication de fûts et emballages métalliques similaires",
+    "altCode": "2591Z"
+  },
+  {
+    "code": "25.92Z",
+    "title": "25.92Z - Fabrication d'emballages métalliques légers",
+    "altCode": "2592Z"
+  },
+  {
+    "code": "25.93Z",
+    "title": "25.93Z - Fabrication d'articles en fils métalliques, de chaînes et de ressorts",
+    "altCode": "2593Z"
+  },
+  {
+    "code": "25.94Z",
+    "title": "25.94Z - Fabrication de vis et de boulons",
+    "altCode": "2594Z"
+  },
+  {
+    "code": "25.99A",
+    "title": "25.99A - Fabrication d'articles métalliques ménagers",
+    "altCode": "2599A"
+  },
+  {
+    "code": "25.99B",
+    "title": "25.99B - Fabrication d'autres articles métalliques",
+    "altCode": "2599B"
+  },
+  {
+    "code": "26.11Z",
+    "title": "26.11Z - Fabrication de composants électroniques",
+    "altCode": "2611Z"
+  },
+  {
+    "code": "26.12Z",
+    "title": "26.12Z - Fabrication de cartes électroniques assemblées",
+    "altCode": "2612Z"
+  },
+  {
+    "code": "26.20Z",
+    "title": "26.20Z - Fabrication d'ordinateurs et d'équipements périphériques",
+    "altCode": "2620Z"
+  },
+  {
+    "code": "26.30Z",
+    "title": "26.30Z - Fabrication d'équipements de communication",
+    "altCode": "2630Z"
+  },
+  {
+    "code": "26.40Z",
+    "title": "26.40Z - Fabrication de produits électroniques grand public",
+    "altCode": "2640Z"
+  },
+  {
+    "code": "26.51A",
+    "title": "26.51A - Fabrication d'équipements d'aide à la navigation",
+    "altCode": "2651A"
+  },
+  {
+    "code": "26.51B",
+    "title": "26.51B - Fabrication d'instrumentation scientifique et technique",
+    "altCode": "2651B"
+  },
+  {
+    "code": "26.52Z",
+    "title": "26.52Z - Horlogerie",
+    "altCode": "2652Z"
+  },
+  {
+    "code": "26.60Z",
+    "title": "26.60Z - Fabrication d'équipements d'irradiation médicale, d'équipements électromédicaux et électrothérapeutiques",
+    "altCode": "2660Z"
+  },
+  {
+    "code": "26.70Z",
+    "title": "26.70Z - Fabrication de matériels optique et photographique",
+    "altCode": "2670Z"
+  },
+  {
+    "code": "26.80Z",
+    "title": "26.80Z - Fabrication de supports magnétiques et optiques",
+    "altCode": "2680Z"
+  },
+  {
+    "code": "27.11Z",
+    "title": "27.11Z - Fabrication de moteurs, génératrices et transformateurs électriques",
+    "altCode": "2711Z"
+  },
+  {
+    "code": "27.12Z",
+    "title": "27.12Z - Fabrication de matériel de distribution et de commande électrique",
+    "altCode": "2712Z"
+  },
+  {
+    "code": "27.20Z",
+    "title": "27.20Z - Fabrication de piles et d'accumulateurs électriques",
+    "altCode": "2720Z"
+  },
+  {
+    "code": "27.31Z",
+    "title": "27.31Z - Fabrication de câbles de fibres optiques",
+    "altCode": "2731Z"
+  },
+  {
+    "code": "27.32Z",
+    "title": "27.32Z - Fabrication d'autres fils et câbles électroniques ou électriques",
+    "altCode": "2732Z"
+  },
+  {
+    "code": "27.33Z",
+    "title": "27.33Z - Fabrication de matériel d'installation électrique",
+    "altCode": "2733Z"
+  },
+  {
+    "code": "27.40Z",
+    "title": "27.40Z - Fabrication d'appareils d'éclairage électrique",
+    "altCode": "2740Z"
+  },
+  {
+    "code": "27.51Z",
+    "title": "27.51Z - Fabrication d'appareils électroménagers",
+    "altCode": "2751Z"
+  },
+  {
+    "code": "27.52Z",
+    "title": "27.52Z - Fabrication d'appareils ménagers non électriques",
+    "altCode": "2752Z"
+  },
+  {
+    "code": "27.90Z",
+    "title": "27.90Z - Fabrication d'autres matériels électriques",
+    "altCode": "2790Z"
+  },
+  {
+    "code": "28.11Z",
+    "title": "28.11Z - Fabrication de moteurs et turbines, à l'exception des moteurs d'avions et de véhicules",
+    "altCode": "2811Z"
+  },
+  {
+    "code": "28.12Z",
+    "title": "28.12Z - Fabrication d'équipements hydrauliques et pneumatiques",
+    "altCode": "2812Z"
+  },
+  {
+    "code": "28.13Z",
+    "title": "28.13Z - Fabrication d'autres pompes et compresseurs",
+    "altCode": "2813Z"
+  },
+  {
+    "code": "28.14Z",
+    "title": "28.14Z - Fabrication d'autres articles de robinetterie",
+    "altCode": "2814Z"
+  },
+  {
+    "code": "28.15Z",
+    "title": "28.15Z - Fabrication d'engrenages et d'organes mécaniques de transmission",
+    "altCode": "2815Z"
+  },
+  {
+    "code": "28.21Z",
+    "title": "28.21Z - Fabrication de fours et brûleurs",
+    "altCode": "2821Z"
+  },
+  {
+    "code": "28.22Z",
+    "title": "28.22Z - Fabrication de matériel de levage et de manutention",
+    "altCode": "2822Z"
+  },
+  {
+    "code": "28.23Z",
+    "title": "28.23Z - Fabrication de machines et d'équipements de bureau (à l'exception des ordinateurs et équipements périphériques)",
+    "altCode": "2823Z"
+  },
+  {
+    "code": "28.24Z",
+    "title": "28.24Z - Fabrication d'outillage portatif à moteur incorporé",
+    "altCode": "2824Z"
+  },
+  {
+    "code": "28.25Z",
+    "title": "28.25Z - Fabrication d'équipements aérauliques et frigorifiques industriels",
+    "altCode": "2825Z"
+  },
+  {
+    "code": "28.29A",
+    "title": "28.29A - Fabrication d'équipements d'emballage, de conditionnement et de pesage",
+    "altCode": "2829A"
+  },
+  {
+    "code": "28.29B",
+    "title": "28.29B - Fabrication d'autres machines d'usage général",
+    "altCode": "2829B"
+  },
+  {
+    "code": "28.30Z",
+    "title": "28.30Z - Fabrication de machines agricoles et forestières",
+    "altCode": "2830Z"
+  },
+  {
+    "code": "28.41Z",
+    "title": "28.41Z - Fabrication de machines-outils pour le travail des métaux",
+    "altCode": "2841Z"
+  },
+  {
+    "code": "28.49Z",
+    "title": "28.49Z - Fabrication d'autres machines-outils",
+    "altCode": "2849Z"
+  },
+  {
+    "code": "28.91Z",
+    "title": "28.91Z - Fabrication de machines pour la métallurgie",
+    "altCode": "2891Z"
+  },
+  {
+    "code": "28.92Z",
+    "title": "28.92Z - Fabrication de machines pour l'extraction ou la construction",
+    "altCode": "2892Z"
+  },
+  {
+    "code": "28.93Z",
+    "title": "28.93Z - Fabrication de machines pour l'industrie agro-alimentaire",
+    "altCode": "2893Z"
+  },
+  {
+    "code": "28.94Z",
+    "title": "28.94Z - Fabrication de machines pour les industries textiles",
+    "altCode": "2894Z"
+  },
+  {
+    "code": "28.95Z",
+    "title": "28.95Z - Fabrication de machines pour les industries du papier et du carton",
+    "altCode": "2895Z"
+  },
+  {
+    "code": "28.96Z",
+    "title": "28.96Z - Fabrication de machines pour le travail du caoutchouc ou des plastiques",
+    "altCode": "2896Z"
+  },
+  {
+    "code": "28.99A",
+    "title": "28.99A - Fabrication de machines d'imprimerie",
+    "altCode": "2899A"
+  },
+  {
+    "code": "28.99B",
+    "title": "28.99B - Fabrication d'autres machines spécialisées",
+    "altCode": "2899B"
+  },
+  {
+    "code": "29.10Z",
+    "title": "29.10Z - Construction de véhicules automobiles",
+    "altCode": "2910Z"
+  },
+  {
+    "code": "29.20Z",
+    "title": "29.20Z - Fabrication de carrosseries et remorques",
+    "altCode": "2920Z"
+  },
+  {
+    "code": "29.31Z",
+    "title": "29.31Z - Fabrication d'équipements électriques et électroniques automobiles",
+    "altCode": "2931Z"
+  },
+  {
+    "code": "29.32Z",
+    "title": "29.32Z - Fabrication d'autres équipements automobiles",
+    "altCode": "2932Z"
+  },
+  {
+    "code": "30.11Z",
+    "title": "30.11Z - Construction de navires et de structures flottantes",
+    "altCode": "3011Z"
+  },
+  {
+    "code": "30.12Z",
+    "title": "30.12Z - Construction de bateaux de plaisance",
+    "altCode": "3012Z"
+  },
+  {
+    "code": "30.20Z",
+    "title": "30.20Z - Construction de locomotives et d'autre matériel ferroviaire roulant",
+    "altCode": "3020Z"
+  },
+  {
+    "code": "30.30Z",
+    "title": "30.30Z - Construction aéronautique et spatiale",
+    "altCode": "3030Z"
+  },
+  {
+    "code": "30.40Z",
+    "title": "30.40Z - Construction de véhicules militaires de combat",
+    "altCode": "3040Z"
+  },
+  {
+    "code": "30.91Z",
+    "title": "30.91Z - Fabrication de motocycles",
+    "altCode": "3091Z"
+  },
+  {
+    "code": "30.92Z",
+    "title": "30.92Z - Fabrication de bicyclettes et de véhicules pour invalides",
+    "altCode": "3092Z"
+  },
+  {
+    "code": "30.99Z",
+    "title": "30.99Z - Fabrication d'autres équipements de transport n.c.a.",
+    "altCode": "3099Z"
+  },
+  {
+    "code": "31.01Z",
+    "title": "31.01Z - Fabrication de meubles de bureau et de magasin",
+    "altCode": "3101Z"
+  },
+  {
+    "code": "31.02Z",
+    "title": "31.02Z - Fabrication de meubles de cuisine",
+    "altCode": "3102Z"
+  },
+  {
+    "code": "31.03Z",
+    "title": "31.03Z - Fabrication de matelas",
+    "altCode": "3103Z"
+  },
+  {
+    "code": "31.09A",
+    "title": "31.09A - Fabrication de sièges d'ameublement d'intérieur",
+    "altCode": "3109A"
+  },
+  {
+    "code": "31.09B",
+    "title": "31.09B - Fabrication d'autres meubles et industries connexes de l'ameublement",
+    "altCode": "3109B"
+  },
+  {
+    "code": "32.11Z",
+    "title": "32.11Z - Frappe de monnaie",
+    "altCode": "3211Z"
+  },
+  {
+    "code": "32.12Z",
+    "title": "32.12Z - Fabrication d'articles de joaillerie et bijouterie",
+    "altCode": "3212Z"
+  },
+  {
+    "code": "32.13Z",
+    "title": "32.13Z - Fabrication d'articles de bijouterie fantaisie et articles similaires",
+    "altCode": "3213Z"
+  },
+  {
+    "code": "32.20Z",
+    "title": "32.20Z - Fabrication d'instruments de musique",
+    "altCode": "3220Z"
+  },
+  {
+    "code": "32.30Z",
+    "title": "32.30Z - Fabrication d'articles de sport",
+    "altCode": "3230Z"
+  },
+  {
+    "code": "32.40Z",
+    "title": "32.40Z - Fabrication de jeux et jouets",
+    "altCode": "3240Z"
+  },
+  {
+    "code": "32.50A",
+    "title": "32.50A - Fabrication de matériel médico-chirurgical et dentaire",
+    "altCode": "3250A"
+  },
+  {
+    "code": "32.50B",
+    "title": "32.50B - Fabrication de lunettes",
+    "altCode": "3250B"
+  },
+  {
+    "code": "32.91Z",
+    "title": "32.91Z - Fabrication d'articles de brosserie",
+    "altCode": "3291Z"
+  },
+  {
+    "code": "32.99Z",
+    "title": "32.99Z - Autres activités manufacturières n.c.a.",
+    "altCode": "3299Z"
+  },
+  {
+    "code": "33.11Z",
+    "title": "33.11Z - Réparation d'ouvrages en métaux",
+    "altCode": "3311Z"
+  },
+  {
+    "code": "33.12Z",
+    "title": "33.12Z - Réparation de machines et équipements mécaniques",
+    "altCode": "3312Z"
+  },
+  {
+    "code": "33.13Z",
+    "title": "33.13Z - Réparation de matériels électroniques et optiques",
+    "altCode": "3313Z"
+  },
+  {
+    "code": "33.14Z",
+    "title": "33.14Z - Réparation d'équipements électriques",
+    "altCode": "3314Z"
+  },
+  {
+    "code": "33.15Z",
+    "title": "33.15Z - Réparation et maintenance navale",
+    "altCode": "3315Z"
+  },
+  {
+    "code": "33.16Z",
+    "title": "33.16Z - Réparation et maintenance d'aéronefs et d'engins spatiaux",
+    "altCode": "3316Z"
+  },
+  {
+    "code": "33.17Z",
+    "title": "33.17Z - Réparation et maintenance d'autres équipements de transport",
+    "altCode": "3317Z"
+  },
+  {
+    "code": "33.19Z",
+    "title": "33.19Z - Réparation d'autres équipements",
+    "altCode": "3319Z"
+  },
+  {
+    "code": "33.20A",
+    "title": "33.20A - Installation de structures métalliques, chaudronnées et de tuyauterie",
+    "altCode": "3320A"
+  },
+  {
+    "code": "33.20B",
+    "title": "33.20B - Installation de machines et équipements mécaniques",
+    "altCode": "3320B"
+  },
+  {
+    "code": "33.20C",
+    "title": "33.20C - Conception d'ensemble et assemblage sur site industriel d'équipements de contrôle des processus industriels",
+    "altCode": "3320C"
+  },
+  {
+    "code": "33.20D",
+    "title": "33.20D - Installation d'équipements électriques, de matériels électroniques et optiques ou d'autres matériels",
+    "altCode": "3320D"
+  },
+  {
+    "code": "35.11Z",
+    "title": "35.11Z - Production d'électricité",
+    "altCode": "3511Z"
+  },
+  {
+    "code": "35.12Z",
+    "title": "35.12Z - Transport d'électricité",
+    "altCode": "3512Z"
+  },
+  {
+    "code": "35.13Z",
+    "title": "35.13Z - Distribution d'électricité",
+    "altCode": "3513Z"
+  },
+  {
+    "code": "35.14Z",
+    "title": "35.14Z - Commerce d'électricité",
+    "altCode": "3514Z"
+  },
+  {
+    "code": "35.21Z",
+    "title": "35.21Z - Production de combustibles gazeux",
+    "altCode": "3521Z"
+  },
+  {
+    "code": "35.22Z",
+    "title": "35.22Z - Distribution de combustibles gazeux par conduites",
+    "altCode": "3522Z"
+  },
+  {
+    "code": "35.23Z",
+    "title": "35.23Z - Commerce de combustibles gazeux par conduites",
+    "altCode": "3523Z"
+  },
+  {
+    "code": "35.30Z",
+    "title": "35.30Z - Production et distribution de vapeur et d'air conditionné",
+    "altCode": "3530Z"
+  },
+  {
+    "code": "36.00Z",
+    "title": "36.00Z - Captage, traitement et distribution d'eau",
+    "altCode": "3600Z"
+  },
+  {
+    "code": "37.00Z",
+    "title": "37.00Z - Collecte et traitement des eaux usées",
+    "altCode": "3700Z"
+  },
+  {
+    "code": "38.11Z",
+    "title": "38.11Z - Collecte des déchets non dangereux",
+    "altCode": "3811Z"
+  },
+  {
+    "code": "38.12Z",
+    "title": "38.12Z - Collecte des déchets dangereux",
+    "altCode": "3812Z"
+  },
+  {
+    "code": "38.21Z",
+    "title": "38.21Z - Traitement et élimination des déchets non dangereux",
+    "altCode": "3821Z"
+  },
+  {
+    "code": "38.22Z",
+    "title": "38.22Z - Traitement et élimination des déchets dangereux",
+    "altCode": "3822Z"
+  },
+  {
+    "code": "38.31Z",
+    "title": "38.31Z - Démantèlement d'épaves",
+    "altCode": "3831Z"
+  },
+  {
+    "code": "38.32Z",
+    "title": "38.32Z - Récupération de déchets triés",
+    "altCode": "3832Z"
+  },
+  {
+    "code": "39.00Z",
+    "title": "39.00Z - Dépollution et autres services de gestion des déchets",
+    "altCode": "3900Z"
+  },
+  {
+    "code": "41.10A",
+    "title": "41.10A - Promotion immobilière de logements",
+    "altCode": "4110A"
+  },
+  {
+    "code": "41.10B",
+    "title": "41.10B - Promotion immobilière de bureaux",
+    "altCode": "4110B"
+  },
+  {
+    "code": "41.10C",
+    "title": "41.10C - Promotion immobilière d'autres bâtiments",
+    "altCode": "4110C"
+  },
+  {
+    "code": "41.10D",
+    "title": "41.10D - Supports juridiques de programmes",
+    "altCode": "4110D"
+  },
+  {
+    "code": "41.20A",
+    "title": "41.20A - Construction de maisons individuelles",
+    "altCode": "4120A"
+  },
+  {
+    "code": "41.20B",
+    "title": "41.20B - Construction d'autres bâtiments",
+    "altCode": "4120B"
+  },
+  {
+    "code": "42.11Z",
+    "title": "42.11Z - Construction de routes et autoroutes",
+    "altCode": "4211Z"
+  },
+  {
+    "code": "42.12Z",
+    "title": "42.12Z - Construction de voies ferrées de surface et souterraines",
+    "altCode": "4212Z"
+  },
+  {
+    "code": "42.13A",
+    "title": "42.13A - Construction d'ouvrages d'art",
+    "altCode": "4213A"
+  },
+  {
+    "code": "42.13B",
+    "title": "42.13B - Construction et entretien de tunnels",
+    "altCode": "4213B"
+  },
+  {
+    "code": "42.21Z",
+    "title": "42.21Z - Construction de réseaux pour fluides",
+    "altCode": "4221Z"
+  },
+  {
+    "code": "42.22Z",
+    "title": "42.22Z - Construction de réseaux électriques et de télécommunications",
+    "altCode": "4222Z"
+  },
+  {
+    "code": "42.91Z",
+    "title": "42.91Z - Construction d'ouvrages maritimes et fluviaux",
+    "altCode": "4291Z"
+  },
+  {
+    "code": "42.99Z",
+    "title": "42.99Z - Construction d'autres ouvrages de génie civil n.c.a.",
+    "altCode": "4299Z"
+  },
+  {
+    "code": "43.11Z",
+    "title": "43.11Z - Travaux de démolition",
+    "altCode": "4311Z"
+  },
+  {
+    "code": "43.12A",
+    "title": "43.12A - Travaux de terrassement courants et travaux préparatoires",
+    "altCode": "4312A"
+  },
+  {
+    "code": "43.12B",
+    "title": "43.12B - Travaux de terrassement spécialisés ou de grande masse",
+    "altCode": "4312B"
+  },
+  {
+    "code": "43.13Z",
+    "title": "43.13Z - Forages et sondages",
+    "altCode": "4313Z"
+  },
+  {
+    "code": "43.21A",
+    "title": "43.21A - Travaux d'installation électrique dans tous locaux",
+    "altCode": "4321A"
+  },
+  {
+    "code": "43.21B",
+    "title": "43.21B - Travaux d'installation électrique sur la voie publique",
+    "altCode": "4321B"
+  },
+  {
+    "code": "43.22A",
+    "title": "43.22A - Travaux d'installation d'eau et de gaz en tous locaux",
+    "altCode": "4322A"
+  },
+  {
+    "code": "43.22B",
+    "title": "43.22B - Travaux d'installation d'équipements thermiques et de climatisation",
+    "altCode": "4322B"
+  },
+  {
+    "code": "43.29A",
+    "title": "43.29A - Travaux d'isolation",
+    "altCode": "4329A"
+  },
+  {
+    "code": "43.29B",
+    "title": "43.29B - Autres travaux d'installation n.c.a.",
+    "altCode": "4329B"
+  },
+  {
+    "code": "43.31Z",
+    "title": "43.31Z - Travaux de plâtrerie",
+    "altCode": "4331Z"
+  },
+  {
+    "code": "43.32A",
+    "title": "43.32A - Travaux de menuiserie bois et PVC",
+    "altCode": "4332A"
+  },
+  {
+    "code": "43.32B",
+    "title": "43.32B - Travaux de menuiserie métallique et serrurerie",
+    "altCode": "4332B"
+  },
+  {
+    "code": "43.32C",
+    "title": "43.32C - Agencement de lieux de vente",
+    "altCode": "4332C"
+  },
+  {
+    "code": "43.33Z",
+    "title": "43.33Z - Travaux de revêtement des sols et des murs",
+    "altCode": "4333Z"
+  },
+  {
+    "code": "43.34Z",
+    "title": "43.34Z - Travaux de peinture et vitrerie",
+    "altCode": "4334Z"
+  },
+  {
+    "code": "43.39Z",
+    "title": "43.39Z - Autres travaux de finition",
+    "altCode": "4339Z"
+  },
+  {
+    "code": "43.91A",
+    "title": "43.91A - Travaux de charpente",
+    "altCode": "4391A"
+  },
+  {
+    "code": "43.91B",
+    "title": "43.91B - Travaux de couverture par éléments",
+    "altCode": "4391B"
+  },
+  {
+    "code": "43.99A",
+    "title": "43.99A - Travaux d'étanchéification",
+    "altCode": "4399A"
+  },
+  {
+    "code": "43.99B",
+    "title": "43.99B - Travaux de montage de structures métalliques",
+    "altCode": "4399B"
+  },
+  {
+    "code": "43.99C",
+    "title": "43.99C - Travaux de maçonnerie générale et gros œuvre de bâtiment",
+    "altCode": "4399C"
+  },
+  {
+    "code": "43.99D",
+    "title": "43.99D - Autres travaux spécialisés de construction",
+    "altCode": "4399D"
+  },
+  {
+    "code": "43.99E",
+    "title": "43.99E - Location avec opérateur de matériel de construction",
+    "altCode": "4399E"
+  },
+  {
+    "code": "45.11Z",
+    "title": "45.11Z - Commerce de voitures et de véhicules automobiles légers",
+    "altCode": "4511Z"
+  },
+  {
+    "code": "45.19Z",
+    "title": "45.19Z - Commerce d'autres véhicules automobiles",
+    "altCode": "4519Z"
+  },
+  {
+    "code": "45.20A",
+    "title": "45.20A - Entretien et réparation de véhicules automobiles légers",
+    "altCode": "4520A"
+  },
+  {
+    "code": "45.20B",
+    "title": "45.20B - Entretien et réparation d'autres véhicules automobiles",
+    "altCode": "4520B"
+  },
+  {
+    "code": "45.31Z",
+    "title": "45.31Z - Commerce de gros d'équipements automobiles",
+    "altCode": "4531Z"
+  },
+  {
+    "code": "45.32Z",
+    "title": "45.32Z - Commerce de détail d'équipements automobiles",
+    "altCode": "4532Z"
+  },
+  {
+    "code": "45.40Z",
+    "title": "45.40Z - Commerce et réparation de motocycles",
+    "altCode": "4540Z"
+  },
+  {
+    "code": "46.11Z",
+    "title": "46.11Z - Intermédiaires du commerce en matières premières agricoles, animaux vivants, matières premières textiles et produits semi-finis",
+    "altCode": "4611Z"
+  },
+  {
+    "code": "46.12A",
+    "title": "46.12A - Centrales d'achat de carburant",
+    "altCode": "4612A"
+  },
+  {
+    "code": "46.12B",
+    "title": "46.12B - Autres intermédiaires du commerce en combustibles, métaux, minéraux et produits chimiques",
+    "altCode": "4612B"
+  },
+  {
+    "code": "46.13Z",
+    "title": "46.13Z - Intermédiaires du commerce en bois et matériaux de construction",
+    "altCode": "4613Z"
+  },
+  {
+    "code": "46.14Z",
+    "title": "46.14Z - Intermédiaires du commerce en machines, équipements industriels, navires et avions",
+    "altCode": "4614Z"
+  },
+  {
+    "code": "46.15Z",
+    "title": "46.15Z - Intermédiaires du commerce en meubles, articles de ménage et quincaillerie",
+    "altCode": "4615Z"
+  },
+  {
+    "code": "46.16Z",
+    "title": "46.16Z - Intermédiaires du commerce en textiles, habillement, fourrures, chaussures et articles en cuir",
+    "altCode": "4616Z"
+  },
+  {
+    "code": "46.17A",
+    "title": "46.17A - Centrales d'achat alimentaires",
+    "altCode": "4617A"
+  },
+  {
+    "code": "46.17B",
+    "title": "46.17B - Autres intermédiaires du commerce en denrées, boissons et tabac",
+    "altCode": "4617B"
+  },
+  {
+    "code": "46.18Z",
+    "title": "46.18Z - Intermédiaires spécialisés dans le commerce d'autres produits spécifiques",
+    "altCode": "4618Z"
+  },
+  {
+    "code": "46.19A",
+    "title": "46.19A - Centrales d'achat non alimentaires",
+    "altCode": "4619A"
+  },
+  {
+    "code": "46.19B",
+    "title": "46.19B - Autres intermédiaires du commerce en produits divers",
+    "altCode": "4619B"
+  },
+  {
+    "code": "46.21Z",
+    "title": "46.21Z - Commerce de gros (commerce interentreprises) de céréales, de tabac non manufacturé, de semences et d'aliments pour le bétail",
+    "altCode": "4621Z"
+  },
+  {
+    "code": "46.22Z",
+    "title": "46.22Z - Commerce de gros (commerce interentreprises) de fleurs et plantes",
+    "altCode": "4622Z"
+  },
+  {
+    "code": "46.23Z",
+    "title": "46.23Z - Commerce de gros (commerce interentreprises) d'animaux vivants",
+    "altCode": "4623Z"
+  },
+  {
+    "code": "46.24Z",
+    "title": "46.24Z - Commerce de gros (commerce interentreprises) de cuirs et peaux",
+    "altCode": "4624Z"
+  },
+  {
+    "code": "46.31Z",
+    "title": "46.31Z - Commerce de gros (commerce interentreprises) de fruits et légumes",
+    "altCode": "4631Z"
+  },
+  {
+    "code": "46.32A",
+    "title": "46.32A - Commerce de gros (commerce interentreprises) de viandes de boucherie",
+    "altCode": "4632A"
+  },
+  {
+    "code": "46.32B",
+    "title": "46.32B - Commerce de gros (commerce interentreprises) de produits à base de viande",
+    "altCode": "4632B"
+  },
+  {
+    "code": "46.32C",
+    "title": "46.32C - Commerce de gros (commerce interentreprises) de volailles et gibier",
+    "altCode": "4632C"
+  },
+  {
+    "code": "46.33Z",
+    "title": "46.33Z - Commerce de gros (commerce interentreprises) de produits laitiers, œufs, huiles et matières grasses comestibles",
+    "altCode": "4633Z"
+  },
+  {
+    "code": "46.34Z",
+    "title": "46.34Z - Commerce de gros (commerce interentreprises) de boissons",
+    "altCode": "4634Z"
+  },
+  {
+    "code": "46.35Z",
+    "title": "46.35Z - Commerce de gros (commerce interentreprises) de produits à base de tabac",
+    "altCode": "4635Z"
+  },
+  {
+    "code": "46.36Z",
+    "title": "46.36Z - Commerce de gros (commerce interentreprises) de sucre, chocolat et confiserie",
+    "altCode": "4636Z"
+  },
+  {
+    "code": "46.37Z",
+    "title": "46.37Z - Commerce de gros (commerce interentreprises) de café, thé, cacao et épices",
+    "altCode": "4637Z"
+  },
+  {
+    "code": "46.38A",
+    "title": "46.38A - Commerce de gros (commerce interentreprises) de poissons, crustacés et mollusques",
+    "altCode": "4638A"
+  },
+  {
+    "code": "46.38B",
+    "title": "46.38B - Commerce de gros (commerce interentreprises) alimentaire spécialisé divers",
+    "altCode": "4638B"
+  },
+  {
+    "code": "46.39A",
+    "title": "46.39A - Commerce de gros (commerce interentreprises) de produits surgelés",
+    "altCode": "4639A"
+  },
+  {
+    "code": "46.39B",
+    "title": "46.39B - Commerce de gros (commerce interentreprises) alimentaire non spécialisé",
+    "altCode": "4639B"
+  },
+  {
+    "code": "46.41Z",
+    "title": "46.41Z - Commerce de gros (commerce interentreprises) de textiles",
+    "altCode": "4641Z"
+  },
+  {
+    "code": "46.42Z",
+    "title": "46.42Z - Commerce de gros (commerce interentreprises) d'habillement et de chaussures",
+    "altCode": "4642Z"
+  },
+  {
+    "code": "46.43Z",
+    "title": "46.43Z - Commerce de gros (commerce interentreprises) d'appareils électroménagers",
+    "altCode": "4643Z"
+  },
+  {
+    "code": "46.44Z",
+    "title": "46.44Z - Commerce de gros (commerce interentreprises) de vaisselle, verrerie et produits d'entretien",
+    "altCode": "4644Z"
+  },
+  {
+    "code": "46.45Z",
+    "title": "46.45Z - Commerce de gros (commerce interentreprises) de parfumerie et de produits de beauté",
+    "altCode": "4645Z"
+  },
+  {
+    "code": "46.46Z",
+    "title": "46.46Z - Commerce de gros (commerce interentreprises) de produits pharmaceutiques",
+    "altCode": "4646Z"
+  },
+  {
+    "code": "46.47Z",
+    "title": "46.47Z - Commerce de gros (commerce interentreprises) de meubles, de tapis et d'appareils d'éclairage",
+    "altCode": "4647Z"
+  },
+  {
+    "code": "46.48Z",
+    "title": "46.48Z - Commerce de gros (commerce interentreprises) d'articles d'horlogerie et de bijouterie",
+    "altCode": "4648Z"
+  },
+  {
+    "code": "46.49Z",
+    "title": "46.49Z - Commerce de gros (commerce interentreprises) d'autres biens domestiques",
+    "altCode": "4649Z"
+  },
+  {
+    "code": "46.51Z",
+    "title": "46.51Z - Commerce de gros (commerce interentreprises) d'ordinateurs, d'équipements informatiques périphériques et de logiciels",
+    "altCode": "4651Z"
+  },
+  {
+    "code": "46.52Z",
+    "title": "46.52Z - Commerce de gros (commerce interentreprises) de composants et d'équipements électroniques et de télécommunication",
+    "altCode": "4652Z"
+  },
+  {
+    "code": "46.61Z",
+    "title": "46.61Z - Commerce de gros (commerce interentreprises) de matériel agricole",
+    "altCode": "4661Z"
+  },
+  {
+    "code": "46.62Z",
+    "title": "46.62Z - Commerce de gros (commerce interentreprises) de machines-outils",
+    "altCode": "4662Z"
+  },
+  {
+    "code": "46.63Z",
+    "title": "46.63Z - Commerce de gros (commerce interentreprises) de machines pour l'extraction, la construction et le génie civil",
+    "altCode": "4663Z"
+  },
+  {
+    "code": "46.64Z",
+    "title": "46.64Z - Commerce de gros (commerce interentreprises) de machines pour l'industrie textile et l'habillement",
+    "altCode": "4664Z"
+  },
+  {
+    "code": "46.65Z",
+    "title": "46.65Z - Commerce de gros (commerce interentreprises) de mobilier de bureau",
+    "altCode": "4665Z"
+  },
+  {
+    "code": "46.66Z",
+    "title": "46.66Z - Commerce de gros (commerce interentreprises) d'autres machines et équipements de bureau",
+    "altCode": "4666Z"
+  },
+  {
+    "code": "46.69A",
+    "title": "46.69A - Commerce de gros (commerce interentreprises) de matériel électrique",
+    "altCode": "4669A"
+  },
+  {
+    "code": "46.69B",
+    "title": "46.69B - Commerce de gros (commerce interentreprises) de fournitures et équipements industriels divers",
+    "altCode": "4669B"
+  },
+  {
+    "code": "46.69C",
+    "title": "46.69C - Commerce de gros (commerce interentreprises) de fournitures et équipements divers pour le commerce et les services",
+    "altCode": "4669C"
+  },
+  {
+    "code": "46.71Z",
+    "title": "46.71Z - Commerce de gros (commerce interentreprises) de combustibles et de produits annexes",
+    "altCode": "4671Z"
+  },
+  {
+    "code": "46.72Z",
+    "title": "46.72Z - Commerce de gros (commerce interentreprises) de minerais et métaux",
+    "altCode": "4672Z"
+  },
+  {
+    "code": "46.73A",
+    "title": "46.73A - Commerce de gros (commerce interentreprises) de bois et de matériaux de construction",
+    "altCode": "4673A"
+  },
+  {
+    "code": "46.73B",
+    "title": "46.73B - Commerce de gros (commerce interentreprises) d'appareils sanitaires et de produits de décoration",
+    "altCode": "4673B"
+  },
+  {
+    "code": "46.74A",
+    "title": "46.74A - Commerce de gros (commerce interentreprises) de quincaillerie",
+    "altCode": "4674A"
+  },
+  {
+    "code": "46.74B",
+    "title": "46.74B - Commerce de gros (commerce interentreprises) de fournitures pour la plomberie et le chauffage",
+    "altCode": "4674B"
+  },
+  {
+    "code": "46.75Z",
+    "title": "46.75Z - Commerce de gros (commerce interentreprises) de produits chimiques",
+    "altCode": "4675Z"
+  },
+  {
+    "code": "46.76Z",
+    "title": "46.76Z - Commerce de gros (commerce interentreprises) d'autres produits intermédiaires",
+    "altCode": "4676Z"
+  },
+  {
+    "code": "46.77Z",
+    "title": "46.77Z - Commerce de gros (commerce interentreprises) de déchets et débris",
+    "altCode": "4677Z"
+  },
+  {
+    "code": "46.90Z",
+    "title": "46.90Z - Commerce de gros (commerce interentreprises) non spécialisé",
+    "altCode": "4690Z"
+  },
+  {
+    "code": "47.11A",
+    "title": "47.11A - Commerce de détail de produits surgelés",
+    "altCode": "4711A"
+  },
+  {
+    "code": "47.11B",
+    "title": "47.11B - Commerce d'alimentation générale",
+    "altCode": "4711B"
+  },
+  {
+    "code": "47.11C",
+    "title": "47.11C - Supérettes",
+    "altCode": "4711C"
+  },
+  {
+    "code": "47.11D",
+    "title": "47.11D - Supermarchés",
+    "altCode": "4711D"
+  },
+  {
+    "code": "47.11E",
+    "title": "47.11E - Magasins multi-commerces",
+    "altCode": "4711E"
+  },
+  {
+    "code": "47.11F",
+    "title": "47.11F - Hypermarchés",
+    "altCode": "4711F"
+  },
+  {
+    "code": "47.19A",
+    "title": "47.19A - Grands magasins",
+    "altCode": "4719A"
+  },
+  {
+    "code": "47.19B",
+    "title": "47.19B - Autres commerces de détail en magasin non spécialisé",
+    "altCode": "4719B"
+  },
+  {
+    "code": "47.21Z",
+    "title": "47.21Z - Commerce de détail de fruits et légumes en magasin spécialisé",
+    "altCode": "4721Z"
+  },
+  {
+    "code": "47.22Z",
+    "title": "47.22Z - Commerce de détail de viandes et de produits à base de viande en magasin spécialisé",
+    "altCode": "4722Z"
+  },
+  {
+    "code": "47.23Z",
+    "title": "47.23Z - Commerce de détail de poissons, crustacés et mollusques en magasin spécialisé",
+    "altCode": "4723Z"
+  },
+  {
+    "code": "47.24Z",
+    "title": "47.24Z - Commerce de détail de pain, pâtisserie et confiserie en magasin spécialisé",
+    "altCode": "4724Z"
+  },
+  {
+    "code": "47.25Z",
+    "title": "47.25Z - Commerce de détail de boissons en magasin spécialisé",
+    "altCode": "4725Z"
+  },
+  {
+    "code": "47.26Z",
+    "title": "47.26Z - Commerce de détail de produits à base de tabac en magasin spécialisé",
+    "altCode": "4726Z"
+  },
+  {
+    "code": "47.29Z",
+    "title": "47.29Z - Autres commerces de détail alimentaires en magasin spécialisé",
+    "altCode": "4729Z"
+  },
+  {
+    "code": "47.30Z",
+    "title": "47.30Z - Commerce de détail de carburants en magasin spécialisé",
+    "altCode": "4730Z"
+  },
+  {
+    "code": "47.41Z",
+    "title": "47.41Z - Commerce de détail d'ordinateurs, d'unités périphériques et de logiciels en magasin spécialisé",
+    "altCode": "4741Z"
+  },
+  {
+    "code": "47.42Z",
+    "title": "47.42Z - Commerce de détail de matériels de télécommunication en magasin spécialisé",
+    "altCode": "4742Z"
+  },
+  {
+    "code": "47.43Z",
+    "title": "47.43Z - Commerce de détail de matériels audio et vidéo en magasin spécialisé",
+    "altCode": "4743Z"
+  },
+  {
+    "code": "47.51Z",
+    "title": "47.51Z - Commerce de détail de textiles en magasin spécialisé",
+    "altCode": "4751Z"
+  },
+  {
+    "code": "47.52A",
+    "title": "47.52A - Commerce de détail de quincaillerie, peintures et verres en petites surfaces (moins de 400 m²)",
+    "altCode": "4752A"
+  },
+  {
+    "code": "47.52B",
+    "title": "47.52B - Commerce de détail de quincaillerie, peintures et verres en grandes surfaces (400 m² et plus)",
+    "altCode": "4752B"
+  },
+  {
+    "code": "47.53Z",
+    "title": "47.53Z - Commerce de détail de tapis, moquettes et revêtements de murs et de sols en magasin spécialisé",
+    "altCode": "4753Z"
+  },
+  {
+    "code": "47.54Z",
+    "title": "47.54Z - Commerce de détail d'appareils électroménagers en magasin spécialisé",
+    "altCode": "4754Z"
+  },
+  {
+    "code": "47.59A",
+    "title": "47.59A - Commerce de détail de meubles",
+    "altCode": "4759A"
+  },
+  {
+    "code": "47.59B",
+    "title": "47.59B - Commerce de détail d'autres équipements du foyer",
+    "altCode": "4759B"
+  },
+  {
+    "code": "47.61Z",
+    "title": "47.61Z - Commerce de détail de livres en magasin spécialisé",
+    "altCode": "4761Z"
+  },
+  {
+    "code": "47.62Z",
+    "title": "47.62Z - Commerce de détail de journaux et papeterie en magasin spécialisé",
+    "altCode": "4762Z"
+  },
+  {
+    "code": "47.63Z",
+    "title": "47.63Z - Commerce de détail d'enregistrements musicaux et vidéo en magasin spécialisé",
+    "altCode": "4763Z"
+  },
+  {
+    "code": "47.64Z",
+    "title": "47.64Z - Commerce de détail d'articles de sport en magasin spécialisé",
+    "altCode": "4764Z"
+  },
+  {
+    "code": "47.65Z",
+    "title": "47.65Z - Commerce de détail de jeux et jouets en magasin spécialisé",
+    "altCode": "4765Z"
+  },
+  {
+    "code": "47.71Z",
+    "title": "47.71Z - Commerce de détail d'habillement en magasin spécialisé",
+    "altCode": "4771Z"
+  },
+  {
+    "code": "47.72A",
+    "title": "47.72A - Commerce de détail de la chaussure",
+    "altCode": "4772A"
+  },
+  {
+    "code": "47.72B",
+    "title": "47.72B - Commerce de détail de maroquinerie et d'articles de voyage",
+    "altCode": "4772B"
+  },
+  {
+    "code": "47.73Z",
+    "title": "47.73Z - Commerce de détail de produits pharmaceutiques en magasin spécialisé",
+    "altCode": "4773Z"
+  },
+  {
+    "code": "47.74Z",
+    "title": "47.74Z - Commerce de détail d'articles médicaux et orthopédiques en magasin spécialisé",
+    "altCode": "4774Z"
+  },
+  {
+    "code": "47.75Z",
+    "title": "47.75Z - Commerce de détail de parfumerie et de produits de beauté en magasin spécialisé",
+    "altCode": "4775Z"
+  },
+  {
+    "code": "47.76Z",
+    "title": "47.76Z - Commerce de détail de fleurs, plantes, graines, engrais, animaux de compagnie et aliments pour ces animaux en magasin spécialisé",
+    "altCode": "4776Z"
+  },
+  {
+    "code": "47.77Z",
+    "title": "47.77Z - Commerce de détail d'articles d'horlogerie et de bijouterie en magasin spécialisé",
+    "altCode": "4777Z"
+  },
+  {
+    "code": "47.78A",
+    "title": "47.78A - Commerces de détail d'optique",
+    "altCode": "4778A"
+  },
+  {
+    "code": "47.78B",
+    "title": "47.78B - Commerces de détail de charbons et combustibles",
+    "altCode": "4778B"
+  },
+  {
+    "code": "47.78C",
+    "title": "47.78C - Autres commerces de détail spécialisés divers",
+    "altCode": "4778C"
+  },
+  {
+    "code": "47.79Z",
+    "title": "47.79Z - Commerce de détail de biens d'occasion en magasin",
+    "altCode": "4779Z"
+  },
+  {
+    "code": "47.81Z",
+    "title": "47.81Z - Commerce de détail alimentaire sur éventaires et marchés",
+    "altCode": "4781Z"
+  },
+  {
+    "code": "47.82Z",
+    "title": "47.82Z - Commerce de détail de textiles, d'habillement et de chaussures sur éventaires et marchés",
+    "altCode": "4782Z"
+  },
+  {
+    "code": "47.89Z",
+    "title": "47.89Z - Autres commerces de détail sur éventaires et marchés",
+    "altCode": "4789Z"
+  },
+  {
+    "code": "47.91A",
+    "title": "47.91A - Vente à distance sur catalogue général",
+    "altCode": "4791A"
+  },
+  {
+    "code": "47.91B",
+    "title": "47.91B - Vente à distance sur catalogue spécialisé",
+    "altCode": "4791B"
+  },
+  {
+    "code": "47.99A",
+    "title": "47.99A - Vente à domicile",
+    "altCode": "4799A"
+  },
+  {
+    "code": "47.99B",
+    "title": "47.99B - Vente par automates et autres commerces de détail hors magasin, éventaires ou marchés n.c.a.",
+    "altCode": "4799B"
+  },
+  {
+    "code": "49.10Z",
+    "title": "49.10Z - Transport ferroviaire interurbain de voyageurs",
+    "altCode": "4910Z"
+  },
+  {
+    "code": "49.20Z",
+    "title": "49.20Z - Transports ferroviaires de fret",
+    "altCode": "4920Z"
+  },
+  {
+    "code": "49.31Z",
+    "title": "49.31Z - Transports urbains et suburbains de voyageurs",
+    "altCode": "4931Z"
+  },
+  {
+    "code": "49.32Z",
+    "title": "49.32Z - Transports de voyageurs par taxis",
+    "altCode": "4932Z"
+  },
+  {
+    "code": "49.39A",
+    "title": "49.39A - Transports routiers réguliers de voyageurs",
+    "altCode": "4939A"
+  },
+  {
+    "code": "49.39B",
+    "title": "49.39B - Autres transports routiers de voyageurs",
+    "altCode": "4939B"
+  },
+  {
+    "code": "49.39C",
+    "title": "49.39C - Téléphériques et remontées mécaniques",
+    "altCode": "4939C"
+  },
+  {
+    "code": "49.41A",
+    "title": "49.41A - Transports routiers de fret interurbains",
+    "altCode": "4941A"
+  },
+  {
+    "code": "49.41B",
+    "title": "49.41B - Transports routiers de fret de proximité",
+    "altCode": "4941B"
+  },
+  {
+    "code": "49.41C",
+    "title": "49.41C - Location de camions avec chauffeur",
+    "altCode": "4941C"
+  },
+  {
+    "code": "49.42Z",
+    "title": "49.42Z - Services de déménagement",
+    "altCode": "4942Z"
+  },
+  {
+    "code": "49.50Z",
+    "title": "49.50Z - Transports par conduites",
+    "altCode": "4950Z"
+  },
+  {
+    "code": "50.10Z",
+    "title": "50.10Z - Transports maritimes et côtiers de passagers",
+    "altCode": "5010Z"
+  },
+  {
+    "code": "50.20Z",
+    "title": "50.20Z - Transports maritimes et côtiers de fret",
+    "altCode": "5020Z"
+  },
+  {
+    "code": "50.30Z",
+    "title": "50.30Z - Transports fluviaux de passagers",
+    "altCode": "5030Z"
+  },
+  {
+    "code": "50.40Z",
+    "title": "50.40Z - Transports fluviaux de fret",
+    "altCode": "5040Z"
+  },
+  {
+    "code": "51.10Z",
+    "title": "51.10Z - Transports aériens de passagers",
+    "altCode": "5110Z"
+  },
+  {
+    "code": "51.21Z",
+    "title": "51.21Z - Transports aériens de fret",
+    "altCode": "5121Z"
+  },
+  {
+    "code": "51.22Z",
+    "title": "51.22Z - Transports spatiaux",
+    "altCode": "5122Z"
+  },
+  {
+    "code": "52.10A",
+    "title": "52.10A - Entreposage et stockage frigorifique",
+    "altCode": "5210A"
+  },
+  {
+    "code": "52.10B",
+    "title": "52.10B - Entreposage et stockage non frigorifique",
+    "altCode": "5210B"
+  },
+  {
+    "code": "52.21Z",
+    "title": "52.21Z - Services auxiliaires des transports terrestres",
+    "altCode": "5221Z"
+  },
+  {
+    "code": "52.22Z",
+    "title": "52.22Z - Services auxiliaires des transports par eau",
+    "altCode": "5222Z"
+  },
+  {
+    "code": "52.23Z",
+    "title": "52.23Z - Services auxiliaires des transports aériens",
+    "altCode": "5223Z"
+  },
+  {
+    "code": "52.24A",
+    "title": "52.24A - Manutention portuaire",
+    "altCode": "5224A"
+  },
+  {
+    "code": "52.24B",
+    "title": "52.24B - Manutention non portuaire",
+    "altCode": "5224B"
+  },
+  {
+    "code": "52.29A",
+    "title": "52.29A - Messagerie, fret express",
+    "altCode": "5229A"
+  },
+  {
+    "code": "52.29B",
+    "title": "52.29B - Affrètement et organisation des transports",
+    "altCode": "5229B"
+  },
+  {
+    "code": "53.10Z",
+    "title": "53.10Z - Activités de poste dans le cadre d'une obligation de service universel",
+    "altCode": "5310Z"
+  },
+  {
+    "code": "53.20Z",
+    "title": "53.20Z - Autres activités de poste et de courrier",
+    "altCode": "5320Z"
+  },
+  {
+    "code": "55.10Z",
+    "title": "55.10Z - Hôtels et hébergement similaire",
+    "altCode": "5510Z"
+  },
+  {
+    "code": "55.20Z",
+    "title": "55.20Z - Hébergement touristique et autre hébergement de courte durée",
+    "altCode": "5520Z"
+  },
+  {
+    "code": "55.30Z",
+    "title": "55.30Z - Terrains de camping et parcs pour caravanes ou véhicules de loisirs",
+    "altCode": "5530Z"
+  },
+  {
+    "code": "55.90Z",
+    "title": "55.90Z - Autres hébergements",
+    "altCode": "5590Z"
+  },
+  {
+    "code": "56.10A",
+    "title": "56.10A - Restauration traditionnelle",
+    "altCode": "5610A"
+  },
+  {
+    "code": "56.10B",
+    "title": "56.10B - Cafétérias et autres libres-services",
+    "altCode": "5610B"
+  },
+  {
+    "code": "56.10C",
+    "title": "56.10C - Restauration de type rapide",
+    "altCode": "5610C"
+  },
+  {
+    "code": "56.21Z",
+    "title": "56.21Z - Services des traiteurs",
+    "altCode": "5621Z"
+  },
+  {
+    "code": "56.29A",
+    "title": "56.29A - Restauration collective sous contrat",
+    "altCode": "5629A"
+  },
+  {
+    "code": "56.29B",
+    "title": "56.29B - Autres services de restauration n.c.a.",
+    "altCode": "5629B"
+  },
+  {
+    "code": "56.30Z",
+    "title": "56.30Z - Débits de boissons",
+    "altCode": "5630Z"
+  },
+  {
+    "code": "58.11Z",
+    "title": "58.11Z - Édition de livres",
+    "altCode": "5811Z"
+  },
+  {
+    "code": "58.12Z",
+    "title": "58.12Z - Édition de répertoires et de fichiers d'adresses",
+    "altCode": "5812Z"
+  },
+  {
+    "code": "58.13Z",
+    "title": "58.13Z - Édition de journaux",
+    "altCode": "5813Z"
+  },
+  {
+    "code": "58.14Z",
+    "title": "58.14Z - Édition de revues et périodiques",
+    "altCode": "5814Z"
+  },
+  {
+    "code": "58.19Z",
+    "title": "58.19Z - Autres activités d'édition",
+    "altCode": "5819Z"
+  },
+  {
+    "code": "58.21Z",
+    "title": "58.21Z - Édition de jeux électroniques",
+    "altCode": "5821Z"
+  },
+  {
+    "code": "58.29A",
+    "title": "58.29A - Édition de logiciels système et de réseau",
+    "altCode": "5829A"
+  },
+  {
+    "code": "58.29B",
+    "title": "58.29B - Édition de logiciels outils de développement et de langages",
+    "altCode": "5829B"
+  },
+  {
+    "code": "58.29C",
+    "title": "58.29C - Édition de logiciels applicatifs",
+    "altCode": "5829C"
+  },
+  {
+    "code": "59.11A",
+    "title": "59.11A - Production de films et de programmes pour la télévision",
+    "altCode": "5911A"
+  },
+  {
+    "code": "59.11B",
+    "title": "59.11B - Production de films institutionnels et publicitaires",
+    "altCode": "5911B"
+  },
+  {
+    "code": "59.11C",
+    "title": "59.11C - Production de films pour le cinéma",
+    "altCode": "5911C"
+  },
+  {
+    "code": "59.12Z",
+    "title": "59.12Z - Post-production de films cinématographiques, de vidéo et de programmes de télévision",
+    "altCode": "5912Z"
+  },
+  {
+    "code": "59.13A",
+    "title": "59.13A - Distribution de films cinématographiques",
+    "altCode": "5913A"
+  },
+  {
+    "code": "59.13B",
+    "title": "59.13B - Édition et distribution vidéo",
+    "altCode": "5913B"
+  },
+  {
+    "code": "59.14Z",
+    "title": "59.14Z - Projection de films cinématographiques",
+    "altCode": "5914Z"
+  },
+  {
+    "code": "59.20Z",
+    "title": "59.20Z - Enregistrement sonore et édition musicale",
+    "altCode": "5920Z"
+  },
+  {
+    "code": "60.10Z",
+    "title": "60.10Z - Édition et diffusion de programmes radio",
+    "altCode": "6010Z"
+  },
+  {
+    "code": "60.20A",
+    "title": "60.20A - Édition de chaînes généralistes",
+    "altCode": "6020A"
+  },
+  {
+    "code": "60.20B",
+    "title": "60.20B - Édition de chaînes thématiques",
+    "altCode": "6020B"
+  },
+  {
+    "code": "61.10Z",
+    "title": "61.10Z - Télécommunications filaires",
+    "altCode": "6110Z"
+  },
+  {
+    "code": "61.20Z",
+    "title": "61.20Z - Télécommunications sans fil",
+    "altCode": "6120Z"
+  },
+  {
+    "code": "61.30Z",
+    "title": "61.30Z - Télécommunications par satellite",
+    "altCode": "6130Z"
+  },
+  {
+    "code": "61.90Z",
+    "title": "61.90Z - Autres activités de télécommunication",
+    "altCode": "6190Z"
+  },
+  {
+    "code": "62.01Z",
+    "title": "62.01Z - Programmation informatique",
+    "altCode": "6201Z"
+  },
+  {
+    "code": "62.02A",
+    "title": "62.02A - Conseil en systèmes et logiciels informatiques",
+    "altCode": "6202A"
+  },
+  {
+    "code": "62.02B",
+    "title": "62.02B - Tierce maintenance de systèmes et d'applications informatiques",
+    "altCode": "6202B"
+  },
+  {
+    "code": "62.03Z",
+    "title": "62.03Z - Gestion d'installations informatiques",
+    "altCode": "6203Z"
+  },
+  {
+    "code": "62.09Z",
+    "title": "62.09Z - Autres activités informatiques",
+    "altCode": "6209Z"
+  },
+  {
+    "code": "63.11Z",
+    "title": "63.11Z - Traitement de données, hébergement et activités connexes",
+    "altCode": "6311Z"
+  },
+  {
+    "code": "63.12Z",
+    "title": "63.12Z - Portails Internet",
+    "altCode": "6312Z"
+  },
+  {
+    "code": "63.91Z",
+    "title": "63.91Z - Activités des agences de presse",
+    "altCode": "6391Z"
+  },
+  {
+    "code": "63.99Z",
+    "title": "63.99Z - Autres services d'information n.c.a.",
+    "altCode": "6399Z"
+  },
+  {
+    "code": "64.11Z",
+    "title": "64.11Z - Activités de banque centrale",
+    "altCode": "6411Z"
+  },
+  {
+    "code": "64.19Z",
+    "title": "64.19Z - Autres intermédiations monétaires",
+    "altCode": "6419Z"
+  },
+  {
+    "code": "64.20Z",
+    "title": "64.20Z - Activités des sociétés holding",
+    "altCode": "6420Z"
+  },
+  {
+    "code": "64.30Z",
+    "title": "64.30Z - Fonds de placement et entités financières similaires",
+    "altCode": "6430Z"
+  },
+  {
+    "code": "64.91Z",
+    "title": "64.91Z - Crédit-bail",
+    "altCode": "6491Z"
+  },
+  {
+    "code": "64.92Z",
+    "title": "64.92Z - Autre distribution de crédit",
+    "altCode": "6492Z"
+  },
+  {
+    "code": "64.99Z",
+    "title": "64.99Z - Autres activités des services financiers, hors assurance et caisses de retraite, n.c.a.",
+    "altCode": "6499Z"
+  },
+  {
+    "code": "65.11Z",
+    "title": "65.11Z - Assurance vie",
+    "altCode": "6511Z"
+  },
+  {
+    "code": "65.12Z",
+    "title": "65.12Z - Autres assurances",
+    "altCode": "6512Z"
+  },
+  {
+    "code": "65.20Z",
+    "title": "65.20Z - Réassurance",
+    "altCode": "6520Z"
+  },
+  {
+    "code": "65.30Z",
+    "title": "65.30Z - Caisses de retraite",
+    "altCode": "6530Z"
+  },
+  {
+    "code": "66.11Z",
+    "title": "66.11Z - Administration de marchés financiers",
+    "altCode": "6611Z"
+  },
+  {
+    "code": "66.12Z",
+    "title": "66.12Z - Courtage de valeurs mobilières et de marchandises",
+    "altCode": "6612Z"
+  },
+  {
+    "code": "66.19A",
+    "title": "66.19A - Supports juridiques de gestion de patrimoine mobilier",
+    "altCode": "6619A"
+  },
+  {
+    "code": "66.19B",
+    "title": "66.19B - Autres activités auxiliaires de services financiers, hors assurance et caisses de retraite, n.c.a.",
+    "altCode": "6619B"
+  },
+  {
+    "code": "66.21Z",
+    "title": "66.21Z - Évaluation des risques et dommages",
+    "altCode": "6621Z"
+  },
+  {
+    "code": "66.22Z",
+    "title": "66.22Z - Activités des agents et courtiers d'assurances",
+    "altCode": "6622Z"
+  },
+  {
+    "code": "66.29Z",
+    "title": "66.29Z - Autres activités auxiliaires d'assurance et de caisses de retraite",
+    "altCode": "6629Z"
+  },
+  {
+    "code": "66.30Z",
+    "title": "66.30Z - Gestion de fonds",
+    "altCode": "6630Z"
+  },
+  {
+    "code": "68.10Z",
+    "title": "68.10Z - Activités des marchands de biens immobiliers",
+    "altCode": "6810Z"
+  },
+  {
+    "code": "68.20A",
+    "title": "68.20A - Location de logements",
+    "altCode": "6820A"
+  },
+  {
+    "code": "68.20B",
+    "title": "68.20B - Location de terrains et d'autres biens immobiliers",
+    "altCode": "6820B"
+  },
+  {
+    "code": "68.31Z",
+    "title": "68.31Z - Agences immobilières",
+    "altCode": "6831Z"
+  },
+  {
+    "code": "68.32A",
+    "title": "68.32A - Administration d'immeubles et autres biens immobiliers",
+    "altCode": "6832A"
+  },
+  {
+    "code": "68.32B",
+    "title": "68.32B - Supports juridiques de gestion de patrimoine immobilier",
+    "altCode": "6832B"
+  },
+  {
+    "code": "69.10Z",
+    "title": "69.10Z - Activités juridiques",
+    "altCode": "6910Z"
+  },
+  {
+    "code": "69.20Z",
+    "title": "69.20Z - Activités comptables",
+    "altCode": "6920Z"
+  },
+  {
+    "code": "70.10Z",
+    "title": "70.10Z - Activités des sièges sociaux",
+    "altCode": "7010Z"
+  },
+  {
+    "code": "70.21Z",
+    "title": "70.21Z - Conseil en relations publiques et communication",
+    "altCode": "7021Z"
+  },
+  {
+    "code": "70.22Z",
+    "title": "70.22Z - Conseil pour les affaires et autres conseils de gestion",
+    "altCode": "7022Z"
+  },
+  {
+    "code": "71.11Z",
+    "title": "71.11Z - Activités d'architecture",
+    "altCode": "7111Z"
+  },
+  {
+    "code": "71.12A",
+    "title": "71.12A - Activité des géomètres",
+    "altCode": "7112A"
+  },
+  {
+    "code": "71.12B",
+    "title": "71.12B - Ingénierie, études techniques",
+    "altCode": "7112B"
+  },
+  {
+    "code": "71.20A",
+    "title": "71.20A - Contrôle technique automobile",
+    "altCode": "7120A"
+  },
+  {
+    "code": "71.20B",
+    "title": "71.20B - Analyses, essais et inspections techniques",
+    "altCode": "7120B"
+  },
+  {
+    "code": "72.11Z",
+    "title": "72.11Z - Recherche-développement en biotechnologie",
+    "altCode": "7211Z"
+  },
+  {
+    "code": "72.19Z",
+    "title": "72.19Z - Recherche-développement en autres sciences physiques et naturelles",
+    "altCode": "7219Z"
+  },
+  {
+    "code": "72.20Z",
+    "title": "72.20Z - Recherche-développement en sciences humaines et sociales",
+    "altCode": "7220Z"
+  },
+  {
+    "code": "73.11Z",
+    "title": "73.11Z - Activités des agences de publicité",
+    "altCode": "7311Z"
+  },
+  {
+    "code": "73.12Z",
+    "title": "73.12Z - Régie publicitaire de médias",
+    "altCode": "7312Z"
+  },
+  {
+    "code": "73.20Z",
+    "title": "73.20Z - Études de marché et sondages",
+    "altCode": "7320Z"
+  },
+  {
+    "code": "74.10Z",
+    "title": "74.10Z - Activités spécialisées de design",
+    "altCode": "7410Z"
+  },
+  {
+    "code": "74.20Z",
+    "title": "74.20Z - Activités photographiques",
+    "altCode": "7420Z"
+  },
+  {
+    "code": "74.30Z",
+    "title": "74.30Z - Traduction et interprétation",
+    "altCode": "7430Z"
+  },
+  {
+    "code": "74.90A",
+    "title": "74.90A - Activité des économistes de la construction",
+    "altCode": "7490A"
+  },
+  {
+    "code": "74.90B",
+    "title": "74.90B - Activités spécialisées, scientifiques et techniques diverses",
+    "altCode": "7490B"
+  },
+  {
+    "code": "75.00Z",
+    "title": "75.00Z - Activités vétérinaires",
+    "altCode": "7500Z"
+  },
+  {
+    "code": "77.11A",
+    "title": "77.11A - Location de courte durée de voitures et de véhicules automobiles légers",
+    "altCode": "7711A"
+  },
+  {
+    "code": "77.11B",
+    "title": "77.11B - Location de longue durée de voitures et de véhicules automobiles légers",
+    "altCode": "7711B"
+  },
+  {
+    "code": "77.12Z",
+    "title": "77.12Z - Location et location-bail de camions",
+    "altCode": "7712Z"
+  },
+  {
+    "code": "77.21Z",
+    "title": "77.21Z - Location et location-bail d'articles de loisirs et de sport",
+    "altCode": "7721Z"
+  },
+  {
+    "code": "77.22Z",
+    "title": "77.22Z - Location de vidéocassettes et disques vidéo",
+    "altCode": "7722Z"
+  },
+  {
+    "code": "77.29Z",
+    "title": "77.29Z - Location et location-bail d'autres biens personnels et domestiques",
+    "altCode": "7729Z"
+  },
+  {
+    "code": "77.31Z",
+    "title": "77.31Z - Location et location-bail de machines et équipements agricoles",
+    "altCode": "7731Z"
+  },
+  {
+    "code": "77.32Z",
+    "title": "77.32Z - Location et location-bail de machines et équipements pour la construction",
+    "altCode": "7732Z"
+  },
+  {
+    "code": "77.33Z",
+    "title": "77.33Z - Location et location-bail de machines de bureau et de matériel informatique",
+    "altCode": "7733Z"
+  },
+  {
+    "code": "77.34Z",
+    "title": "77.34Z - Location et location-bail de matériels de transport par eau",
+    "altCode": "7734Z"
+  },
+  {
+    "code": "77.35Z",
+    "title": "77.35Z - Location et location-bail de matériels de transport aérien",
+    "altCode": "7735Z"
+  },
+  {
+    "code": "77.39Z",
+    "title": "77.39Z - Location et location-bail d'autres machines, équipements et biens matériels n.c.a.",
+    "altCode": "7739Z"
+  },
+  {
+    "code": "77.40Z",
+    "title": "77.40Z - Location-bail de propriété intellectuelle et de produits similaires, à l'exception des œuvres soumises à copyright",
+    "altCode": "7740Z"
+  },
+  {
+    "code": "78.10Z",
+    "title": "78.10Z - Activités des agences de placement de main-d'œuvre",
+    "altCode": "7810Z"
+  },
+  {
+    "code": "78.20Z",
+    "title": "78.20Z - Activités des agences de travail temporaire",
+    "altCode": "7820Z"
+  },
+  {
+    "code": "78.30Z",
+    "title": "78.30Z - Autre mise à disposition de ressources humaines",
+    "altCode": "7830Z"
+  },
+  {
+    "code": "79.11Z",
+    "title": "79.11Z - Activités des agences de voyage",
+    "altCode": "7911Z"
+  },
+  {
+    "code": "79.12Z",
+    "title": "79.12Z - Activités des voyagistes",
+    "altCode": "7912Z"
+  },
+  {
+    "code": "79.90Z",
+    "title": "79.90Z - Autres services de réservation et activités connexes",
+    "altCode": "7990Z"
+  },
+  {
+    "code": "80.10Z",
+    "title": "80.10Z - Activités de sécurité privée",
+    "altCode": "8010Z"
+  },
+  {
+    "code": "80.20Z",
+    "title": "80.20Z - Activités liées aux systèmes de sécurité",
+    "altCode": "8020Z"
+  },
+  {
+    "code": "80.30Z",
+    "title": "80.30Z - Activités d'enquête",
+    "altCode": "8030Z"
+  },
+  {
+    "code": "81.10Z",
+    "title": "81.10Z - Activités combinées de soutien lié aux bâtiments",
+    "altCode": "8110Z"
+  },
+  {
+    "code": "81.21Z",
+    "title": "81.21Z - Nettoyage courant des bâtiments",
+    "altCode": "8121Z"
+  },
+  {
+    "code": "81.22Z",
+    "title": "81.22Z - Autres activités de nettoyage des bâtiments et nettoyage industriel",
+    "altCode": "8122Z"
+  },
+  {
+    "code": "81.29A",
+    "title": "81.29A - Désinfection, désinsectisation, dératisation",
+    "altCode": "8129A"
+  },
+  {
+    "code": "81.29B",
+    "title": "81.29B - Autres activités de nettoyage n.c.a.",
+    "altCode": "8129B"
+  },
+  {
+    "code": "81.30Z",
+    "title": "81.30Z - Services d'aménagement paysager",
+    "altCode": "8130Z"
+  },
+  {
+    "code": "82.11Z",
+    "title": "82.11Z - Services administratifs combinés de bureau",
+    "altCode": "8211Z"
+  },
+  {
+    "code": "82.19Z",
+    "title": "82.19Z - Photocopie, préparation de documents et autres activités spécialisées de soutien de bureau",
+    "altCode": "8219Z"
+  },
+  {
+    "code": "82.20Z",
+    "title": "82.20Z - Activités de centres d'appels",
+    "altCode": "8220Z"
+  },
+  {
+    "code": "82.30Z",
+    "title": "82.30Z - Organisation de foires, salons professionnels et congrès",
+    "altCode": "8230Z"
+  },
+  {
+    "code": "82.91Z",
+    "title": "82.91Z - Activités des agences de recouvrement de factures et des sociétés d'information financière sur la clientèle",
+    "altCode": "8291Z"
+  },
+  {
+    "code": "82.92Z",
+    "title": "82.92Z - Activités de conditionnement",
+    "altCode": "8292Z"
+  },
+  {
+    "code": "82.99Z",
+    "title": "82.99Z - Autres activités de soutien aux entreprises n.c.a.",
+    "altCode": "8299Z"
+  },
+  {
+    "code": "84.11Z",
+    "title": "84.11Z - Administration publique générale",
+    "altCode": "8411Z"
+  },
+  {
+    "code": "84.12Z",
+    "title": "84.12Z - Administration publique (tutelle) de la santé, de la formation, de la culture et des services sociaux, autre que sécurité sociale",
+    "altCode": "8412Z"
+  },
+  {
+    "code": "84.13Z",
+    "title": "84.13Z - Administration publique (tutelle) des activités économiques",
+    "altCode": "8413Z"
+  },
+  {
+    "code": "84.21Z",
+    "title": "84.21Z - Affaires étrangères",
+    "altCode": "8421Z"
+  },
+  {
+    "code": "84.22Z",
+    "title": "84.22Z - Défense",
+    "altCode": "8422Z"
+  },
+  {
+    "code": "84.23Z",
+    "title": "84.23Z - Justice",
+    "altCode": "8423Z"
+  },
+  {
+    "code": "84.24Z",
+    "title": "84.24Z - Activités d'ordre public et de sécurité",
+    "altCode": "8424Z"
+  },
+  {
+    "code": "84.25Z",
+    "title": "84.25Z - Services du feu et de secours",
+    "altCode": "8425Z"
+  },
+  {
+    "code": "84.30A",
+    "title": "84.30A - Activités générales de sécurité sociale",
+    "altCode": "8430A"
+  },
+  {
+    "code": "84.30B",
+    "title": "84.30B - Gestion des retraites complémentaires",
+    "altCode": "8430B"
+  },
+  {
+    "code": "84.30C",
+    "title": "84.30C - Distribution sociale de revenus",
+    "altCode": "8430C"
+  },
+  {
+    "code": "85.10Z",
+    "title": "85.10Z - Enseignement pré-primaire",
+    "altCode": "8510Z"
+  },
+  {
+    "code": "85.20Z",
+    "title": "85.20Z - Enseignement primaire",
+    "altCode": "8520Z"
+  },
+  {
+    "code": "85.31Z",
+    "title": "85.31Z - Enseignement secondaire général",
+    "altCode": "8531Z"
+  },
+  {
+    "code": "85.32Z",
+    "title": "85.32Z - Enseignement secondaire technique ou professionnel",
+    "altCode": "8532Z"
+  },
+  {
+    "code": "85.41Z",
+    "title": "85.41Z - Enseignement post-secondaire non supérieur",
+    "altCode": "8541Z"
+  },
+  {
+    "code": "85.42Z",
+    "title": "85.42Z - Enseignement supérieur",
+    "altCode": "8542Z"
+  },
+  {
+    "code": "85.51Z",
+    "title": "85.51Z - Enseignement de disciplines sportives et d'activités de loisirs",
+    "altCode": "8551Z"
+  },
+  {
+    "code": "85.52Z",
+    "title": "85.52Z - Enseignement culturel",
+    "altCode": "8552Z"
+  },
+  {
+    "code": "85.53Z",
+    "title": "85.53Z - Enseignement de la conduite",
+    "altCode": "8553Z"
+  },
+  {
+    "code": "85.59A",
+    "title": "85.59A - Formation continue d'adultes",
+    "altCode": "8559A"
+  },
+  {
+    "code": "85.59B",
+    "title": "85.59B - Autres enseignements",
+    "altCode": "8559B"
+  },
+  {
+    "code": "85.60Z",
+    "title": "85.60Z - Activités de soutien à l'enseignement",
+    "altCode": "8560Z"
+  },
+  {
+    "code": "86.10Z",
+    "title": "86.10Z - Activités hospitalières",
+    "altCode": "8610Z"
+  },
+  {
+    "code": "86.21Z",
+    "title": "86.21Z - Activité des médecins généralistes",
+    "altCode": "8621Z"
+  },
+  {
+    "code": "86.22A",
+    "title": "86.22A - Activités de radiodiagnostic et de radiothérapie",
+    "altCode": "8622A"
+  },
+  {
+    "code": "86.22B",
+    "title": "86.22B - Activités chirurgicales",
+    "altCode": "8622B"
+  },
+  {
+    "code": "86.22C",
+    "title": "86.22C - Autres activités des médecins spécialistes",
+    "altCode": "8622C"
+  },
+  {
+    "code": "86.23Z",
+    "title": "86.23Z - Pratique dentaire",
+    "altCode": "8623Z"
+  },
+  {
+    "code": "86.90A",
+    "title": "86.90A - Ambulances",
+    "altCode": "8690A"
+  },
+  {
+    "code": "86.90B",
+    "title": "86.90B - Laboratoires d'analyses médicales",
+    "altCode": "8690B"
+  },
+  {
+    "code": "86.90C",
+    "title": "86.90C - Centres de collecte et banques d'organes",
+    "altCode": "8690C"
+  },
+  {
+    "code": "86.90D",
+    "title": "86.90D - Activités des infirmiers et des sages-femmes",
+    "altCode": "8690D"
+  },
+  {
+    "code": "86.90E",
+    "title": "86.90E - Activités des professionnels de la rééducation, de l'appareillage et des pédicures-podologues",
+    "altCode": "8690E"
+  },
+  {
+    "code": "86.90F",
+    "title": "86.90F - Activités de santé humaine non classées ailleurs",
+    "altCode": "8690F"
+  },
+  {
+    "code": "87.10A",
+    "title": "87.10A - Hébergement médicalisé pour personnes âgées",
+    "altCode": "8710A"
+  },
+  {
+    "code": "87.10B",
+    "title": "87.10B - Hébergement médicalisé pour enfants handicapés",
+    "altCode": "8710B"
+  },
+  {
+    "code": "87.10C",
+    "title": "87.10C - Hébergement médicalisé pour adultes handicapés et autre hébergement médicalisé",
+    "altCode": "8710C"
+  },
+  {
+    "code": "87.20A",
+    "title": "87.20A - Hébergement social pour handicapés mentaux et malades mentaux",
+    "altCode": "8720A"
+  },
+  {
+    "code": "87.20B",
+    "title": "87.20B - Hébergement social pour toxicomanes",
+    "altCode": "8720B"
+  },
+  {
+    "code": "87.30A",
+    "title": "87.30A - Hébergement social pour personnes âgées",
+    "altCode": "8730A"
+  },
+  {
+    "code": "87.30B",
+    "title": "87.30B - Hébergement social pour handicapés physiques",
+    "altCode": "8730B"
+  },
+  {
+    "code": "87.90A",
+    "title": "87.90A - Hébergement social pour enfants en difficultés",
+    "altCode": "8790A"
+  },
+  {
+    "code": "87.90B",
+    "title": "87.90B - Hébergement social pour adultes et familles en difficultés et autre hébergement social",
+    "altCode": "8790B"
+  },
+  {
+    "code": "88.10A",
+    "title": "88.10A - Aide à domicile",
+    "altCode": "8810A"
+  },
+  {
+    "code": "88.10B",
+    "title": "88.10B - Accueil ou accompagnement sans hébergement d'adultes handicapés ou de personnes âgées",
+    "altCode": "8810B"
+  },
+  {
+    "code": "88.10C",
+    "title": "88.10C - Aide par le travail",
+    "altCode": "8810C"
+  },
+  {
+    "code": "88.91A",
+    "title": "88.91A - Accueil de jeunes enfants",
+    "altCode": "8891A"
+  },
+  {
+    "code": "88.91B",
+    "title": "88.91B - Accueil ou accompagnement sans hébergement d'enfants handicapés",
+    "altCode": "8891B"
+  },
+  {
+    "code": "88.99A",
+    "title": "88.99A - Autre accueil ou accompagnement sans hébergement d'enfants et d'adolescents",
+    "altCode": "8899A"
+  },
+  {
+    "code": "88.99B",
+    "title": "88.99B - Action sociale sans hébergement n.c.a.",
+    "altCode": "8899B"
+  },
+  {
+    "code": "90.01Z",
+    "title": "90.01Z - Arts du spectacle vivant",
+    "altCode": "9001Z"
+  },
+  {
+    "code": "90.02Z",
+    "title": "90.02Z - Activités de soutien au spectacle vivant",
+    "altCode": "9002Z"
+  },
+  {
+    "code": "90.03A",
+    "title": "90.03A - Création artistique relevant des arts plastiques",
+    "altCode": "9003A"
+  },
+  {
+    "code": "90.03B",
+    "title": "90.03B - Autre création artistique",
+    "altCode": "9003B"
+  },
+  {
+    "code": "90.04Z",
+    "title": "90.04Z - Gestion de salles de spectacles",
+    "altCode": "9004Z"
+  },
+  {
+    "code": "91.01Z",
+    "title": "91.01Z - Gestion des bibliothèques et des archives",
+    "altCode": "9101Z"
+  },
+  {
+    "code": "91.02Z",
+    "title": "91.02Z - Gestion des musées",
+    "altCode": "9102Z"
+  },
+  {
+    "code": "91.03Z",
+    "title": "91.03Z - Gestion des sites et monuments historiques et des attractions touristiques similaires",
+    "altCode": "9103Z"
+  },
+  {
+    "code": "91.04Z",
+    "title": "91.04Z - Gestion des jardins botaniques et zoologiques et des réserves naturelles",
+    "altCode": "9104Z"
+  },
+  {
+    "code": "92.00Z",
+    "title": "92.00Z - Organisation de jeux de hasard et d'argent",
+    "altCode": "9200Z"
+  },
+  {
+    "code": "93.11Z",
+    "title": "93.11Z - Gestion d'installations sportives",
+    "altCode": "9311Z"
+  },
+  {
+    "code": "93.12Z",
+    "title": "93.12Z - Activités de clubs de sports",
+    "altCode": "9312Z"
+  },
+  {
+    "code": "93.13Z",
+    "title": "93.13Z - Activités des centres de culture physique",
+    "altCode": "9313Z"
+  },
+  {
+    "code": "93.19Z",
+    "title": "93.19Z - Autres activités liées au sport",
+    "altCode": "9319Z"
+  },
+  {
+    "code": "93.21Z",
+    "title": "93.21Z - Activités des parcs d'attractions et parcs à thèmes",
+    "altCode": "9321Z"
+  },
+  {
+    "code": "93.29Z",
+    "title": "93.29Z - Autres activités récréatives et de loisirs",
+    "altCode": "9329Z"
+  },
+  {
+    "code": "94.11Z",
+    "title": "94.11Z - Activités des organisations patronales et consulaires",
+    "altCode": "9411Z"
+  },
+  {
+    "code": "94.12Z",
+    "title": "94.12Z - Activités des organisations professionnelles",
+    "altCode": "9412Z"
+  },
+  {
+    "code": "94.20Z",
+    "title": "94.20Z - Activités des syndicats de salariés",
+    "altCode": "9420Z"
+  },
+  {
+    "code": "94.91Z",
+    "title": "94.91Z - Activités des organisations religieuses",
+    "altCode": "9491Z"
+  },
+  {
+    "code": "94.92Z",
+    "title": "94.92Z - Activités des organisations politiques",
+    "altCode": "9492Z"
+  },
+  {
+    "code": "94.99Z",
+    "title": "94.99Z - Autres organisations fonctionnant par adhésion volontaire",
+    "altCode": "9499Z"
+  },
+  {
+    "code": "95.11Z",
+    "title": "95.11Z - Réparation d'ordinateurs et d'équipements périphériques",
+    "altCode": "9511Z"
+  },
+  {
+    "code": "95.12Z",
+    "title": "95.12Z - Réparation d'équipements de communication",
+    "altCode": "9512Z"
+  },
+  {
+    "code": "95.21Z",
+    "title": "95.21Z - Réparation de produits électroniques grand public",
+    "altCode": "9521Z"
+  },
+  {
+    "code": "95.22Z",
+    "title": "95.22Z - Réparation d'appareils électroménagers et d'équipements pour la maison et le jardin",
+    "altCode": "9522Z"
+  },
+  {
+    "code": "95.23Z",
+    "title": "95.23Z - Réparation de chaussures et d'articles en cuir",
+    "altCode": "9523Z"
+  },
+  {
+    "code": "95.24Z",
+    "title": "95.24Z - Réparation de meubles et d'équipements du foyer",
+    "altCode": "9524Z"
+  },
+  {
+    "code": "95.25Z",
+    "title": "95.25Z - Réparation d'articles d'horlogerie et de bijouterie",
+    "altCode": "9525Z"
+  },
+  {
+    "code": "95.29Z",
+    "title": "95.29Z - Réparation d'autres biens personnels et domestiques",
+    "altCode": "9529Z"
+  },
+  {
+    "code": "96.01A",
+    "title": "96.01A - Blanchisserie-teinturerie de gros",
+    "altCode": "9601A"
+  },
+  {
+    "code": "96.01B",
+    "title": "96.01B - Blanchisserie-teinturerie de détail",
+    "altCode": "9601B"
+  },
+  {
+    "code": "96.02A",
+    "title": "96.02A - Coiffure",
+    "altCode": "9602A"
+  },
+  {
+    "code": "96.02B",
+    "title": "96.02B - Soins de beauté",
+    "altCode": "9602B"
+  },
+  {
+    "code": "96.03Z",
+    "title": "96.03Z - Services funéraires",
+    "altCode": "9603Z"
+  },
+  {
+    "code": "96.04Z",
+    "title": "96.04Z - Entretien corporel",
+    "altCode": "9604Z"
+  },
+  {
+    "code": "96.09Z",
+    "title": "96.09Z - Autres services personnels n.c.a.",
+    "altCode": "9609Z"
+  },
+  {
+    "code": "97.00Z",
+    "title": "97.00Z - Activités des ménages en tant qu'employeurs de personnel domestique",
+    "altCode": "9700Z"
+  },
+  {
+    "code": "98.10Z",
+    "title": "98.10Z - Activités indifférenciées des ménages en tant que producteurs de biens pour usage propre",
+    "altCode": "9810Z"
+  },
+  {
+    "code": "98.20Z",
+    "title": "98.20Z - Activités indifférenciées des ménages en tant que producteurs de services pour usage propre",
+    "altCode": "9820Z"
+  },
+  {
+    "code": "99.00Z",
+    "title": "99.00Z - Activités des organisations et organismes extraterritoriaux",
+    "altCode": "9900Z"
+  }
+]

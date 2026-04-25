@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum EstablishmentType {
+  PRIMARY
+  SECONDARY
+  UNKNOWN
+}
+
+enum EvaluationRseNote {
+  A
+  B
+  C
+  D
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique @db.VarChar(255)
+  passwordHash String
+  role         UserRole @default(USER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Entreprise {
+  id                            String              @id @default(uuid()) @db.Uuid
+  raisonSociale                 String              @db.VarChar(255)
+  categorieJuridiqueCode        String?             @db.VarChar(4)
+  categorieJuridique            CategorieJuridique? @relation(fields: [categorieJuridiqueCode], references: [code], onDelete: SetNull)
+  etablissementSiege            EstablishmentType   @default(UNKNOWN)
+  idSocieteMere                 String?             @db.Uuid
+  siret                         String              @unique @db.VarChar(14)
+  siren                         String              @db.VarChar(9)
+  codeNaf                       String?             @db.VarChar(6)
+  trancheEffectifsUniteLegale   String?             @db.VarChar(2)
+  trancheEffectifsEtablissement String?             @db.VarChar(2)
+  siteWeb                       String?             @db.VarChar(2048)
+  email                         String?             @db.VarChar(255)
+  telephone                     String?             @db.VarChar(32)
+  description                   String?
+  addressLine1                  String?             @db.VarChar(255)
+  addressLine2                  String?             @db.VarChar(255)
+  adresse                       String?             @db.VarChar(600)
+  codePostal                    String?             @db.VarChar(20)
+  ville                         String?             @db.VarChar(120)
+  pays                          String              @default("France") @db.VarChar(120)
+  estActive                     Boolean             @default(true)
+  dateCreation                  DateTime            @default(now())
+  dateMiseAJour                 DateTime            @updatedAt
+  nafCode                       CodeNaf?            @relation(fields: [codeNaf], references: [code], onDelete: SetNull)
+  societeMere                   Entreprise?         @relation("EntrepriseSocietesMeres", fields: [idSocieteMere], references: [id], onDelete: SetNull)
+  filiales                      Entreprise[]        @relation("EntrepriseSocietesMeres")
+  evaluationsRse                EvaluationRse[]
+
+  @@index([raisonSociale])
+  @@index([ville])
+  @@index([codePostal])
+  @@index([siren])
+  @@index([codeNaf])
+  @@index([adresse])
+  @@index([idSocieteMere])
+}
+
+model CodeNaf {
+  code        String       @id @db.VarChar(6)
+  title       String       @db.VarChar(255)
+  altCode     String       @unique @db.VarChar(6)
+  entreprises Entreprise[]
+
+  @@index([altCode])
+}
+
+model CategorieJuridique {
+  code        String       @id @db.VarChar(4)
+  title       String       @db.VarChar(256)
+  entreprises Entreprise[]
+}
+
+model EvaluationRse {
+  id                   String                @id @default(uuid()) @db.Uuid
+  estActive            Boolean               @default(false)
+  entrepriseId         String                @db.Uuid
+  entreprise           Entreprise            @relation(fields: [entrepriseId], references: [id], onDelete: Cascade)
+  dateEvaluation       DateTime              @db.Date
+  score                Decimal               @db.Decimal(4, 2)
+  note                 EvaluationRseNote
+  labelsEngagementsRse LabelsEngagementsRse?
+
+  @@index([entrepriseId])
+  @@index([dateEvaluation])
+  @@map("evaluationRse")
+}
+
+model LabelsEngagementsRse {
+  id                         String            @id @default(uuid()) @db.Uuid
+  evaluationRseId            String            @unique @db.Uuid
+  evaluationRse              EvaluationRse     @relation(fields: [evaluationRseId], references: [id], onDelete: Cascade)
+  aReportingRse              Boolean           @default(false)
+  reportingRseDetail         String?
+  aEvaluationEcovadis        Boolean           @default(false)
+  medailleEcovadis           String?
+  anneeScoreEcovadis         String?           @db.VarChar(20)
+  estSocieteAMission         Boolean           @default(false)
+  estSignataireGlobalCompact Boolean           @default(false)
+  globalCompactDetail        String?
+  score                      Decimal           @db.Decimal(4, 2)
+  note                       EvaluationRseNote
+
+  @@index([evaluationRseId])
+  @@map("labelsEngagementsRse")
+}
