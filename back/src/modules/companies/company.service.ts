@@ -136,6 +136,40 @@ const categorieJuridiqueInclude = {
   },
 } satisfies Prisma.CategorieJuridiqueDefaultArgs;
 
+const activeEvaluationSummaryInclude = {
+  where: {
+    estActive: true,
+  },
+  select: {
+    id: true,
+    score: true,
+    note: true,
+    dateEvaluation: true,
+  },
+  take: 1,
+} satisfies Prisma.EvaluationRseFindManyArgs;
+
+function serializeCompany(company: Prisma.EntrepriseGetPayload<{
+  include: {
+    nafCode: typeof nafCodeInclude;
+    categorieJuridique: typeof categorieJuridiqueInclude;
+    evaluationsRse: typeof activeEvaluationSummaryInclude;
+  };
+}>) {
+  const activeEvaluationRse = company.evaluationsRse[0] ?? null;
+  const { evaluationsRse, ...companyData } = company;
+
+  return {
+    ...companyData,
+    activeEvaluationRse: activeEvaluationRse
+      ? {
+        ...activeEvaluationRse,
+        score: Number(activeEvaluationRse.score),
+      }
+      : null,
+  };
+}
+
 export class CompanyService {
   async create(data: CreateCompanyData) {
     if (data.idSocieteMere) {
@@ -198,7 +232,6 @@ export class CompanyService {
               { raisonSociale: { contains: filters.search, mode: insensitive } },
               { adresse: { contains: filters.search, mode: insensitive } },
               { siret: { contains: filters.search, mode: insensitive } },
-              { siren: { contains: filters.search, mode: insensitive } },
             ],
           }
           : {},
@@ -223,16 +256,17 @@ export class CompanyService {
         include: {
           nafCode: nafCodeInclude,
           categorieJuridique: categorieJuridiqueInclude,
+          evaluationsRse: activeEvaluationSummaryInclude,
         },
         orderBy: {
-          [filters.sortBy ?? "dateCreation"]: filters.order ?? "desc",
+          [filters.sortBy ?? "raisonSociale"]: filters.order ?? "asc",
         },
       }),
       prisma.entreprise.count({ where }),
     ]);
 
     return {
-      items,
+      items: items.map((item) => serializeCompany(item)),
       meta: {
         total,
         page,

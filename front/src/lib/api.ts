@@ -39,6 +39,12 @@ export type Company = {
   codePostal?: string | null;
   ville?: string | null;
   pays?: string | null;
+  activeEvaluationRse?: {
+    id: string;
+    score: number;
+    note: EvaluationRseNote;
+    dateEvaluation: string;
+  } | null;
 };
 
 export type CompanyDraft = {
@@ -91,6 +97,8 @@ export type CategorieJuridique = {
   title: string;
 };
 
+export type EvaluationRseNote = "A" | "B" | "C" | "D" | "E" | "F";
+
 export type EvaluationRse = {
   id: string | null;
   saved: boolean;
@@ -99,11 +107,11 @@ export type EvaluationRse = {
   entreprise: Pick<Company, "id" | "raisonSociale" | "siret" | "siren" | "siteWeb">;
   dateEvaluation: string;
   score: number;
-  note: "A" | "B" | "C" | "D";
+  note: EvaluationRseNote;
   labelsEngagementsRse: {
     id: string;
     score: number;
-    note: "A" | "B" | "C" | "D";
+    note: EvaluationRseNote;
     aReportingRse: boolean;
     reportingRseDetail?: string | null;
     aEvaluationEcovadis: boolean;
@@ -116,7 +124,7 @@ export type EvaluationRse = {
   indicateursEnvironnementaux: {
     id: string;
     score: number;
-    note: "A" | "B" | "C" | "D";
+    note: EvaluationRseNote;
     bilanCarbone: boolean;
     bilanCarboneScope: BilanCarboneScope;
     bilanCarboneDetail?: string | null;
@@ -136,7 +144,7 @@ export type EvaluationRse = {
   indicateursSociaux: {
     id: string;
     score: number;
-    note: "A" | "B" | "C" | "D";
+    note: EvaluationRseNote;
     iso45001: boolean;
     iso45001Detail?: string | null;
     ess: boolean;
@@ -154,7 +162,7 @@ export type EvaluationRse = {
   indicateursGouvernanceRse: {
     id: string;
     score: number;
-    note: "A" | "B" | "C" | "D";
+    note: EvaluationRseNote;
     aGouvernanceRse: boolean;
     detailGouvernanceRse?: string | null;
     aEthique: boolean;

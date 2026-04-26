@@ -19,6 +19,10 @@ Chaque entreprise doit afficher les champs suivants :
 - `raisonSociale`
 - `siret`
 - `siteWeb`
+- `activeEvaluationRse.note`
+
+Les notes d'evaluation RSE sont exprimees avec les valeurs `A`, `B`, `C`, `D`, `E` et `F` partout dans l'application.
+Dans la liste, la note est affichee sous forme d'un indicateur visuel type score nutritionnel : les six lettres `A` a `F` sont visibles, et la note courante est mise en avant.
 
 ### Comportement attendu
 
@@ -28,9 +32,10 @@ Chaque entreprise doit afficher les champs suivants :
 - Si `siteWeb` est renseigne, il doit etre affiche sous forme de lien cliquable.
 - Si `siteWeb` n'est pas renseigne, l'interface affiche un libelle du type `Non renseigne`.
 - L'ecran doit proposer un champ de recherche permettant de filtrer les entreprises.
-- La recherche doit pouvoir porter sur la raison sociale, l'adresse, le SIRET ou le SIREN.
+- La recherche doit pouvoir porter sur la raison sociale, le SIRET ou l'adresse.
 - La recherche doit utiliser le parametre `search` de l'endpoint de liste.
 - L'utilisateur doit pouvoir effacer rapidement la recherche.
+- Par defaut, la liste est triee par `raisonSociale` dans l'ordre croissant.
 
 ### Etats a gerer
 
@@ -282,7 +287,7 @@ Permettre a un administrateur de modifier une entreprise existante depuis l'ecra
 
 ### Regles d'acces
 
-- Le bouton `Modifier` est visible uniquement pour les utilisateurs ayant le role `ADMIN`.
+- La colonne et le bouton `Modifier` sont visibles uniquement pour les utilisateurs ayant le role `ADMIN`.
 - Les utilisateurs non admin ne doivent pas voir l'action de modification.
 - Le backend reste responsable de la securite effective de l'endpoint.
 
@@ -337,9 +342,10 @@ Permettre a un administrateur de creer une analyse RSE (`EvaluationRse`) pour un
 
 ### Acces depuis la liste
 
-- Dans la liste des entreprises, l'utilisateur doit voir une action permettant d'acceder a l'evaluation RSE active de chaque entreprise.
-- Au clic sur l'action, le frontend appelle une API qui retourne l'evaluation RSE active si elle existe.
-- Si aucune evaluation active n'existe et que l'utilisateur est admin, le frontend ouvre le flux de creation de l'evaluation du jour.
+- Dans la liste des entreprises, l'utilisateur doit voir la note de l'evaluation RSE active de chaque entreprise.
+- Si aucune evaluation active n'existe, la liste affiche une valeur d'absence de note.
+- Au clic sur la note, le frontend appelle une API qui retourne l'evaluation RSE active si elle existe et affiche le detail de l'evaluation.
+- Si aucune evaluation active n'existe et que l'utilisateur est admin, le frontend cree automatiquement l'evaluation du jour puis affiche son detail.
 - Si aucune evaluation active n'existe et que l'utilisateur n'est pas admin, l'interface affiche un message d'absence d'evaluation active.
 
 ### Navigation SPA
@@ -350,8 +356,16 @@ Comportement attendu :
 
 - L'ouverture du formulaire de creation d'entreprise ajoute une entree d'historique avec `?view=create`.
 - L'ouverture du formulaire de modification d'entreprise ajoute une entree d'historique avec `?view=edit&companyId=:id`.
-- L'ouverture de l'ecran d'evaluation RSE ajoute une entree d'historique avec `?view=evaluation&companyId=:id`.
+- L'ouverture de l'ecran d'evaluation RSE ajoute une entree d'historique avec `?view=evaluation&companyId=:id&section=:section`.
+- L'ouverture de l'historique des evaluations ajoute une entree d'historique avec `?view=evaluationHistory&companyId=:id&section=:section`.
+- Lorsque l'utilisateur ouvre une evaluation depuis la liste des entreprises, la section selectionnee par defaut est `labels`.
+- Le changement d'indicateur dans l'ecran d'evaluation RSE remplace l'URL courante avec le nouveau parametre `section` sans ajouter d'entree dans l'historique du navigateur.
+- Les valeurs autorisees pour `section` sont `labels`, `environment`, `social` et `governance`.
+- Un rafraichissement de la page sur une evaluation doit restaurer l'indicateur selectionne.
+- Le retour depuis une page de modification d'indicateur doit restaurer l'ecran d'evaluation sur le meme indicateur.
 - Le retour a la liste des entreprises supprime les parametres de navigation.
+- L'ecran principal d'evaluation RSE n'affiche pas de bouton `Retour`.
+- L'ecran principal d'evaluation RSE n'affiche pas directement la liste des evaluations existantes.
 - Un acces direct a une URL de navigation doit restaurer l'ecran correspondant lorsque l'utilisateur est authentifie.
 - Les boutons Back et Forward du navigateur doivent restaurer la liste, la creation, la modification ou l'evaluation sans rechargement complet de la page.
 
@@ -447,6 +461,7 @@ Comportement attendu :
 - L'API met a jour `LabelsEngagementsRse`.
 - L'API recalcule le score et la note du bloc `LabelsEngagementsRse`.
 - L'API retourne l'evaluation RSE mise a jour.
+- Apres un enregistrement reussi, l'interface revient automatiquement a l'ecran d'evaluation sur la section `labels`.
 
 ### Edition des indicateurs environnementaux
 
@@ -479,6 +494,7 @@ Comportement attendu :
 - L'API met a jour `IndicateursEnvironnementaux`.
 - L'API recalcule le score et la note du bloc `IndicateursEnvironnementaux`.
 - L'API retourne l'evaluation RSE mise a jour.
+- Apres un enregistrement reussi, l'interface revient automatiquement a l'ecran d'evaluation sur la section `environment`.
 
 ### Edition des indicateurs sociaux
 
@@ -510,6 +526,7 @@ Comportement attendu :
 - L'API met a jour `IndicateursSociaux`.
 - L'API recalcule le score et la note du bloc `IndicateursSociaux`.
 - L'API retourne l'evaluation RSE mise a jour.
+- Apres un enregistrement reussi, l'interface revient automatiquement a l'ecran d'evaluation sur la section `social`.
 
 ### Edition des indicateurs de gouvernance RSE
 
@@ -538,10 +555,12 @@ Comportement attendu :
 - L'API met a jour `IndicateursGouvernanceRse`.
 - L'API recalcule le score et la note du bloc `IndicateursGouvernanceRse`.
 - L'API retourne l'evaluation RSE mise a jour.
+- Apres un enregistrement reussi, l'interface revient automatiquement a l'ecran d'evaluation sur la section `governance`.
 
 ### Historique des evaluations
 
-Depuis l'ecran d'evaluation d'une entreprise, l'utilisateur doit voir la liste des evaluations RSE deja enregistrees pour cette entreprise.
+Depuis l'ecran d'evaluation d'une entreprise, l'utilisateur doit voir un lien vers une page separee d'historique.
+Cette page affiche l'entreprise concernee et la liste des evaluations RSE deja enregistrees pour cette entreprise.
 
 ```http
 GET /api/v1/evaluations-rse/companies/:entrepriseId
@@ -575,6 +594,15 @@ Comportement attendu :
 ```http
 GET /api/v1/companies
 ```
+
+Chaque entreprise retournee par la liste expose un resume de son evaluation RSE active :
+
+- `activeEvaluationRse.id` : identifiant de l'evaluation active ;
+- `activeEvaluationRse.score` : score de l'evaluation active ;
+- `activeEvaluationRse.note` : note de l'evaluation active ;
+- `activeEvaluationRse.dateEvaluation` : date de l'evaluation active.
+
+Si aucune evaluation active n'existe, `activeEvaluationRse` vaut `null`.
 
 La reponse doit contenir une pagination :
 
@@ -686,6 +714,7 @@ La fonctionnalite est acceptee si :
 - Les champs memo de `IndicateursSociaux` sont affiches uniquement lorsque le booleen associe vaut `true`.
 - Un admin peut modifier `IndicateursGouvernanceRse` depuis une page separee.
 - Les champs memo de `IndicateursGouvernanceRse` sont affiches uniquement lorsque le booleen associe vaut `true`.
-- L'ecran d'evaluation affiche l'historique des evaluations existantes pour l'entreprise.
-- Un admin peut supprimer une evaluation RSE depuis cet historique.
+- L'ecran d'evaluation propose un lien vers l'historique des evaluations existantes pour l'entreprise.
+- La page d'historique affiche l'entreprise concernee et les evaluations existantes.
+- Un admin peut supprimer une evaluation RSE depuis cette page d'historique.
 - La navigation SPA fonctionne avec les boutons Back et Forward du navigateur.

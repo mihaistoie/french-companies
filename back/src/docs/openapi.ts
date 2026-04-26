@@ -258,8 +258,22 @@ export const openApiDocument: OpenAPIV3.Document = {
             type: "array",
             items: { $ref: "#/components/schemas/CompanySummary" },
           },
+          activeEvaluationRse: {
+            allOf: [{ $ref: "#/components/schemas/ActiveEvaluationRseSummary" }],
+            nullable: true,
+          },
         },
         required: ["id", "raisonSociale", "siret", "siren", "pays", "estActive", "filiales"],
+      },
+      ActiveEvaluationRseSummary: {
+        type: "object",
+        properties: {
+          id: { type: "string", format: "uuid" },
+          score: { type: "number", minimum: 1, maximum: 5 },
+          note: { type: "string", enum: ["A", "B", "C", "D", "E", "F"] },
+          dateEvaluation: { type: "string", format: "date" },
+        },
+        required: ["id", "score", "note", "dateEvaluation"],
       },
       EntrepriseListResponse: {
         type: "object",

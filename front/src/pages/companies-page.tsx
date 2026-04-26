@@ -2,11 +2,11 @@ import { type FormEvent, useCallback, useEffect, useMemo, useState } from "react
 import {
   ArrowLeft,
   BadgeCheck,
-  BarChart3,
   Building2,
   Trash2,
   ExternalLink,
   Globe2,
+  History,
   Landmark,
   Leaf,
   LoaderCircle,
@@ -34,7 +34,6 @@ import {
   deleteEvaluationRse,
   getActiveEvaluationRse,
   getCompany,
-  getCurrentEvaluationRse,
   getEvaluationRse,
   listEvaluationsRse,
   listCompanies,
@@ -85,6 +84,117 @@ function formatWebsite(siteWeb?: string | null) {
   } catch {
     return siteWeb;
   }
+}
+
+const evaluationNotes = ["A", "B", "C", "D", "E", "F"] as const;
+
+const evaluationNoteColors: Record<
+  (typeof evaluationNotes)[number],
+  { bg: string; border: string; shadow: string }
+> = {
+  A: { bg: "#169b62", border: "#0f7f4c", shadow: "rgba(22, 155, 98, 0.35)" },
+  B: { bg: "#8cc63f", border: "#72a832", shadow: "rgba(140, 198, 63, 0.35)" },
+  C: { bg: "#ffd23f", border: "#e2ae17", shadow: "rgba(255, 210, 63, 0.35)" },
+  D: { bg: "#f47b20", border: "#d95f0e", shadow: "rgba(244, 123, 32, 0.35)" },
+  E: { bg: "#ef4023", border: "#cf2e16", shadow: "rgba(239, 64, 35, 0.35)" },
+  F: { bg: "#b91c1c", border: "#991b1b", shadow: "rgba(185, 28, 28, 0.35)" },
+};
+
+function NutriScoreNote({
+  note,
+  label,
+  size = "sm",
+}: {
+  note?: NonNullable<Company["activeEvaluationRse"]>["note"];
+  label: string;
+  size?: "sm" | "lg";
+}) {
+  const isLarge = size === "lg";
+
+  return (
+    <span
+      className={`inline-flex flex-col border border-border bg-white shadow-sm dark:bg-background ${
+        isLarge ? "rounded-[10px] px-3 py-2" : "rounded-[7px] px-1.5 py-1"
+      }`}
+      aria-label={label}
+    >
+      <span
+        className={`mb-0.5 pl-0.5 font-bold uppercase leading-none tracking-normal text-slate-500 dark:text-slate-300 ${
+          isLarge ? "text-[11px]" : "text-[8px]"
+        }`}
+      >
+        RSE-SCORE
+      </span>
+      <span className={`flex items-center ${isLarge ? "mt-1 h-14" : "h-7"}`}>
+        {evaluationNotes.map((currentNote) => {
+          const colors = evaluationNoteColors[currentNote];
+          const isActive = note === currentNote;
+          const inactiveSize = isLarge ? 34 : 20;
+          const activeSize = isLarge ? 52 : 30;
+          const fontSize = isLarge ? 22 : 13;
+
+          return (
+            <span
+              key={currentNote}
+              className="flex items-center justify-center font-bold leading-none text-white transition-all"
+              style={{
+                backgroundColor: colors.bg,
+                borderColor: colors.border,
+                borderWidth: isActive ? 2 : 0,
+                borderRadius: isActive ? 999 : 2,
+                boxShadow: isActive ? `0 0 0 ${isLarge ? 4 : 3}px ${colors.shadow}` : undefined,
+                fontSize,
+                height: isActive ? activeSize : inactiveSize,
+                marginLeft: isActive ? -2 : 0,
+                marginRight: isActive ? -2 : 0,
+                opacity: note && !isActive ? 0.58 : 1,
+                position: isActive ? "relative" : undefined,
+                width: isActive ? activeSize : inactiveSize,
+                zIndex: isActive ? 1 : undefined,
+              }}
+            >
+              {currentNote}
+            </span>
+          );
+        })}
+      </span>
+    </span>
+  );
+}
+
+function CompanyEvaluationNoteButton({
+  company,
+  locale,
+  onEvaluate,
+}: {
+  company: Company;
+  locale: Locale;
+  onEvaluate: (company: Company) => void;
+}) {
+  const t = getTranslation(locale);
+  const evaluation = company.activeEvaluationRse;
+
+  return (
+    <button
+      type="button"
+      className="inline-flex rounded-[9px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      onClick={() => onEvaluate(company)}
+      title={
+        evaluation
+          ? `${t.evaluationRse.open} - ${t.evaluationRse.note} ${evaluation.note}`
+          : t.evaluationRse.noNote
+      }
+    >
+      <NutriScoreNote
+        note={evaluation?.note}
+        label={
+          evaluation
+            ? `${t.evaluationRse.note} ${evaluation.note}`
+            : t.evaluationRse.noNote
+        }
+      />
+    </button>
+  );
 }
 
 type CompanyFormValues = {
@@ -201,23 +311,39 @@ const bilanCarboneScopeOptions: { value: BilanCarboneScope; label: string }[] = 
 const controlClassName =
   "flex min-h-11 w-full rounded-xl border border-input bg-background/70 px-4 py-2 text-sm shadow-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50";
 
+type EvaluationSection = "labels" | "environment" | "social" | "governance";
+
+function isEvaluationSection(value: string | null): value is EvaluationSection {
+  return (
+    value === "labels" ||
+    value === "environment" ||
+    value === "social" ||
+    value === "governance"
+  );
+}
+
 function currentUrlView() {
   const searchParams = new URLSearchParams(window.location.search);
+  const section = searchParams.get("section");
+
   return {
     view: searchParams.get("view"),
     companyId: searchParams.get("companyId"),
     evaluationId: searchParams.get("evaluationId"),
+    section: isEvaluationSection(section) ? section : null,
   };
 }
 
 function pushUrlView(
-  view?: "create" | "edit" | "evaluation" | "labels" | "environment" | "social" | "governance",
-  ids: { companyId?: string; evaluationId?: string } = {},
+  view?: "create" | "edit" | "evaluation" | "evaluationHistory" | "labels" | "environment" | "social" | "governance",
+  ids: { companyId?: string; evaluationId?: string; section?: EvaluationSection } = {},
+  mode: "push" | "replace" = "push",
 ) {
   const url = new URL(window.location.href);
   url.searchParams.delete("view");
   url.searchParams.delete("companyId");
   url.searchParams.delete("evaluationId");
+  url.searchParams.delete("section");
 
   if (view) {
     url.searchParams.set("view", view);
@@ -231,7 +357,15 @@ function pushUrlView(
     url.searchParams.set("evaluationId", ids.evaluationId);
   }
 
-  window.history.pushState({}, "", url);
+  if (ids.section) {
+    url.searchParams.set("section", ids.section);
+  }
+
+  if (mode === "replace") {
+    window.history.replaceState({}, "", url);
+  } else {
+    window.history.pushState({}, "", url);
+  }
 }
 
 function compactPayload(
@@ -1091,6 +1225,19 @@ function CompanyMobileCard({
           )}
         </div>
 
+        <div className="rounded-xl border border-border bg-background/60 p-3">
+          <p className="text-xs font-medium uppercase text-muted-foreground">
+            {t.evaluationRse.note}
+          </p>
+          <div className="mt-2">
+            <CompanyEvaluationNoteButton
+              company={company}
+              locale={locale}
+              onEvaluate={onEvaluate}
+            />
+          </div>
+        </div>
+
         <div className="grid gap-2 sm:grid-cols-2">
           {isAdmin ? (
             <Button
@@ -1103,15 +1250,6 @@ function CompanyMobileCard({
               {t.actions.edit}
             </Button>
           ) : null}
-          <Button
-            type="button"
-            variant="secondary"
-            className="w-full"
-            onClick={() => onEvaluate(company)}
-          >
-            <BarChart3 className="h-4 w-4" />
-            {t.actions.activeEvaluation}
-          </Button>
         </div>
       </CardContent>
     </Card>
@@ -1122,9 +1260,10 @@ function EvaluationRsePage({
   locale,
   token,
   evaluation,
+  initialSection,
   isAdmin,
-  onBack,
   onSaved,
+  onOpenHistory,
   onEditLabels,
   onEditEnvironment,
   onEditSocial,
@@ -1133,9 +1272,10 @@ function EvaluationRsePage({
   locale: Locale;
   token: string;
   evaluation: EvaluationRse;
+  initialSection: EvaluationSection;
   isAdmin: boolean;
-  onBack: () => void;
   onSaved: (evaluation: EvaluationRse) => void;
+  onOpenHistory: (companyId: string, section: EvaluationSection) => void;
   onEditLabels: (evaluation: EvaluationRse) => void;
   onEditEnvironment: (evaluation: EvaluationRse) => void;
   onEditSocial: (evaluation: EvaluationRse) => void;
@@ -1143,32 +1283,26 @@ function EvaluationRsePage({
 }) {
   const t = getTranslation(locale);
   const [currentEvaluation, setCurrentEvaluation] = useState(evaluation);
-  const [evaluations, setEvaluations] = useState<EvaluationRse[]>([]);
   const [activeSection, setActiveSection] =
-    useState<"labels" | "environment" | "social" | "governance">("labels");
+    useState<EvaluationSection>(initialSection);
   const [isSaving, setIsSaving] = useState(false);
-  const [isLoadingHistory, setIsLoadingHistory] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
-
-  const loadHistory = useCallback(async () => {
-    setIsLoadingHistory(true);
-
-    try {
-      const response = await listEvaluationsRse(token, currentEvaluation.entrepriseId);
-      setEvaluations(response.items);
-      return response.items;
-    } catch (error) {
-      setError(getErrorMessage(error));
-      return [];
-    } finally {
-      setIsLoadingHistory(false);
-    }
-  }, [currentEvaluation.entrepriseId, token]);
 
   useEffect(() => {
-    void loadHistory();
-  }, [loadHistory]);
+    setCurrentEvaluation(evaluation);
+  }, [evaluation]);
+
+  useEffect(() => {
+    setActiveSection(initialSection);
+  }, [initialSection]);
+
+  const selectSection = useCallback((section: EvaluationSection) => {
+    setActiveSection(section);
+    pushUrlView("evaluation", {
+      companyId: currentEvaluation.entrepriseId,
+      section,
+    }, "replace");
+  }, [currentEvaluation.entrepriseId]);
 
   async function handleSave() {
     setIsSaving(true);
@@ -1181,39 +1315,10 @@ function EvaluationRsePage({
       );
       setCurrentEvaluation(savedEvaluation);
       onSaved(savedEvaluation);
-      await loadHistory();
     } catch (error) {
       setError(getErrorMessage(error));
     } finally {
       setIsSaving(false);
-    }
-  }
-
-  async function handleDeleteEvaluation(evaluation: EvaluationRse) {
-    if (!evaluation.id || !window.confirm(t.evaluationRse.deleteConfirm)) {
-      return;
-    }
-
-    setError(null);
-    setMessage(null);
-
-    try {
-      await deleteEvaluationRse(token, evaluation.id);
-      setMessage(t.evaluationRse.deleted);
-      const remainingEvaluations = await loadHistory();
-
-      if (currentEvaluation.id === evaluation.id) {
-        const nextEvaluation = remainingEvaluations[0] ?? null;
-
-        if (nextEvaluation) {
-          setCurrentEvaluation(nextEvaluation);
-          onSaved(nextEvaluation);
-        } else {
-          onBack();
-        }
-      }
-    } catch (error) {
-      setError(getErrorMessage(error));
     }
   }
 
@@ -1222,11 +1327,7 @@ function EvaluationRsePage({
       <div className="container flex min-h-screen flex-col gap-6 py-6 sm:py-8">
         <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <Button type="button" variant="ghost" onClick={onBack}>
-              <ArrowLeft className="h-4 w-4" />
-              {t.actions.back}
-            </Button>
-            <h1 className="mt-4 text-3xl font-semibold tracking-tight">
+            <h1 className="text-3xl font-semibold tracking-tight">
               {t.evaluationRse.title}
             </h1>
             <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
@@ -1234,24 +1335,29 @@ function EvaluationRsePage({
             </p>
           </div>
 
-          {!currentEvaluation.saved ? (
-            <Button type="button" onClick={handleSave} disabled={isSaving}>
-              {isSaving ? (
-                <LoaderCircle className="h-4 w-4 animate-spin" />
-              ) : (
-                <Save className="h-4 w-4" />
-              )}
-              {t.evaluationRse.save}
+          <div className="flex flex-wrap gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenHistory(currentEvaluation.entrepriseId, activeSection)}
+            >
+              <History className="h-4 w-4" />
+              {t.evaluationRse.historyLink}
             </Button>
-          ) : null}
+            {!currentEvaluation.saved ? (
+              <Button type="button" onClick={handleSave} disabled={isSaving}>
+                {isSaving ? (
+                  <LoaderCircle className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Save className="h-4 w-4" />
+                )}
+                {t.evaluationRse.save}
+              </Button>
+            ) : null}
+          </div>
         </header>
 
         {error ? <ErrorMessage message={error} /> : null}
-        {message ? (
-          <p className="rounded-xl border border-border bg-secondary/60 px-4 py-3 text-sm">
-            {message}
-          </p>
-        ) : null}
 
         <section className="grid gap-4 lg:grid-cols-[1fr_0.8fr]">
           <Card>
@@ -1299,22 +1405,23 @@ function EvaluationRsePage({
             <CardHeader>
               <CardTitle>{currentEvaluation.saved ? t.evaluationRse.saved : t.evaluationRse.draft}</CardTitle>
             </CardHeader>
-            <CardContent className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-xl border border-border bg-background/60 p-4">
+            <CardContent className="grid gap-4 sm:grid-cols-[0.7fr_1.3fr]">
+              <div className="rounded-xl border border-border bg-background/60 p-3">
                 <p className="text-xs uppercase text-muted-foreground">
                   {t.evaluationRse.score}
                 </p>
-                <p className="mt-2 text-3xl font-semibold">
+                <p className="mt-2 text-2xl font-semibold">
                   {currentEvaluation.score}
                 </p>
               </div>
-              <div className="rounded-xl border border-border bg-background/60 p-4">
-                <p className="text-xs uppercase text-muted-foreground">
-                  {t.evaluationRse.note}
-                </p>
-                <p className="mt-2 text-3xl font-semibold">
-                  {currentEvaluation.note}
-                </p>
+              <div className="flex flex-col rounded-xl border border-border bg-background/60 p-3">
+                <div className="flex flex-1 items-center justify-center">
+                  <NutriScoreNote
+                    note={currentEvaluation.note}
+                    label={`${t.evaluationRse.note} ${currentEvaluation.note}`}
+                    size="lg"
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -1329,7 +1436,7 @@ function EvaluationRsePage({
                 ? "border-[#e64a19] bg-[#e64a19] text-white hover:bg-[#cf3f11] hover:text-white"
                 : "border-[#e64a19]/60 text-[#d94716] hover:bg-[#fff1eb] dark:text-[#ff8a5c] dark:hover:bg-[#3a1a10]"
             }
-            onClick={() => setActiveSection("labels")}
+            onClick={() => selectSection("labels")}
           >
             <BadgeCheck className="h-4 w-4" />
             {t.evaluationRse.labels}
@@ -1342,7 +1449,7 @@ function EvaluationRsePage({
                 ? "border-[#22c55e] bg-[#22c55e] text-[#052e16] hover:bg-[#16a34a] hover:text-white"
                 : "border-[#22c55e]/60 text-[#15803d] hover:bg-[#ecfdf3] dark:text-[#86efac] dark:hover:bg-[#0f2f1c]"
             }
-            onClick={() => setActiveSection("environment")}
+            onClick={() => selectSection("environment")}
           >
             <Leaf className="h-4 w-4" />
             {t.evaluationRse.environment}
@@ -1355,7 +1462,7 @@ function EvaluationRsePage({
                 ? "border-[#2563eb] bg-[#2563eb] text-white hover:bg-[#1d4ed8] hover:text-white"
                 : "border-[#2563eb]/60 text-[#1d4ed8] hover:bg-[#eff6ff] dark:text-[#93c5fd] dark:hover:bg-[#10213f]"
             }
-            onClick={() => setActiveSection("social")}
+            onClick={() => selectSection("social")}
           >
             <Users className="h-4 w-4" />
             {t.evaluationRse.social}
@@ -1368,71 +1475,12 @@ function EvaluationRsePage({
                 ? "border-[#7c3aed] bg-[#7c3aed] text-white hover:bg-[#6d28d9] hover:text-white"
                 : "border-[#7c3aed]/60 text-[#6d28d9] hover:bg-[#f5f3ff] dark:text-[#c4b5fd] dark:hover:bg-[#24123f]"
             }
-            onClick={() => setActiveSection("governance")}
+            onClick={() => selectSection("governance")}
           >
             <Landmark className="h-4 w-4" />
             {t.evaluationRse.governance}
           </Button>
         </section>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>{t.evaluationRse.history}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {isLoadingHistory ? (
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <LoaderCircle className="h-4 w-4 animate-spin text-primary" />
-                {t.states.loadingAction}
-              </div>
-            ) : evaluations.length === 0 ? (
-              <p className="text-sm text-muted-foreground">{t.evaluationRse.noHistory}</p>
-            ) : (
-              evaluations.map((evaluation) => (
-                <div
-                  key={evaluation.id ?? `${evaluation.entrepriseId}-${evaluation.dateEvaluation}`}
-                  className="grid gap-3 rounded-xl border border-border bg-background/60 p-4 md:grid-cols-[1fr_auto]"
-                >
-                  <div>
-                    <p className="font-medium">
-                      {new Date(evaluation.dateEvaluation).toLocaleDateString(
-                        locale === "fr" ? "fr-FR" : "en-US",
-                      )}
-                    </p>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      {evaluation.estActive ? t.evaluationRse.active : t.evaluationRse.inactive}
-                      {" · "}
-                      {t.evaluationRse.score} {evaluation.score}
-                      {" · "}
-                      {t.evaluationRse.note} {evaluation.note}
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap gap-2 md:justify-end">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setCurrentEvaluation(evaluation)}
-                    >
-                      {t.evaluationRse.open}
-                    </Button>
-                    {isAdmin && evaluation.id ? (
-                      <Button
-                        type="button"
-                        variant="danger"
-                        size="sm"
-                        onClick={() => void handleDeleteEvaluation(evaluation)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                        {t.actions.delete}
-                      </Button>
-                    ) : null}
-                  </div>
-                </div>
-              ))
-            )}
-          </CardContent>
-        </Card>
 
         <Card>
           <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -1569,6 +1617,184 @@ function Indicator({ label, value }: { label: string; value: boolean | number | 
   );
 }
 
+function EvaluationsHistoryPage({
+  locale,
+  token,
+  companyId,
+  isAdmin,
+  onBack,
+  onOpenEvaluation,
+}: {
+  locale: Locale;
+  token: string;
+  companyId: string;
+  isAdmin: boolean;
+  onBack: () => void;
+  onOpenEvaluation: (evaluation: EvaluationRse) => void;
+}) {
+  const t = getTranslation(locale);
+  const [company, setCompany] = useState<Company | null>(null);
+  const [evaluations, setEvaluations] = useState<EvaluationRse[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+
+  const loadHistory = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const [nextCompany, response] = await Promise.all([
+        getCompany(token, companyId),
+        listEvaluationsRse(token, companyId),
+      ]);
+
+      setCompany(nextCompany);
+      setEvaluations(response.items);
+    } catch (error) {
+      setError(getErrorMessage(error));
+    } finally {
+      setIsLoading(false);
+    }
+  }, [companyId, token]);
+
+  useEffect(() => {
+    void loadHistory();
+  }, [loadHistory]);
+
+  async function handleDeleteEvaluation(evaluation: EvaluationRse) {
+    if (!evaluation.id || !window.confirm(t.evaluationRse.deleteConfirm)) {
+      return;
+    }
+
+    setError(null);
+    setMessage(null);
+
+    try {
+      await deleteEvaluationRse(token, evaluation.id);
+      setMessage(t.evaluationRse.deleted);
+      await loadHistory();
+    } catch (error) {
+      setError(getErrorMessage(error));
+    }
+  }
+
+  return (
+    <main className="min-h-screen">
+      <div className="container flex min-h-screen flex-col gap-6 py-6 sm:py-8">
+        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <Button type="button" variant="ghost" onClick={() => onBack()}>
+              <ArrowLeft className="h-4 w-4" />
+              {t.actions.back}
+            </Button>
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight">
+              {t.evaluationRse.history}
+            </h1>
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+              {company ? company.raisonSociale : t.states.loadingAction}
+            </p>
+          </div>
+        </header>
+
+        {error ? <ErrorMessage message={error} /> : null}
+        {message ? (
+          <p className="rounded-xl border border-border bg-secondary/60 px-4 py-3 text-sm">
+            {message}
+          </p>
+        ) : null}
+
+        {company ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>{t.evaluationRse.company}</CardTitle>
+            </CardHeader>
+            <CardContent className="grid gap-4 sm:grid-cols-3">
+              <div>
+                <p className="text-xs uppercase text-muted-foreground">
+                  {t.companies.raisonSociale}
+                </p>
+                <p className="mt-1 font-medium">{company.raisonSociale}</p>
+              </div>
+              <div>
+                <p className="text-xs uppercase text-muted-foreground">
+                  {t.companies.siret}
+                </p>
+                <p className="mt-1 font-mono">{company.siret}</p>
+              </div>
+              <div>
+                <p className="text-xs uppercase text-muted-foreground">
+                  {t.companies.siren}
+                </p>
+                <p className="mt-1 font-mono">{company.siren}</p>
+              </div>
+            </CardContent>
+          </Card>
+        ) : null}
+
+        <Card>
+          <CardHeader>
+            <CardTitle>{t.evaluationRse.history}</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {isLoading ? (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <LoaderCircle className="h-4 w-4 animate-spin text-primary" />
+                {t.states.loadingAction}
+              </div>
+            ) : evaluations.length === 0 ? (
+              <p className="text-sm text-muted-foreground">{t.evaluationRse.noHistory}</p>
+            ) : (
+              evaluations.map((evaluation) => (
+                <div
+                  key={evaluation.id ?? `${evaluation.entrepriseId}-${evaluation.dateEvaluation}`}
+                  className="grid gap-3 rounded-xl border border-border bg-background/60 p-4 md:grid-cols-[1fr_auto]"
+                >
+                  <div>
+                    <p className="font-medium">
+                      {new Date(evaluation.dateEvaluation).toLocaleDateString(
+                        locale === "fr" ? "fr-FR" : "en-US",
+                      )}
+                    </p>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {evaluation.estActive ? t.evaluationRse.active : t.evaluationRse.inactive}
+                      {" · "}
+                      {t.evaluationRse.score} {evaluation.score}
+                      {" · "}
+                      {t.evaluationRse.note} {evaluation.note}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2 md:justify-end">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => onOpenEvaluation(evaluation)}
+                    >
+                      {t.evaluationRse.open}
+                    </Button>
+                    {isAdmin && evaluation.id ? (
+                      <Button
+                        type="button"
+                        variant="danger"
+                        size="sm"
+                        onClick={() => void handleDeleteEvaluation(evaluation)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        {t.actions.delete}
+                      </Button>
+                    ) : null}
+                  </div>
+                </div>
+              ))
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </main>
+  );
+}
+
 type LabelsFormValues = {
   aReportingRse: boolean;
   reportingRseDetail: string;
@@ -1605,7 +1831,7 @@ function LabelsEngagementsRsePage({
   locale: Locale;
   token: string;
   evaluation: EvaluationRse;
-  onBack: () => void;
+  onBack: (evaluation?: EvaluationRse) => void;
   onSaved: (evaluation: EvaluationRse) => void;
 }) {
   const t = getTranslation(locale);
@@ -1664,6 +1890,7 @@ function LabelsEngagementsRsePage({
       setValues(labelsToFormValues(savedEvaluation));
       onSaved(savedEvaluation);
       setMessage(t.evaluationRse.labelsSaved);
+      onBack(savedEvaluation);
     } catch (error) {
       setError(getErrorMessage(error));
     } finally {
@@ -1676,7 +1903,7 @@ function LabelsEngagementsRsePage({
       <div className="container flex min-h-screen flex-col gap-6 py-6 sm:py-8">
         <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <Button type="button" variant="ghost" onClick={onBack}>
+            <Button type="button" variant="ghost" onClick={() => onBack()}>
               <ArrowLeft className="h-4 w-4" />
               {t.actions.back}
             </Button>
@@ -1907,7 +2134,7 @@ function IndicateursEnvironnementauxPage({
   locale: Locale;
   token: string;
   evaluation: EvaluationRse;
-  onBack: () => void;
+  onBack: (evaluation?: EvaluationRse) => void;
   onSaved: (evaluation: EvaluationRse) => void;
 }) {
   const t = getTranslation(locale);
@@ -1973,6 +2200,7 @@ function IndicateursEnvironnementauxPage({
       setValues(environmentToFormValues(savedEvaluation));
       onSaved(savedEvaluation);
       setMessage(t.evaluationRse.environmentSaved);
+      onBack(savedEvaluation);
     } catch (error) {
       setError(getErrorMessage(error));
     } finally {
@@ -1985,7 +2213,7 @@ function IndicateursEnvironnementauxPage({
       <div className="container flex min-h-screen flex-col gap-6 py-6 sm:py-8">
         <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <Button type="button" variant="ghost" onClick={onBack}>
+            <Button type="button" variant="ghost" onClick={() => onBack()}>
               <ArrowLeft className="h-4 w-4" />
               {t.actions.back}
             </Button>
@@ -2179,7 +2407,7 @@ function IndicateursSociauxPage({
   locale: Locale;
   token: string;
   evaluation: EvaluationRse;
-  onBack: () => void;
+  onBack: (evaluation?: EvaluationRse) => void;
   onSaved: (evaluation: EvaluationRse) => void;
 }) {
   const t = getTranslation(locale);
@@ -2243,6 +2471,7 @@ function IndicateursSociauxPage({
       setValues(socialToFormValues(savedEvaluation));
       onSaved(savedEvaluation);
       setMessage(t.evaluationRse.socialSaved);
+      onBack(savedEvaluation);
     } catch (error) {
       setError(getErrorMessage(error));
     } finally {
@@ -2255,7 +2484,7 @@ function IndicateursSociauxPage({
       <div className="container flex min-h-screen flex-col gap-6 py-6 sm:py-8">
         <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <Button type="button" variant="ghost" onClick={onBack}>
+            <Button type="button" variant="ghost" onClick={() => onBack()}>
               <ArrowLeft className="h-4 w-4" />
               {t.actions.back}
             </Button>
@@ -2436,7 +2665,7 @@ function IndicateursGouvernanceRsePage({
   locale: Locale;
   token: string;
   evaluation: EvaluationRse;
-  onBack: () => void;
+  onBack: (evaluation?: EvaluationRse) => void;
   onSaved: (evaluation: EvaluationRse) => void;
 }) {
   const t = getTranslation(locale);
@@ -2496,6 +2725,7 @@ function IndicateursGouvernanceRsePage({
       setValues(governanceToFormValues(savedEvaluation));
       onSaved(savedEvaluation);
       setMessage(t.evaluationRse.governanceSaved);
+      onBack(savedEvaluation);
     } catch (error) {
       setError(getErrorMessage(error));
     } finally {
@@ -2508,7 +2738,7 @@ function IndicateursGouvernanceRsePage({
       <div className="container flex min-h-screen flex-col gap-6 py-6 sm:py-8">
         <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <Button type="button" variant="ghost" onClick={onBack}>
+            <Button type="button" variant="ghost" onClick={() => onBack()}>
               <ArrowLeft className="h-4 w-4" />
               {t.actions.back}
             </Button>
@@ -2652,10 +2882,12 @@ export function CompaniesPage({
   const [environmentEvaluation, setEnvironmentEvaluation] = useState<EvaluationRse | null>(null);
   const [socialEvaluation, setSocialEvaluation] = useState<EvaluationRse | null>(null);
   const [governanceEvaluation, setGovernanceEvaluation] = useState<EvaluationRse | null>(null);
+  const [evaluationSection, setEvaluationSection] = useState<EvaluationSection>("labels");
+  const [historyCompanyId, setHistoryCompanyId] = useState<string | null>(null);
   const [isLoadingEvaluation, setIsLoadingEvaluation] = useState(false);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const isAdmin = user.role === "ADMIN";
+  const isAdmin = String(user.role ?? "").toUpperCase() === "ADMIN";
 
   const displayName = useMemo(() => {
     return typeof user.email === "string" && user.email.trim()
@@ -2698,6 +2930,8 @@ export function CompaniesPage({
     setEnvironmentEvaluation(null);
     setSocialEvaluation(null);
     setGovernanceEvaluation(null);
+    setEvaluationSection("labels");
+    setHistoryCompanyId(null);
     setIsCreateOpen(false);
     setEditingCompany(null);
 
@@ -2717,6 +2951,7 @@ export function CompaniesPage({
     setEnvironmentEvaluation(null);
     setSocialEvaluation(null);
     setGovernanceEvaluation(null);
+    setHistoryCompanyId(null);
     setEditingCompany(null);
     setIsCreateOpen(true);
 
@@ -2736,6 +2971,7 @@ export function CompaniesPage({
     setEnvironmentEvaluation(null);
     setSocialEvaluation(null);
     setGovernanceEvaluation(null);
+    setHistoryCompanyId(null);
     setIsCreateOpen(false);
     setEditingCompany(company);
 
@@ -2764,6 +3000,7 @@ export function CompaniesPage({
   const openEvaluationByCompanyId = useCallback(async (
     companyId: string,
     shouldPush = true,
+    section: EvaluationSection = "labels",
   ) => {
     setIsLoadingEvaluation(true);
     setError(null);
@@ -2776,12 +3013,14 @@ export function CompaniesPage({
         setEnvironmentEvaluation(null);
         setSocialEvaluation(null);
         setGovernanceEvaluation(null);
+        setHistoryCompanyId(null);
+        setEvaluationSection(section);
         setEvaluation(active.evaluation);
         setIsCreateOpen(false);
         setEditingCompany(null);
 
         if (shouldPush) {
-          pushUrlView("evaluation", { companyId });
+          pushUrlView("evaluation", { companyId, section });
         }
         return;
       }
@@ -2791,24 +3030,83 @@ export function CompaniesPage({
         return;
       }
 
-      const currentEvaluation = await getCurrentEvaluationRse(token, companyId);
+      const currentEvaluation = await saveCurrentEvaluationRse(token, companyId);
       setLabelsEvaluation(null);
       setEnvironmentEvaluation(null);
       setSocialEvaluation(null);
       setGovernanceEvaluation(null);
+      setHistoryCompanyId(null);
+      setEvaluationSection(section);
       setEvaluation(currentEvaluation);
       setIsCreateOpen(false);
       setEditingCompany(null);
 
       if (shouldPush) {
-        pushUrlView("evaluation", { companyId });
+        pushUrlView("evaluation", { companyId, section });
       }
+
+      setCompanies((currentCompanies) =>
+        currentCompanies.map((company) =>
+          company.id === companyId
+            ? {
+              ...company,
+              activeEvaluationRse: currentEvaluation.id
+                ? {
+                  id: currentEvaluation.id,
+                  score: currentEvaluation.score,
+                  note: currentEvaluation.note,
+                  dateEvaluation: currentEvaluation.dateEvaluation,
+                }
+                : null,
+            }
+            : company,
+        ),
+      );
     } catch (error) {
       setError(getErrorMessage(error));
     } finally {
       setIsLoadingEvaluation(false);
     }
   }, [isAdmin, t.evaluationRse.notFound, token]);
+
+  const openEvaluationHistory = useCallback((
+    companyId: string,
+    section: EvaluationSection = "labels",
+    shouldPush = true,
+  ) => {
+    setEvaluation(null);
+    setLabelsEvaluation(null);
+    setEnvironmentEvaluation(null);
+    setSocialEvaluation(null);
+    setGovernanceEvaluation(null);
+    setIsCreateOpen(false);
+    setEditingCompany(null);
+    setEvaluationSection(section);
+    setHistoryCompanyId(companyId);
+
+    if (shouldPush) {
+      pushUrlView("evaluationHistory", { companyId, section });
+    }
+  }, []);
+
+  const openEvaluationFromHistory = useCallback((
+    nextEvaluation: EvaluationRse,
+    section: EvaluationSection = "labels",
+  ) => {
+    setHistoryCompanyId(null);
+    setLabelsEvaluation(null);
+    setEnvironmentEvaluation(null);
+    setSocialEvaluation(null);
+    setGovernanceEvaluation(null);
+    setIsCreateOpen(false);
+    setEditingCompany(null);
+    setEvaluationSection(section);
+    setEvaluation(nextEvaluation);
+    pushUrlView("evaluation", {
+      companyId: nextEvaluation.entrepriseId,
+      section,
+    });
+  }, []);
 
   const openLabelsEditor = useCallback((nextEvaluation: EvaluationRse, shouldPush = true) => {
     if (!isAdmin || !nextEvaluation.id) {
@@ -2818,6 +3116,8 @@ export function CompaniesPage({
     setEvaluation(null);
     setIsCreateOpen(false);
     setEditingCompany(null);
+    setHistoryCompanyId(null);
+    setEvaluationSection("labels");
     setLabelsEvaluation(nextEvaluation);
 
     if (shouldPush) {
@@ -2857,6 +3157,8 @@ export function CompaniesPage({
     setLabelsEvaluation(null);
     setIsCreateOpen(false);
     setEditingCompany(null);
+    setHistoryCompanyId(null);
+    setEvaluationSection("environment");
     setEnvironmentEvaluation(nextEvaluation);
 
     if (shouldPush) {
@@ -2897,6 +3199,8 @@ export function CompaniesPage({
     setEnvironmentEvaluation(null);
     setIsCreateOpen(false);
     setEditingCompany(null);
+    setHistoryCompanyId(null);
+    setEvaluationSection("social");
     setSocialEvaluation(nextEvaluation);
 
     if (shouldPush) {
@@ -2938,6 +3242,8 @@ export function CompaniesPage({
     setSocialEvaluation(null);
     setIsCreateOpen(false);
     setEditingCompany(null);
+    setHistoryCompanyId(null);
+    setEvaluationSection("governance");
     setGovernanceEvaluation(nextEvaluation);
 
     if (shouldPush) {
@@ -2970,7 +3276,7 @@ export function CompaniesPage({
 
   useEffect(() => {
     const applyUrlView = () => {
-      const { view, companyId, evaluationId } = currentUrlView();
+      const { view, companyId, evaluationId, section } = currentUrlView();
 
       if (view === "create") {
         openCreateCompany(false);
@@ -2983,7 +3289,12 @@ export function CompaniesPage({
       }
 
       if (view === "evaluation" && companyId) {
-        void openEvaluationByCompanyId(companyId, false);
+        void openEvaluationByCompanyId(companyId, false, section ?? "labels");
+        return;
+      }
+
+      if (view === "evaluationHistory" && companyId) {
+        openEvaluationHistory(companyId, section ?? "labels", false);
         return;
       }
 
@@ -3018,6 +3329,7 @@ export function CompaniesPage({
     openCreateCompany,
     openEditCompanyById,
     openEvaluationByCompanyId,
+    openEvaluationHistory,
     openEnvironmentEditorById,
     openGovernanceEditorById,
     openLabelsEditorById,
@@ -3025,16 +3337,36 @@ export function CompaniesPage({
     showCompanyList,
   ]);
 
+  if (historyCompanyId) {
+    return (
+      <EvaluationsHistoryPage
+        locale={locale}
+        token={token}
+        companyId={historyCompanyId}
+        isAdmin={isAdmin}
+        onBack={() => void openEvaluationByCompanyId(historyCompanyId, true, evaluationSection)}
+        onOpenEvaluation={(nextEvaluation) =>
+          openEvaluationFromHistory(nextEvaluation, "labels")
+        }
+      />
+    );
+  }
+
   if (governanceEvaluation) {
     return (
       <IndicateursGouvernanceRsePage
         locale={locale}
         token={token}
         evaluation={governanceEvaluation}
-        onBack={() => {
-          setEvaluation(governanceEvaluation);
+        onBack={(savedEvaluation) => {
+          const nextEvaluation = savedEvaluation ?? governanceEvaluation;
+          setEvaluation(nextEvaluation);
+          setEvaluationSection("governance");
           setGovernanceEvaluation(null);
-          pushUrlView("evaluation", { companyId: governanceEvaluation.entrepriseId });
+          pushUrlView("evaluation", {
+            companyId: nextEvaluation.entrepriseId,
+            section: "governance",
+          });
         }}
         onSaved={setGovernanceEvaluation}
       />
@@ -3047,10 +3379,15 @@ export function CompaniesPage({
         locale={locale}
         token={token}
         evaluation={socialEvaluation}
-        onBack={() => {
-          setEvaluation(socialEvaluation);
+        onBack={(savedEvaluation) => {
+          const nextEvaluation = savedEvaluation ?? socialEvaluation;
+          setEvaluation(nextEvaluation);
+          setEvaluationSection("social");
           setSocialEvaluation(null);
-          pushUrlView("evaluation", { companyId: socialEvaluation.entrepriseId });
+          pushUrlView("evaluation", {
+            companyId: nextEvaluation.entrepriseId,
+            section: "social",
+          });
         }}
         onSaved={setSocialEvaluation}
       />
@@ -3063,10 +3400,15 @@ export function CompaniesPage({
         locale={locale}
         token={token}
         evaluation={environmentEvaluation}
-        onBack={() => {
-          setEvaluation(environmentEvaluation);
+        onBack={(savedEvaluation) => {
+          const nextEvaluation = savedEvaluation ?? environmentEvaluation;
+          setEvaluation(nextEvaluation);
+          setEvaluationSection("environment");
           setEnvironmentEvaluation(null);
-          pushUrlView("evaluation", { companyId: environmentEvaluation.entrepriseId });
+          pushUrlView("evaluation", {
+            companyId: nextEvaluation.entrepriseId,
+            section: "environment",
+          });
         }}
         onSaved={setEnvironmentEvaluation}
       />
@@ -3079,10 +3421,15 @@ export function CompaniesPage({
         locale={locale}
         token={token}
         evaluation={labelsEvaluation}
-        onBack={() => {
-          setEvaluation(labelsEvaluation);
+        onBack={(savedEvaluation) => {
+          const nextEvaluation = savedEvaluation ?? labelsEvaluation;
+          setEvaluation(nextEvaluation);
+          setEvaluationSection("labels");
           setLabelsEvaluation(null);
-          pushUrlView("evaluation", { companyId: labelsEvaluation.entrepriseId });
+          pushUrlView("evaluation", {
+            companyId: nextEvaluation.entrepriseId,
+            section: "labels",
+          });
         }}
         onSaved={setLabelsEvaluation}
       />
@@ -3095,9 +3442,10 @@ export function CompaniesPage({
         locale={locale}
         token={token}
         evaluation={evaluation}
+        initialSection={evaluationSection}
         isAdmin={isAdmin}
-        onBack={() => showCompanyList()}
         onSaved={setEvaluation}
+        onOpenHistory={openEvaluationHistory}
         onEditLabels={openLabelsEditor}
         onEditEnvironment={openEnvironmentEditor}
         onEditSocial={openSocialEditor}
@@ -3278,7 +3626,7 @@ export function CompaniesPage({
                     locale={locale}
                     isAdmin={isAdmin}
                     onEdit={(company) => openEditCompany(company)}
-                    onEvaluate={(company) => void openEvaluationByCompanyId(company.id)}
+                    onEvaluate={(company) => void openEvaluationByCompanyId(company.id, true, "labels")}
                   />
                 ))}
               </div>
@@ -3302,7 +3650,7 @@ export function CompaniesPage({
                             {t.companies.siteWeb}
                           </th>
                           <th className="px-5 py-4 text-right font-semibold">
-                            {t.actions.activeEvaluation}
+                            {t.evaluationRse.note}
                           </th>
                           {isAdmin ? (
                             <th className="px-5 py-4 text-right font-semibold">
@@ -3349,15 +3697,11 @@ export function CompaniesPage({
                               </td>
                               <td className="px-5 py-4 text-right">
                                 <div className="flex justify-end gap-2">
-                                  <Button
-                                    type="button"
-                                    variant="secondary"
-                                    size="sm"
-                                    onClick={() => void openEvaluationByCompanyId(company.id)}
-                                  >
-                                    <BarChart3 className="h-4 w-4" />
-                                    {t.actions.activeEvaluation}
-                                  </Button>
+                                  <CompanyEvaluationNoteButton
+                                    company={company}
+                                    locale={locale}
+                                    onEvaluate={(company) => void openEvaluationByCompanyId(company.id, true, "labels")}
+                                  />
                                 </div>
                               </td>
                               {isAdmin ? (
