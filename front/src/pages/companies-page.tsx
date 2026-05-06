@@ -1,4 +1,4 @@
-import { type FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { type FormEvent, type ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
   BadgeCheck,
@@ -71,6 +71,58 @@ function getErrorMessage(error: unknown) {
   }
 
   return "Une erreur inattendue est survenue.";
+}
+
+function AppHeader({
+  locale,
+  onLocaleChange,
+  onLogout,
+  onOpenEnterprises,
+}: {
+  locale: Locale;
+  onLocaleChange: (locale: Locale) => void;
+  onLogout: () => void;
+  onOpenEnterprises: () => void;
+}) {
+  const t = getTranslation(locale);
+
+  return (
+    <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <div className="container flex flex-col gap-4 py-4 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+          <div>
+            <p className="text-xs font-semibold uppercase text-primary">
+              {t.brand.badge}
+            </p>
+            <h1 className="mt-1 text-xl font-semibold tracking-tight">
+              {t.brand.name}
+            </h1>
+          </div>
+
+          <nav className="flex flex-wrap items-center gap-2" aria-label="Navigation principale">
+            <Button
+              type="button"
+              variant="secondary"
+              className="rounded-xl"
+              onClick={onOpenEnterprises}
+            >
+              <Building2 className="h-4 w-4" />
+              {t.navigation.enterprises}
+            </Button>
+          </nav>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <LanguageToggle locale={locale} onChange={onLocaleChange} />
+          <ThemeToggle locale={locale} />
+          <Button type="button" variant="outline" onClick={onLogout}>
+            <LogOut className="h-4 w-4" />
+            {t.actions.logout}
+          </Button>
+        </div>
+      </div>
+    </header>
+  );
 }
 
 function formatWebsite(siteWeb?: string | null) {
@@ -335,7 +387,7 @@ function currentUrlView() {
 }
 
 function pushUrlView(
-  view?: "create" | "edit" | "evaluation" | "evaluationHistory" | "labels" | "environment" | "social" | "governance",
+  view?: "entreprises" | "create" | "edit" | "evaluation" | "evaluationHistory" | "labels" | "environment" | "social" | "governance",
   ids: { companyId?: string; evaluationId?: string; section?: EvaluationSection } = {},
   mode: "push" | "replace" = "push",
 ) {
@@ -2902,6 +2954,8 @@ export function CompaniesPage({
     try {
       const response = await listCompanies(token, {
         search: debouncedSearch,
+        sortBy: "raisonSociale",
+        order: "asc",
       });
       setCompanies(response.items);
       setTotal(response.meta.total);
@@ -2936,7 +2990,7 @@ export function CompaniesPage({
     setEditingCompany(null);
 
     if (shouldPush) {
-      pushUrlView();
+      pushUrlView("entreprises");
     }
   }, []);
 
@@ -3318,6 +3372,10 @@ export function CompaniesPage({
         return;
       }
 
+      if (!view) {
+        pushUrlView("entreprises", {}, "replace");
+      }
+
       showCompanyList(false);
     };
 
@@ -3337,8 +3395,20 @@ export function CompaniesPage({
     showCompanyList,
   ]);
 
+  const renderWithShell = (content: ReactNode) => (
+    <div className="min-h-screen">
+      <AppHeader
+        locale={locale}
+        onLocaleChange={onLocaleChange}
+        onLogout={onLogout}
+        onOpenEnterprises={() => showCompanyList()}
+      />
+      {content}
+    </div>
+  );
+
   if (historyCompanyId) {
-    return (
+    return renderWithShell(
       <EvaluationsHistoryPage
         locale={locale}
         token={token}
@@ -3353,7 +3423,7 @@ export function CompaniesPage({
   }
 
   if (governanceEvaluation) {
-    return (
+    return renderWithShell(
       <IndicateursGouvernanceRsePage
         locale={locale}
         token={token}
@@ -3374,7 +3444,7 @@ export function CompaniesPage({
   }
 
   if (socialEvaluation) {
-    return (
+    return renderWithShell(
       <IndicateursSociauxPage
         locale={locale}
         token={token}
@@ -3395,7 +3465,7 @@ export function CompaniesPage({
   }
 
   if (environmentEvaluation) {
-    return (
+    return renderWithShell(
       <IndicateursEnvironnementauxPage
         locale={locale}
         token={token}
@@ -3416,7 +3486,7 @@ export function CompaniesPage({
   }
 
   if (labelsEvaluation) {
-    return (
+    return renderWithShell(
       <LabelsEngagementsRsePage
         locale={locale}
         token={token}
@@ -3437,7 +3507,7 @@ export function CompaniesPage({
   }
 
   if (evaluation) {
-    return (
+    return renderWithShell(
       <EvaluationRsePage
         locale={locale}
         token={token}
@@ -3454,29 +3524,8 @@ export function CompaniesPage({
     );
   }
 
-  return (
-    <main className="min-h-screen">
-      <div className="container flex min-h-screen flex-col gap-6 py-6 sm:py-8">
-        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase text-primary">
-              {t.brand.badge}
-            </p>
-            <h1 className="mt-2 text-2xl font-semibold tracking-tight">
-              {t.brand.name}
-            </h1>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-3">
-            <LanguageToggle locale={locale} onChange={onLocaleChange} />
-            <ThemeToggle locale={locale} />
-            <Button type="button" variant="outline" onClick={onLogout}>
-              <LogOut className="h-4 w-4" />
-              {t.actions.logout}
-            </Button>
-          </div>
-        </header>
-
+  return renderWithShell(
+      <div className="container flex min-h-[calc(100vh-5rem)] flex-col gap-6 py-6 sm:py-8">
         <section className="grid gap-5 md:grid-cols-[1fr_auto] md:items-end">
           <div>
             <p className="text-sm text-muted-foreground">
@@ -3731,6 +3780,5 @@ export function CompaniesPage({
           )}
         </section>
       </div>
-    </main>
   );
 }

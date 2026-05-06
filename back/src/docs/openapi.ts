@@ -102,13 +102,23 @@ export const openApiDocument: OpenAPIV3.Document = {
         },
         required: ["message"],
       },
-      AuthRequest: {
+      LoginRequest: {
         type: "object",
         properties: {
           email: { type: "string", format: "email" },
           password: { type: "string", minLength: 8 },
         },
         required: ["email", "password"],
+      },
+      RegisterRequest: {
+        type: "object",
+        properties: {
+          email: { type: "string", format: "email" },
+          firstName: { type: "string", minLength: 1, maxLength: 120 },
+          lastName: { type: "string", minLength: 1, maxLength: 120 },
+          password: { type: "string", minLength: 8 },
+        },
+        required: ["email", "firstName", "lastName", "password"],
       },
       AuthResponse: {
         type: "object",
@@ -118,9 +128,11 @@ export const openApiDocument: OpenAPIV3.Document = {
             properties: {
               id: { type: "string", format: "uuid" },
               email: { type: "string", format: "email" },
+              firstName: { type: "string", nullable: true },
+              lastName: { type: "string", nullable: true },
               role: { type: "string", enum: ["ADMIN", "USER"] },
             },
-            required: ["id", "email", "role"],
+            required: ["id", "email", "firstName", "lastName", "role"],
           },
           accessToken: { type: "string" },
         },
@@ -131,10 +143,12 @@ export const openApiDocument: OpenAPIV3.Document = {
         properties: {
           id: { type: "string", format: "uuid" },
           email: { type: "string", format: "email" },
+          firstName: { type: "string", nullable: true },
+          lastName: { type: "string", nullable: true },
           role: { type: "string", enum: ["ADMIN", "USER"] },
           createdAt: { type: "string", format: "date-time" },
         },
-        required: ["id", "email", "role", "createdAt"],
+        required: ["id", "email", "firstName", "lastName", "role", "createdAt"],
       },
       WorkforceRangeCode: {
         type: "string",
@@ -387,7 +401,7 @@ export const openApiDocument: OpenAPIV3.Document = {
           required: true,
           content: {
             "application/json": {
-              schema: { $ref: "#/components/schemas/AuthRequest" },
+              schema: { $ref: "#/components/schemas/RegisterRequest" },
             },
           },
         },
@@ -419,7 +433,7 @@ export const openApiDocument: OpenAPIV3.Document = {
           required: true,
           content: {
             "application/json": {
-              schema: { $ref: "#/components/schemas/AuthRequest" },
+              schema: { $ref: "#/components/schemas/LoginRequest" },
             },
           },
         },

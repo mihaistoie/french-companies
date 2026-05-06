@@ -19,6 +19,8 @@ export async function ensureDefaultAdminUser(prisma: AppPrismaClient) {
   await prisma.user.create({
     data: {
       email: env.DEFAULT_ADMIN_EMAIL,
+      firstName: "Administrateur",
+      lastName: null,
       passwordHash,
       role: "ADMIN",
     },

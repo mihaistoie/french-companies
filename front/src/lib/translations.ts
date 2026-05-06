@@ -44,9 +44,13 @@ export const translations = {
       registerTitle: "Créer votre espace",
       registerDescription: "Rejoignez ESG Scout, la plateforme d'analyse RSE développée par Best Value.",
       email: "Adresse e-mail",
+      firstName: "Prenom",
+      lastName: "Nom",
       password: "Mot de passe",
       confirmPassword: "Confirmer le mot de passe",
       emailPlaceholder: "vous@exemple.com",
+      firstNamePlaceholder: "Marie",
+      lastNamePlaceholder: "Dupont",
       passwordPlaceholder: "Au moins 8 caractères",
       confirmPasswordPlaceholder: "Retapez votre mot de passe",
       required: "Ce champ est requis.",
@@ -79,6 +83,9 @@ export const translations = {
       securityTitle: "Contrôle de session",
       securityDescription:
         "Le token est conservé localement et la session est restaurée automatiquement au chargement.",
+    },
+    navigation: {
+      enterprises: "Entreprises",
     },
     companies: {
       title: "Entreprises",
@@ -243,9 +250,13 @@ export const translations = {
       registerTitle: "Create your space",
       registerDescription: "Join ESG Scout, the CSR analysis platform developed by Best Value.",
       email: "Email address",
+      firstName: "First name",
+      lastName: "Last name",
       password: "Password",
       confirmPassword: "Confirm password",
       emailPlaceholder: "you@example.com",
+      firstNamePlaceholder: "Jane",
+      lastNamePlaceholder: "Doe",
       passwordPlaceholder: "At least 8 characters",
       confirmPasswordPlaceholder: "Type your password again",
       required: "This field is required.",
@@ -278,6 +289,9 @@ export const translations = {
       securityTitle: "Session control",
       securityDescription:
         "The token is stored locally and the session is restored automatically on load.",
+    },
+    navigation: {
+      enterprises: "Enterprises",
     },
     companies: {
       title: "Companies",

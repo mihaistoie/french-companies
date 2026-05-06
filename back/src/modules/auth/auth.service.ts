@@ -3,8 +3,15 @@ import { prisma } from "../../lib/prisma";
 import { comparePassword, hashPassword } from "../../lib/password";
 import { signAccessToken } from "../../lib/jwt";
 
+type RegisterPayload = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+};
+
 export class AuthService {
-  async register(email: string, password: string) {
+  async register({ email, firstName, lastName, password }: RegisterPayload) {
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -18,6 +25,8 @@ export class AuthService {
     const user = await prisma.user.create({
       data: {
         email,
+        firstName,
+        lastName,
         passwordHash,
         role: "USER",
       },
@@ -33,6 +42,8 @@ export class AuthService {
       user: {
         id: user.id,
         email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
         role: user.role,
       },
       accessToken,
@@ -64,6 +75,8 @@ export class AuthService {
       user: {
         id: user.id,
         email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
         role: user.role,
       },
       accessToken,
@@ -76,6 +89,8 @@ export class AuthService {
       select: {
         id: true,
         email: true,
+        firstName: true,
+        lastName: true,
         role: true,
         createdAt: true,
       },

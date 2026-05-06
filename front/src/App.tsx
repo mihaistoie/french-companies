@@ -5,6 +5,13 @@ import { useAuth } from "@/hooks/use-auth";
 import { useLocale } from "@/hooks/use-locale";
 import { getStoredToken } from "@/lib/storage";
 
+function replaceWithNeutralUrl() {
+  const url = new URL(window.location.href);
+  url.search = "";
+  url.hash = "";
+  window.history.replaceState({}, "", url);
+}
+
 function App() {
   const { locale, setLocale, t } = useLocale();
   const {
@@ -31,6 +38,7 @@ function App() {
         onLocaleChange={setLocale}
         onLogout={() => {
           setSuccess(null);
+          replaceWithNeutralUrl();
           logout();
         }}
       />
@@ -51,10 +59,12 @@ function App() {
         clearError();
         setSuccess(null);
         await signIn(values);
+        replaceWithNeutralUrl();
       }}
       onRegister={async (values) => {
         clearError();
         const result = await signUp(values);
+        replaceWithNeutralUrl();
         setSuccess(
           result.autoAuthenticated
             ? t.forms.autoLoginSuccess
@@ -63,6 +73,7 @@ function App() {
       }}
       onLogout={() => {
         setSuccess(null);
+        replaceWithNeutralUrl();
         logout();
       }}
       onRetrySession={() => {

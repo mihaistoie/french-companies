@@ -6,7 +6,12 @@ const authService = new AuthService();
 
 export class AuthController {
   register: RequestHandler = async (req, res) => {
-    const result = await authService.register(req.body.email, req.body.password);
+    const result = await authService.register({
+      email: req.body.email,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      password: req.body.password,
+    });
     res.status(201).json(result);
   };
 

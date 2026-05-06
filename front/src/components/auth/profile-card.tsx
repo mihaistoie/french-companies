@@ -19,10 +19,15 @@ type ProfileCardProps = {
 
 export function ProfileCard({ locale, user, onLogout }: ProfileCardProps) {
   const t = getTranslation(locale);
+  const fullName = [user.firstName, user.lastName]
+    .filter((value): value is string => typeof value === "string" && !!value.trim())
+    .map((value) => value.trim())
+    .join(" ");
   const displayName =
-    typeof user.email === "string" && user.email.trim()
+    fullName ||
+    (typeof user.email === "string" && user.email.trim()
       ? user.email
-      : t.dashboard.memberValue;
+      : t.dashboard.memberValue);
   const createdAt =
     typeof user.createdAt === "string" && user.createdAt
       ? new Date(user.createdAt).toLocaleDateString(locale === "fr" ? "fr-FR" : "en-US")

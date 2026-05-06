@@ -12,6 +12,16 @@ Les actions de creation et de modification sont reservees aux utilisateurs ayant
 
 Afficher la liste des entreprises accessibles a un utilisateur authentifie.
 
+### Antet applicatif
+
+- L'application authentifiee affiche un antet persistant, visible sur tous les ecrans internes.
+- L'antet contient la marque ESG Scout, un menu de navigation et les actions globales.
+- Dans cette version, le menu contient une entree `Entreprises`, active par defaut.
+- Les controles de langue, de theme et de deconnexion restent accessibles dans l'antet.
+- Lors de la deconnexion, l'URL est remise a un etat neutre sans parametres de navigation.
+- Apres une connexion reussie, l'utilisateur arrive sur la page `Entreprises`.
+- La page de liste des entreprises utilise l'URL `?view=entreprises`.
+
 ### Donnees affichees
 
 Chaque entreprise doit afficher les champs suivants :
@@ -363,7 +373,7 @@ Comportement attendu :
 - Les valeurs autorisees pour `section` sont `labels`, `environment`, `social` et `governance`.
 - Un rafraichissement de la page sur une evaluation doit restaurer l'indicateur selectionne.
 - Le retour depuis une page de modification d'indicateur doit restaurer l'ecran d'evaluation sur le meme indicateur.
-- Le retour a la liste des entreprises supprime les parametres de navigation.
+- Le retour a la liste des entreprises utilise `?view=entreprises`.
 - L'ecran principal d'evaluation RSE n'affiche pas de bouton `Retour`.
 - L'ecran principal d'evaluation RSE n'affiche pas directement la liste des evaluations existantes.
 - Un acces direct a une URL de navigation doit restaurer l'ecran correspondant lorsque l'utilisateur est authentifie.

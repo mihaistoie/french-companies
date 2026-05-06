@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { LoaderCircle, LockKeyhole, Mail } from "lucide-react";
+import { LoaderCircle, LockKeyhole, Mail, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,6 +10,8 @@ type RegisterFormProps = {
   isSubmitting: boolean;
   onSubmit: (values: {
     email: string;
+    firstName: string;
+    lastName: string;
     password: string;
   }) => Promise<void>;
 };
@@ -22,6 +24,8 @@ export function RegisterForm({
   const t = getTranslation(locale);
   const [values, setValues] = useState({
     email: "",
+    firstName: "",
+    lastName: "",
     password: "",
     confirmPassword: "",
   });
@@ -34,6 +38,14 @@ export function RegisterForm({
       nextErrors.email = t.forms.required;
     } else if (!/\S+@\S+\.\S+/.test(values.email)) {
       nextErrors.email = t.forms.invalidEmail;
+    }
+
+    if (!values.firstName.trim()) {
+      nextErrors.firstName = t.forms.required;
+    }
+
+    if (!values.lastName.trim()) {
+      nextErrors.lastName = t.forms.required;
     }
 
     if (!values.password) {
@@ -61,12 +73,62 @@ export function RegisterForm({
 
     await onSubmit({
       email: values.email,
+      firstName: values.firstName.trim(),
+      lastName: values.lastName.trim(),
       password: values.password,
     });
   }
 
   return (
     <form className="space-y-5" onSubmit={handleSubmit}>
+      <div className="space-y-2">
+        <Label htmlFor="register-first-name">{t.forms.firstName}</Label>
+        <div className="relative">
+          <UserRound className="pointer-events-none absolute left-4 top-3.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            id="register-first-name"
+            type="text"
+            autoComplete="given-name"
+            value={values.firstName}
+            placeholder={t.forms.firstNamePlaceholder}
+            className="pl-11"
+            onChange={(event) =>
+              setValues((current) => ({
+                ...current,
+                firstName: event.target.value,
+              }))
+            }
+          />
+        </div>
+        {errors.firstName ? (
+          <p className="text-sm text-danger">{errors.firstName}</p>
+        ) : null}
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="register-last-name">{t.forms.lastName}</Label>
+        <div className="relative">
+          <UserRound className="pointer-events-none absolute left-4 top-3.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            id="register-last-name"
+            type="text"
+            autoComplete="family-name"
+            value={values.lastName}
+            placeholder={t.forms.lastNamePlaceholder}
+            className="pl-11"
+            onChange={(event) =>
+              setValues((current) => ({
+                ...current,
+                lastName: event.target.value,
+              }))
+            }
+          />
+        </div>
+        {errors.lastName ? (
+          <p className="text-sm text-danger">{errors.lastName}</p>
+        ) : null}
+      </div>
+
       <div className="space-y-2">
         <Label htmlFor="register-email">{t.forms.email}</Label>
         <div className="relative">

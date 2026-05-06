@@ -21,6 +21,8 @@ type AuthPageProps = {
   onLogin: (values: { email: string; password: string }) => Promise<void>;
   onRegister: (values: {
     email: string;
+    firstName: string;
+    lastName: string;
     password: string;
   }) => Promise<void>;
   onLogout: () => void;

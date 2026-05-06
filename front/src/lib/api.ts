@@ -14,6 +14,8 @@ type RequestOptions = {
 export type AuthUser = {
   id?: string | number;
   email?: string;
+  firstName?: string | null;
+  lastName?: string | null;
   role?: string;
   createdAt?: string;
   [key: string]: unknown;
@@ -262,7 +264,12 @@ export async function login(payload: { email: string; password: string }) {
   });
 }
 
-export async function register(payload: { email: string; password: string }) {
+export async function register(payload: {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+}) {
   return request<AuthResponse>(`${AUTH_BASE_PATH}/register`, {
     method: "POST",
     body: payload,
@@ -276,11 +283,26 @@ export async function getMe(token: string) {
   });
 }
 
-export async function listCompanies(token: string, filters: { search?: string } = {}) {
+export async function listCompanies(
+  token: string,
+  filters: {
+    search?: string;
+    sortBy?: "raisonSociale" | "ville" | "dateCreation" | "dateMiseAJour";
+    order?: "asc" | "desc";
+  } = {},
+) {
   const searchParams = new URLSearchParams();
 
   if (filters.search?.trim()) {
     searchParams.set("search", filters.search.trim());
+  }
+
+  if (filters.sortBy) {
+    searchParams.set("sortBy", filters.sortBy);
+  }
+
+  if (filters.order) {
+    searchParams.set("order", filters.order);
   }
 
   const query = searchParams.toString();
